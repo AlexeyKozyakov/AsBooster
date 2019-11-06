@@ -5,4 +5,8 @@ package ru.nsu.fit.asbooster.audios
  */
 interface AudiosView {
     fun setPlaceholderText(text: String)
+
+    fun showProgress()
+
+    fun hideProgress()
 }

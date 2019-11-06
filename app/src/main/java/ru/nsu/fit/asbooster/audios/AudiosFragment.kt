@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import ru.nsu.fit.asbooster.MainActivity
@@ -37,8 +38,17 @@ class AudiosFragment : Fragment(), AudiosView {
         viewHolder.placeholderText.text = text
     }
 
+    override fun showProgress() {
+        viewHolder.progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        viewHolder.progressBar.visibility = View.GONE
+    }
+
     private class AudiosViewHolder(root: View) {
         val placeholderText: TextView = root.findViewById(R.id.text_placeholder)
+        val progressBar: ProgressBar = root.findViewById(R.id.audios_progress_bar)
     }
 
 }

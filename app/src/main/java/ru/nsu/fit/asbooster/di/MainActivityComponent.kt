@@ -6,7 +6,7 @@ import dagger.Component
 import ru.nsu.fit.asbooster.audios.di.AudiosFragmentComponent
 
 @ActivityScoped
-@Component
+@Component(modules = [MainActivityModule::class])
 interface MainActivityComponent {
 
     fun audiosFragmentComponentBuilder(): AudiosFragmentComponent.Builder
