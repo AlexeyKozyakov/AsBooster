@@ -2,6 +2,8 @@ package ru.nsu.fit.asbooster.audios
 
 import kotlinx.coroutines.*
 import ru.nsu.fit.asbooster.di.FragmentScoped
+import ru.nsu.fit.asbooster.navigation.Router
+import ru.nsu.fit.asbooster.services.AuthController
 import javax.inject.Inject
 
 /**
@@ -10,19 +12,24 @@ import javax.inject.Inject
 @FragmentScoped
 class AudiosPresenter @Inject constructor(
     private val view: AudiosView,
-    private val textProvider: HelloTextProvider,
-    private val uiScope: CoroutineScope
+    private val uiScope: CoroutineScope,
+    private val authController: AuthController,
+    private val router: Router
 
 ) {
 
-    /**
-     * Example of async request in background with showing progress.
-     */
-    fun init() = uiScope.launch {
-        view.showProgress()
-        val text = textProvider.provideTextAsync().await()
-        view.hideProgress()
-        view.setPlaceholderText(text)
+    fun onCreate() {
+
+    }
+
+    fun login() {
+        loginIfNeeded()
+    }
+
+    private fun loginIfNeeded() {
+        if (!authController.logged) {
+            router.launchLoginActivity()
+        }
     }
 
 }
