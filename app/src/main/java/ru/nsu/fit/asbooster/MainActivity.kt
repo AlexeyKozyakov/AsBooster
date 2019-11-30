@@ -11,7 +11,7 @@ import androidx.navigation.ui.setupWithNavController
 class MainActivity : AppCompatActivity() {
 
     val component = lazy {
-        (application as App).component.value.mainActivityComponenBuilder()
+        (application as App).component.value.mainActivityComponentBuilder()
             .activity(this)
             .build()
     }

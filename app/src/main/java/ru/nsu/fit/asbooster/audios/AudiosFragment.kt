@@ -30,7 +30,7 @@ class AudiosFragment : Fragment(), AudiosView {
         presenter = component.getPresenter()
         val view = inflater.inflate(R.layout.fragment_audios, container, false)
         viewHolder = AudiosViewHolder(view)
-        initLoginListener()
+        initLoginClickListener()
         presenter.onCreate()
         return view
     }
@@ -43,7 +43,15 @@ class AudiosFragment : Fragment(), AudiosView {
         viewHolder.progressBar.visibility = View.GONE
     }
 
-    private fun initLoginListener() {
+    override fun showLoginButton() {
+        viewHolder.loginButton.visibility = View.VISIBLE
+    }
+
+    override fun hideLoginButton() {
+        viewHolder.loginButton.visibility = View.GONE
+    }
+
+    private fun initLoginClickListener() {
         viewHolder.loginButton.setOnClickListener {
             presenter.login()
         }
