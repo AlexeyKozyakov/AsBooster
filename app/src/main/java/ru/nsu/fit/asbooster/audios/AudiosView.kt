@@ -7,4 +7,8 @@ interface AudiosView {
     fun showProgress()
 
     fun hideProgress()
+
+    fun showLoginButton()
+
+    fun hideLoginButton()
 }
