@@ -8,12 +8,12 @@
 
     <item
         android:id="@+id/navigation_audios"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/icon_audios"
         android:title="@string/title_audios" />
 
     <item
         android:id="@+id/navigation_settings"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/icon_settings"
         android:title="@string/title_settings" />
 
 </menu>
