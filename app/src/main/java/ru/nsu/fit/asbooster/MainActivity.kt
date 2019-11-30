@@ -7,13 +7,14 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import ru.nsu.fit.asbooster.di.DaggerMainActivityComponent
 
 class MainActivity : AppCompatActivity() {
 
-    val component = DaggerMainActivityComponent.builder()
-        .activity(this)
-        .build()
+    val component = lazy {
+        (application as App).component.value.mainActivityComponenBuilder()
+            .activity(this)
+            .build()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import ru.nsu.fit.asbooster.MainActivity
 import ru.nsu.fit.asbooster.R
@@ -24,18 +24,15 @@ class AudiosFragment : Fragment(), AudiosView {
         savedInstanceState: Bundle?
     ): View? {
         val activity = requireActivity() as MainActivity
-        val component = activity.component.audiosFragmentComponentBuilder()
+        val component = activity.component.value.audiosFragmentComponentBuilder()
             .fragment(this)
             .build()
         presenter = component.getPresenter()
         val view = inflater.inflate(R.layout.fragment_audios, container, false)
         viewHolder = AudiosViewHolder(view)
-        presenter.init()
+        initLoginListener()
+        presenter.onCreate()
         return view
-    }
-
-    override fun setPlaceholderText(text: String) {
-        viewHolder.placeholderText.text = text
     }
 
     override fun showProgress() {
@@ -46,9 +43,15 @@ class AudiosFragment : Fragment(), AudiosView {
         viewHolder.progressBar.visibility = View.GONE
     }
 
+    private fun initLoginListener() {
+        viewHolder.loginButton.setOnClickListener {
+            presenter.login()
+        }
+    }
+
     private class AudiosViewHolder(root: View) {
-        val placeholderText: TextView = root.findViewById(R.id.text_placeholder)
         val progressBar: ProgressBar = root.findViewById(R.id.audios_progress_bar)
+        val loginButton: Button = root.findViewById(R.id.button_audios_login)
     }
 
 }
