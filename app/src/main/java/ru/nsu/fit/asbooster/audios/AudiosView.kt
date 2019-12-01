@@ -1,5 +1,7 @@
 package ru.nsu.fit.asbooster.audios
 
+import ru.nsu.fit.asbooster.audios.repository.entity.AudioInfo
+
 /**
  * View for displaying VK audios.
  */
@@ -8,7 +10,8 @@ interface AudiosView {
 
     fun hideProgress()
 
-    fun showLoginButton()
+    fun showAudios(audios: List<AudioInfo>)
 
-    fun hideLoginButton()
+    fun clearAudios()
+
 }
