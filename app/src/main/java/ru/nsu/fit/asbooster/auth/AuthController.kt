@@ -1,4 +1,4 @@
-package ru.nsu.fit.asbooster.services
+package ru.nsu.fit.asbooster.auth
 
 import kotlinx.coroutines.Deferred
 
