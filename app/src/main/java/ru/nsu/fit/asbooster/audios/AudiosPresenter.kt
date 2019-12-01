@@ -35,7 +35,7 @@ class AudiosPresenter @Inject constructor(
     }
 
     fun onAudioClick(info: AudioInfo) {
-        //TODO
+        //TODO: launch edit activity
         Log.d("AS_BOOSTER", "Audio $info clicked")
     }
 

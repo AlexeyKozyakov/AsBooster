@@ -4,4 +4,6 @@ interface LoginView {
 
     val loginInfo: LoginInfo
 
+
+
 }

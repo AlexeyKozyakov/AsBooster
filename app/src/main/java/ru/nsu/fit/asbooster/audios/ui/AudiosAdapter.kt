@@ -31,8 +31,6 @@ class AudiosAdapter(
         return viewHolder
     }
 
-
-
     override fun getItemCount() = audios.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
