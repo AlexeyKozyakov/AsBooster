@@ -1,5 +1,6 @@
 package ru.nsu.fit.asbooster.audios
 
+import android.media.audiofx.BassBoost
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -37,6 +38,7 @@ class AudiosPresenter @Inject constructor(
     fun onAudioClick(info: AudioInfo) {
         //TODO: launch edit activity
         Log.d("AS_BOOSTER", "Audio $info clicked")
+
     }
 
     private fun launchQuery(query: String) {
