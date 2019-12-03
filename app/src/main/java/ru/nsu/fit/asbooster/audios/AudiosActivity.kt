@@ -1,7 +1,6 @@
 package ru.nsu.fit.asbooster.audios
 
 import android.os.Bundle
-import android.view.MotionEvent
 import android.view.View
 import android.widget.AutoCompleteTextView
 import android.widget.ProgressBar
@@ -23,7 +22,7 @@ class AudiosActivity : AppCompatActivity(), AudiosView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_audios)
         val component = (application as App).component.value
-            .audiosActivityComponenBuilder()
+            .audiosActivityComponentBuilder()
             .activity(this)
             .build()
         presenter = component.getPresenter()
