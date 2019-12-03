@@ -5,6 +5,7 @@ import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.nsu.fit.asbooster.audios.navigation.AudiosRouter
 import ru.nsu.fit.asbooster.audios.repository.AudioRepository
 import ru.nsu.fit.asbooster.audios.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.di.ActivityScoped
@@ -20,7 +21,8 @@ private const val TYPE_TIMEOUT = 250L
 class AudiosPresenter @Inject constructor(
     private val view: AudiosView,
     private val audioRepository: AudioRepository,
-    private val uiScope: CoroutineScope
+    private val uiScope: CoroutineScope,
+    private val router: AudiosRouter
 ) {
 
     private var lastQueryChange = 0L
@@ -36,9 +38,7 @@ class AudiosPresenter @Inject constructor(
     }
 
     fun onAudioClick(info: AudioInfo) {
-        //TODO: launch edit activity
-        Log.d("AS_BOOSTER", "Audio $info clicked")
-
+        router.openPlayer(info)
     }
 
     private fun launchQuery(query: String) {
