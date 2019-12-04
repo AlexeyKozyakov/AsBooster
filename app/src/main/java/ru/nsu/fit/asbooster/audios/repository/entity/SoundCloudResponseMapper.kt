@@ -14,7 +14,7 @@ class SoundCloudResponseMapper @Inject constructor(
             it.id ?: -1,
             it.metadata?.artist ?: "",
             it.title ?: "",
-            imageProvider.provideImage(it.imageUrl)
+            it.imageUrl ?: ""
         )
     } ?: listOf()
 }

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.nsu.fit.asbooster.App
 import ru.nsu.fit.asbooster.R
-import ru.nsu.fit.asbooster.audios.repository.entity.AudioInfo
+import ru.nsu.fit.asbooster.audios.ui.AudioItem
 import ru.nsu.fit.asbooster.audios.ui.AudiosAdapter
 
 class AudiosActivity : AppCompatActivity(), AudiosView {
@@ -40,7 +40,7 @@ class AudiosActivity : AppCompatActivity(), AudiosView {
         viewHolder.progressBar.visibility = View.GONE
     }
 
-    override fun showAudios(audios: List<AudioInfo>) {
+    override fun showAudios(audios: List<AudioItem>) {
         viewHolder.audiosRecycler.adapter = AudiosAdapter(audios) {
             presenter.onAudioClick(it)
         }

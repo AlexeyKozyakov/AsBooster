@@ -7,11 +7,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.nsu.fit.asbooster.R
-import ru.nsu.fit.asbooster.audios.repository.entity.AudioInfo
+import ru.nsu.fit.asbooster.audios.repository.RequestedImage
 
 class AudiosAdapter(
-    private val audios: List<AudioInfo>,
-    private val audioClickListener: (AudioInfo) -> Unit
+    private val audios: List<AudioItem>,
+    private val onClickListener: (adapterPosition: Int) -> Unit
 ) :
     RecyclerView.Adapter<AudiosAdapter.ViewHolder>() {
 
@@ -26,7 +26,7 @@ class AudiosAdapter(
             .inflate(R.layout.layout_audio_item, parent, false)
         val viewHolder = ViewHolder(view)
         view.setOnClickListener {
-            audioClickListener(audios[viewHolder.adapterPosition])
+            onClickListener(viewHolder.adapterPosition)
         }
         return viewHolder
     }
@@ -42,3 +42,9 @@ class AudiosAdapter(
     }
 
 }
+
+class AudioItem(
+    val name: String,
+    val author: String,
+    val image: RequestedImage
+)

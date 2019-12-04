@@ -1,13 +1,12 @@
 package ru.nsu.fit.asbooster.audios.repository.entity
 
 import com.google.gson.annotations.SerializedName
-import ru.nsu.fit.asbooster.audios.repository.RequestedImage
 
 data class AudioInfo(
     val id: Long,
     val author: String,
     val name: String,
-    val image: RequestedImage
+    val imageUrl: String
 )
 
 data class SoundCloudAudioCollection(
