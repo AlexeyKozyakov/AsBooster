@@ -7,8 +7,8 @@ import ru.nsu.fit.asbooster.audios.navigation.AudiosRouter
 import ru.nsu.fit.asbooster.audios.repository.AudioRepository
 import ru.nsu.fit.asbooster.audios.repository.ImageProvider
 import ru.nsu.fit.asbooster.audios.repository.entity.AudioInfo
-import ru.nsu.fit.asbooster.audios.ui.AudioItem
-import ru.nsu.fit.asbooster.audios.ui.NumberFormatter
+import ru.nsu.fit.asbooster.audios.adapter.AudioItem
+import ru.nsu.fit.asbooster.formating.NumberFormatter
 import ru.nsu.fit.asbooster.di.ActivityScoped
 import javax.inject.Inject
 
@@ -48,8 +48,10 @@ class AudiosPresenter @Inject constructor(
     private fun launchQuery(query: String) {
         view.showProgress()
         uiScope.launch {
-            audioInfos = audioRepository.searchAudios(query)
+            audioInfos = audioRepository.searchAudios(query) ?: emptyList()
+            //TODO: show network error if audios is null
             view.hideProgress()
+            //TODO: show placeholder if audios is empty
             view.showAudios(toViewItems(audioInfos))
         }
     }
@@ -58,7 +60,7 @@ class AudiosPresenter @Inject constructor(
         AudioItem(
             it.name,
             it.author,
-            imageProvider.provideImage(it.imageUrl),
+            imageProvider.provideImage(it.smallImageUrl, it.miniImageUrl),
             formatter.formatDuration(it.duration),
             formatter.formatPlaybackCount(it.playbackCount),
             formatter.formatPostDate(it.postDate)

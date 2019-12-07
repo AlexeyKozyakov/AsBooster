@@ -14,4 +14,11 @@
     <string name="plays_count_placeholder">100k</string>
     <string name="audio_post_time">Posted 1 month ago</string>
     <string name="audio_time">3:32</string>
+    <string name="unknown_artist">Unknown artist</string>
+    <string name="posted_text">Posted</string>
+    <string name="unknown_post_date">Unknown post date</string>
+    <string name="placeholder_audio_name">Name</string>
+    <string name="placeholder_artist">Artist</string>
+    <string name="elapsed_time_placeholder">0:00</string>
+    <string name="remaining_time_placeholder">3:33</string>
 </resources>

@@ -27,10 +27,10 @@ class SoundCloudAudioRepository @Inject constructor(
         .build()
         .create(SoundCloudAudioService::class.java)
 
-    override suspend fun searchAudios(query: String) = suspendCoroutine<List<AudioInfo>> {
+    override suspend fun searchAudios(query: String) = suspendCoroutine<List<AudioInfo>?> {
         service.searchAudios(query).enqueue(object : Callback<SoundCloudAudioCollection> {
             override fun onFailure(call: Call<SoundCloudAudioCollection>, t: Throwable) {
-                it.resumeWithException(t)
+                it.resume(null)
             }
 
             override fun onResponse(
@@ -44,7 +44,4 @@ class SoundCloudAudioRepository @Inject constructor(
         })
     }
 
-    override fun downloadAudio(audio: AudioInfo) {
-        TODO()
-    }
 }

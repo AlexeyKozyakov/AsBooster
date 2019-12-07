@@ -9,7 +9,7 @@ import ru.nsu.fit.asbooster.player.di.PlayerActivityComponent
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [CoroutinesModule::class])
+@Component(modules = [ApplicationModule::class, CoroutinesModule::class])
 interface ApplicationComponent {
 
     fun audiosActivityComponentBuilder(): AudiosActivityComponent.Builder
