@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">AsBooster</string>
+    <string name="tittle_login">Login to soundcloud</string>
+    <string name="hint_login">Login</string>
+    <string name="hint_password">Password</string>
+    <string name="text_login_button">login</string>
+    <string name="button_audios_login">login to soundcloud</string>
+    <string name="message_login_empty_fields">Some fields are empty</string>
+    <string name="message_login_fail">Authentication error, try again</string>
+    <string name="audio_item_author">Author</string>
+    <string name="audio_item_name">Name</string>
+    <string name="hint_search_audio">Search audio on soundcloud</string>
+    <string name="tittle_add_effect">Add effect:</string>
+    <string name="plays_count_placeholder">100k</string>
+    <string name="audio_post_time">Posted 1 month ago</string>
+    <string name="audio_time">3:32</string>
+</resources>
