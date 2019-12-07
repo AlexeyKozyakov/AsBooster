@@ -11,4 +11,7 @@
     <string name="audio_item_name">Name</string>
     <string name="hint_search_audio">Search audio on soundcloud</string>
     <string name="tittle_add_effect">Add effect:</string>
+    <string name="plays_count_placeholder">100k</string>
+    <string name="audio_post_time">Posted 1 month ago</string>
+    <string name="audio_time">3:32</string>
 </resources>

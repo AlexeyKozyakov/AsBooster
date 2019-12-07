@@ -9,9 +9,9 @@ class SoundCloudResponseMapper @Inject constructor() {
             = soundCloudCollection.collection?.map {
         AudioInfo(
             it.id ?: -1,
-            it.metadata?.artist ?: "",
+            it.metadata?.artist?.takeIf { artist -> artist.any() }?: "Unknown artist",
             it.title ?: "",
-            it.imageUrl ?: "",
+            it.imageUrl,
             it.duration,
             it.playbackCount,
             it.media.transcodings.map { transcoding -> AudioTranscoding(

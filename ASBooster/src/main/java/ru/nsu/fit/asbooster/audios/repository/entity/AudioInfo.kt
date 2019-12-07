@@ -9,7 +9,7 @@ data class AudioInfo(
     val id: Long,
     val author: String,
     val name: String,
-    val imageUrl: String,
+    val imageUrl: String?,
     val duration: Int,
     val playbackCount: Int,
     val transcodings: List<AudioTranscoding>

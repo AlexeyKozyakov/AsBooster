@@ -7,9 +7,9 @@ import ru.nsu.fit.asbooster.di.ActivityScoped
 import ru.nsu.fit.asbooster.player.PlayerActivity
 import javax.inject.Inject
 
-private const val PLAYER_CODE = 0
+const val PLAYER_CODE = 0
 
-private const val AUDIO_INFO_EXTRA = "audio_info"
+const val AUDIO_INFO_EXTRA = "audio_info"
 
 @ActivityScoped
 class AudiosRouter @Inject constructor(

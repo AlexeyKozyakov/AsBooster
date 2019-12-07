@@ -11,7 +11,9 @@ class ImageProvider @Inject constructor(private val picasso: Picasso) {
 
     fun provideImage(url: String?) = object : RequestedImage {
         override fun show(view: ImageView) {
-            picasso.load(url).into(view)
+            url?.let {
+                picasso.load(it).into(view)
+            }
         }
     }
 }
