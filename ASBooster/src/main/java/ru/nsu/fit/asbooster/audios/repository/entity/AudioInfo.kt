@@ -12,7 +12,8 @@ data class AudioInfo(
     val imageUrl: String?,
     val duration: Int,
     val playbackCount: Int,
-    val transcodings: List<AudioTranscoding>
+    val transcodings: List<AudioTranscoding>,
+    val postDate: String
 ) : Parcelable
 
 @Parcelize
@@ -38,7 +39,9 @@ data class SoundCloudAudioInfo (
     val duration: Int,
     @SerializedName("playback_count")
     val playbackCount: Int,
-    val media: SoundCloudMedia
+    val media: SoundCloudMedia,
+    @SerializedName("created_at")
+    val postDate: String
 )
 
 data class SoundCloudMetadata(

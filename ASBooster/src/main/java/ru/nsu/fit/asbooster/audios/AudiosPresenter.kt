@@ -8,6 +8,7 @@ import ru.nsu.fit.asbooster.audios.repository.AudioRepository
 import ru.nsu.fit.asbooster.audios.repository.ImageProvider
 import ru.nsu.fit.asbooster.audios.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.audios.ui.AudioItem
+import ru.nsu.fit.asbooster.audios.ui.NumberFormatter
 import ru.nsu.fit.asbooster.di.ActivityScoped
 import javax.inject.Inject
 
@@ -23,7 +24,8 @@ class AudiosPresenter @Inject constructor(
     private val audioRepository: AudioRepository,
     private val uiScope: CoroutineScope,
     private val router: AudiosRouter,
-    private val imageProvider: ImageProvider
+    private val imageProvider: ImageProvider,
+    private val formatter: NumberFormatter
 ) {
 
     private var lastQueryChange = 0L
@@ -53,6 +55,13 @@ class AudiosPresenter @Inject constructor(
     }
 
     private fun toViewItems(audios: List<AudioInfo>) = audios.map {
-        AudioItem(it.name, it.author, imageProvider.provideImage(it.imageUrl))
+        AudioItem(
+            it.name,
+            it.author,
+            imageProvider.provideImage(it.imageUrl),
+            formatter.formatDuration(it.duration),
+            formatter.formatPlaybackCount(it.playbackCount),
+            formatter.formatPostDate(it.postDate)
+        )
     }
 }
