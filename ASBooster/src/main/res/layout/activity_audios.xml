@@ -24,7 +24,13 @@
         android:hint="@string/hint_search_audio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="#AAAAAA"
+        android:drawableStart="@drawable/ic_magnifying_glass"
+        android:padding="14dp"
+        android:drawablePadding="4dp"
+        android:textColor="#888888"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/audios_recycler_view"

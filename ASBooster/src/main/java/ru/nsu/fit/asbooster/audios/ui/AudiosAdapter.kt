@@ -19,6 +19,9 @@ class AudiosAdapter(
         val authorView: TextView = root.findViewById(R.id.audio_item_author)
         val nameView: TextView = root.findViewById(R.id.audio_item_name)
         val imageView: ImageView = root.findViewById(R.id.audio_item_image)
+        val durationView: TextView = root.findViewById(R.id.track_duration)
+        val playsView: TextView = root.findViewById(R.id.audio_plays_count)
+        val postDateView: TextView = root.findViewById(R.id.post_date)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,6 +41,9 @@ class AudiosAdapter(
             holder.authorView.text = author
             holder.nameView.text = name
             image.show(holder.imageView)
+            holder.durationView.text = duration
+            holder.playsView.text = plays
+            holder.postDateView.text = postDate
         }
     }
 
@@ -46,5 +52,8 @@ class AudiosAdapter(
 class AudioItem(
     val name: String,
     val author: String,
-    val image: RequestedImage
+    val image: RequestedImage,
+    val duration: String,
+    val plays: String,
+    val postDate: String
 )

@@ -19,7 +19,8 @@ class SoundCloudResponseMapper @Inject constructor() {
                 transcoding.duration,
                 transcoding.format.protocol,
                 transcoding.format.mimeType
-            ) }
+            ) },
+            it.postDate
         )
     } ?: listOf()
 }
