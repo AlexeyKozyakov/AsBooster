@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.nsu.fit.asbooster.App
 import ru.nsu.fit.asbooster.R
-import ru.nsu.fit.asbooster.audios.ui.AudioItem
-import ru.nsu.fit.asbooster.audios.ui.AudiosAdapter
+import ru.nsu.fit.asbooster.audios.adapter.AudioItem
+import ru.nsu.fit.asbooster.audios.adapter.AudiosAdapter
 
 class AudiosActivity : AppCompatActivity(), AudiosView {
 

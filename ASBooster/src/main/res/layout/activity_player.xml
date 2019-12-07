@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/image_view_track_cover"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
@@ -21,16 +21,16 @@
 
     <ImageButton
         android:id="@+id/button_play"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
         android:background="#00000000"
         android:scaleType="fitCenter"
         android:src="@drawable/icon_button_play"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seek_bar_player" />
+        app:layout_constraintTop_toBottomOf="@+id/player_artist" />
 
     <SeekBar
         android:id="@+id/seek_bar_player"
@@ -75,5 +75,51 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/player_song_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/placeholder_audio_name"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/elapsed_time" />
+
+    <TextView
+        android:id="@+id/player_artist"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/placeholder_artist"
+        android:textSize="16sp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player_song_name" />
+
+    <TextView
+        android:id="@+id/elapsed_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/elapsed_time_placeholder"
+        app:layout_constraintStart_toStartOf="@+id/seek_bar_player"
+        app:layout_constraintTop_toBottomOf="@+id/seek_bar_player" />
+
+    <TextView
+        android:id="@+id/remaining_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/remaining_time_placeholder"
+        app:layout_constraintEnd_toEndOf="@+id/seek_bar_player"
+        app:layout_constraintTop_toBottomOf="@+id/seek_bar_player" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

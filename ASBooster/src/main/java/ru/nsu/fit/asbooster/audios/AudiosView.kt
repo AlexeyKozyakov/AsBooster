@@ -1,6 +1,6 @@
 package ru.nsu.fit.asbooster.audios
 
-import ru.nsu.fit.asbooster.audios.ui.AudioItem
+import ru.nsu.fit.asbooster.audios.adapter.AudioItem
 
 /**
  * View for displaying audios list.

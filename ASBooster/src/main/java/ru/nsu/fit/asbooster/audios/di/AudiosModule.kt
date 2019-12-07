@@ -1,7 +1,6 @@
 package ru.nsu.fit.asbooster.audios.di
 
 import android.app.Activity
-import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
 import ru.nsu.fit.asbooster.audios.AudiosView
@@ -22,9 +21,5 @@ class AudiosModule {
     @Provides
     @ActivityScoped
     fun repository(repository: SoundCloudAudioRepository) = repository as AudioRepository
-
-    @Provides
-    @ActivityScoped
-    fun picasso() = Picasso.get()
 
 }

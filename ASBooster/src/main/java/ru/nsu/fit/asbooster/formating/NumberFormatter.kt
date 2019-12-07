@@ -1,11 +1,15 @@
-package ru.nsu.fit.asbooster.audios.ui
+package ru.nsu.fit.asbooster.formating
 
+import android.content.Context
+import ru.nsu.fit.asbooster.R
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-class NumberFormatter @Inject constructor() {
+class NumberFormatter @Inject constructor(
+    private val context: Context
+) {
 
     private val format = DecimalFormat("0.#")
     private val inputDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US)
@@ -24,6 +28,6 @@ class NumberFormatter @Inject constructor() {
 
     fun formatPostDate(postDate: String) =
         inputDateFormat.parse(postDate)?.let { date ->
-            "Posted ${outputDateFormat.format(date)}"
-        } ?: "Unknown post date"
+            "${context.getString(R.string.posted_text)} ${outputDateFormat.format(date)}"
+        } ?: context.getString(R.string.unknown_post_date)
 }
