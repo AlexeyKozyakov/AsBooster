@@ -2,7 +2,7 @@ package ru.nsu.fit.asbooster.audios.navigation
 
 import android.app.Activity
 import android.content.Intent
-import ru.nsu.fit.asbooster.audios.repository.entity.AudioInfo
+import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.di.ActivityScoped
 import ru.nsu.fit.asbooster.player.PlayerActivity
 import javax.inject.Inject

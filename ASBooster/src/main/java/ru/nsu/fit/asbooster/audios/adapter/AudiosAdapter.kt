@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.nsu.fit.asbooster.R
-import ru.nsu.fit.asbooster.audios.repository.RequestedImage
+import ru.nsu.fit.asbooster.repository.RequestedImage
 
 class AudiosAdapter(
     private val audios: List<AudioItem>,

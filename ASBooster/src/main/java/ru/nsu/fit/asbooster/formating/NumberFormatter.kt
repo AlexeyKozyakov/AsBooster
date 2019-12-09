@@ -5,6 +5,7 @@ import ru.nsu.fit.asbooster.R
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class NumberFormatter @Inject constructor(
@@ -16,8 +17,11 @@ class NumberFormatter @Inject constructor(
     private val outputDateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.US)
 
     fun formatDuration(timeMillis: Int): String {
-        val timeSeconds = timeMillis / 1000
-        return "${timeSeconds / 60}:${timeSeconds % 60}"
+        val millis = timeMillis.toLong()
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(millis)
+        val seconds = TimeUnit.MILLISECONDS.toSeconds(millis) -
+                TimeUnit.MINUTES.toSeconds(minutes)
+        return "%d:%02d".format(minutes, seconds)
     }
 
     fun formatPlaybackCount(count: Int) = when(count) {

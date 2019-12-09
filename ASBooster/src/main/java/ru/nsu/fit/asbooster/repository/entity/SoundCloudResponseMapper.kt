@@ -1,15 +1,18 @@
-package ru.nsu.fit.asbooster.audios.repository.entity
+package ru.nsu.fit.asbooster.repository.entity
 
 import android.content.Context
 import ru.nsu.fit.asbooster.R
-import ru.nsu.fit.asbooster.di.ActivityScoped
+import ru.nsu.fit.asbooster.repository.SOUND_CLOUD_CLIENT_ID
 import javax.inject.Inject
+import javax.inject.Singleton
 
 private const val DEFAULT_IMAGE_CODE = "large"
 private const val BIG_IMAGE_CODE = "t500x500"
 private const val MINI_IMAGE_CODE = "mini"
+private const val STREAMING_PROTOCOL = "progressive"
+private const val CLIENT_ID_PARAM = "client_id"
 
-@ActivityScoped
+@Singleton
 class SoundCloudResponseMapper @Inject constructor(
     private val context: Context
 ) {
@@ -25,12 +28,9 @@ class SoundCloudResponseMapper @Inject constructor(
             it.imageUrl?.replaceFirst(DEFAULT_IMAGE_CODE, MINI_IMAGE_CODE),
             it.duration,
             it.playbackCount,
-            it.media.transcodings.map { transcoding -> AudioTranscoding(
-                transcoding.url,
-                transcoding.duration,
-                transcoding.format.protocol,
-                transcoding.format.mimeType
-            ) },
+            it.media.transcodings
+                .find { it.format.protocol == STREAMING_PROTOCOL }?.url
+                    + "?$CLIENT_ID_PARAM=$SOUND_CLOUD_CLIENT_ID",
             it.postDate
         )
     } ?: listOf()

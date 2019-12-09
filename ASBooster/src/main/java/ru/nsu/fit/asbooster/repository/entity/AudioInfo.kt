@@ -1,4 +1,4 @@
-package ru.nsu.fit.asbooster.audios.repository.entity
+package ru.nsu.fit.asbooster.repository.entity
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
@@ -14,7 +14,7 @@ data class AudioInfo(
     val miniImageUrl: String?,
     val duration: Int,
     val playbackCount: Int,
-    val transcodings: List<AudioTranscoding>,
+    val urlToStream: String?,
     val postDate: String
 ) : Parcelable
 
@@ -64,4 +64,8 @@ data class SoundCloudFormat(
     val protocol: String,
     @SerializedName("mime_type")
     val mimeType: String
+)
+
+data class SoundCloudUrl(
+    val url: String
 )

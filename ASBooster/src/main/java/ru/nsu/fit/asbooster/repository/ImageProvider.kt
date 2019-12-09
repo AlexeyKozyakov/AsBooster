@@ -1,4 +1,4 @@
-package ru.nsu.fit.asbooster.audios.repository
+package ru.nsu.fit.asbooster.repository
 
 import android.content.Context
 import android.widget.ImageView
