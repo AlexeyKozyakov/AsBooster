@@ -4,9 +4,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.nsu.fit.asbooster.audios.navigation.AudiosRouter
-import ru.nsu.fit.asbooster.audios.repository.AudioRepository
-import ru.nsu.fit.asbooster.audios.repository.ImageProvider
-import ru.nsu.fit.asbooster.audios.repository.entity.AudioInfo
+import ru.nsu.fit.asbooster.repository.AudioRepository
+import ru.nsu.fit.asbooster.repository.ImageProvider
+import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.audios.adapter.AudioItem
 import ru.nsu.fit.asbooster.formating.NumberFormatter
 import ru.nsu.fit.asbooster.di.ActivityScoped

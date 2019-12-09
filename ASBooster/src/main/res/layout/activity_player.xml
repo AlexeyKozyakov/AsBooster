@@ -26,7 +26,7 @@
         android:layout_marginTop="16dp"
         android:background="#00000000"
         android:scaleType="fitCenter"
-        android:src="@drawable/icon_button_play"
+        android:src="@drawable/icon_button_pause"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"

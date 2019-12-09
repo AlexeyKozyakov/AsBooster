@@ -1,22 +1,22 @@
-package ru.nsu.fit.asbooster.audios.repository
+package ru.nsu.fit.asbooster.repository
 
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.nsu.fit.asbooster.audios.repository.entity.AudioInfo
-import ru.nsu.fit.asbooster.audios.repository.entity.SoundCloudAudioCollection
-import ru.nsu.fit.asbooster.audios.repository.entity.SoundCloudResponseMapper
-import ru.nsu.fit.asbooster.di.ActivityScoped
+import ru.nsu.fit.asbooster.repository.entity.AudioInfo
+import ru.nsu.fit.asbooster.repository.entity.SoundCloudAudioCollection
+import ru.nsu.fit.asbooster.repository.entity.SoundCloudResponseMapper
+import ru.nsu.fit.asbooster.repository.entity.SoundCloudUrl
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 private const val BASE_SOUND_CLOUD_URL = "https://api-v2.soundcloud.com"
 
-@ActivityScoped
+@Singleton
 class SoundCloudAudioRepository @Inject constructor(
     private val mapper: SoundCloudResponseMapper
 ) : AudioRepository {
@@ -41,6 +41,19 @@ class SoundCloudAudioRepository @Inject constructor(
                     it.resume(mapper.toAudioInfos(body))
                 } ?: it.resume(listOf())
             }
+        })
+    }
+
+    override suspend fun getStreamUrl(url: String) = suspendCoroutine<String?> {
+        service.streamUrl(url).enqueue(object : Callback<SoundCloudUrl> {
+            override fun onFailure(call: Call<SoundCloudUrl>, t: Throwable) {
+                it.resume(null)
+            }
+
+            override fun onResponse(call: Call<SoundCloudUrl>, response: Response<SoundCloudUrl>) {
+                it.resume(response.body()?.url)
+            }
+
         })
     }
 

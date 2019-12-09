@@ -1,10 +1,14 @@
 package ru.nsu.fit.asbooster.player
 
-import ru.nsu.fit.asbooster.audios.repository.RequestedImage
+import ru.nsu.fit.asbooster.repository.RequestedImage
 
 interface PlayerView {
 
     fun setTrack(track: TrackViewItem)
+
+    fun showPlayButton()
+
+    fun showPauseButton()
 
 }
 
