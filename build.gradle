@@ -15,6 +15,10 @@ buildscript {
     }
 }
 
+plugins {
+    id "org.sonarqube" version "2.7"
+}
+
 allprojects {
     repositories {
         google()
@@ -23,7 +27,87 @@ allprojects {
     }
 }
 
-
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+//jacoco
+
+subprojects {
+    apply plugin: 'jacoco'
+    jacoco {
+        toolVersion = '0.8.5'
+        def reportsDirPath = "${project.rootDir}/app/build/reports/jacoco/${project.name}"
+        reportsDir = file(reportsDirPath)
+    }
+}
+
+def configureJacoco = { project ->
+    def variantName = project.name
+    project.tasks.create(name: "getJacocoReports", type: JacocoReport) {
+        group = "Reporting"
+        description = "Generate Jacoco coverage reports for the $variantName build."
+        reports {
+            html.enabled = true
+            xml.enabled = true
+        }
+        def excludes = [
+                '**/R.class',
+                '**/R$*.class',
+                '**/BuildConfig.*',
+                '**/Manifest*.*',
+                '**/AndroidManifest.xml',
+                '**/*Test*.*',
+                'android/**/*.*',
+                'androidx/**/*.*',
+                '**/*Fragment.*',
+                '**/*Activity.*',
+                '**/*Api.*',
+                '**/injection/**/*.class',
+                '**/ui/**/*.class'
+        ]
+
+        def javaClasses = fileTree(dir: "${project.buildDir}/intermediates/javac/debug", excludes: excludes)
+        def kotlinClasses = fileTree(dir: "${project.buildDir}/tmp/kotlin-classes/debug", excludes: excludes)
+        classDirectories = files([javaClasses, kotlinClasses])
+
+        sourceDirectories = files([
+                "${project.projectDir}/src/main/java",
+                "${project.projectDir}/src/main/kotlin",
+        ])
+
+        executionData = files(fileTree(include: ['*.exec'], dir: "${project.buildDir}/jacoco").files)
+    }
+}
+
+allprojects { project ->
+    configureJacoco(project)
+    project.tasks.withType(Test) {
+        enabled = true
+        jacoco.includeNoLocationClasses = true
+    }
+}
+
+task jacocoAgregateReports() {
+    group = "Reporting"
+    subprojects.forEach { subproject ->
+        subproject.tasks.withType(JacocoReport).forEach { task ->
+            dependsOn task
+        }
+    }
+}
+
+//sonar
+
+sonarqube {
+    properties {
+        property "sonar.host.url", "http://84.237.50.237:9000"
+        property "sonar.login", "7ab46ef2905b1fd1d1b2d2183afc74f09ee25181"
+        property "sonar.projectName", "AsBooster"
+        property "sonar.projectKey", "AB"
+        property "sonar.reportPath", "$rootDir/app/build/sonarqube/test.exec"
+        property "sonar.projectBaseDir", "$rootDir"
+        property "sonar.coverage.exclusions", "**/src/test/**"
+        property "sonar.coverage.jacoco.xmlReportPaths", "$rootDir/app/build/reports/jacoco/app/getJacocoReports/getJacocoReports.xml"
+    }
 }
