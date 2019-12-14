@@ -2,6 +2,7 @@ package ru.nsu.fit.asbooster.repository.entity
 
 import android.content.Context
 import ru.nsu.fit.asbooster.R
+import ru.nsu.fit.asbooster.StringsProvider
 import ru.nsu.fit.asbooster.repository.SOUND_CLOUD_CLIENT_ID
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,14 +15,14 @@ private const val CLIENT_ID_PARAM = "client_id"
 
 @Singleton
 class SoundCloudResponseMapper @Inject constructor(
-    private val context: Context
+    private val stringsProvider: StringsProvider
 ) {
     fun toAudioInfos(soundCloudCollection: SoundCloudAudioCollection)
             = soundCloudCollection.collection?.map {
         AudioInfo(
             it.id ?: -1,
             it.metadata?.artist?.takeIf { artist -> artist.any() }
-                ?: context.getString(R.string.unknown_artist),
+                ?: stringsProvider.unknownArtist,
             it.title ?: "",
             it.imageUrl,
             it.imageUrl?.replaceFirst(DEFAULT_IMAGE_CODE, BIG_IMAGE_CODE),

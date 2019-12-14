@@ -1,2 +1,2 @@
-include ':ASBooster'
+include ':app'
 rootProject.name='AsBooster'

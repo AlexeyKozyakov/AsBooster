@@ -1,15 +1,17 @@
 package ru.nsu.fit.asbooster.formating
 
-import android.content.Context
-import ru.nsu.fit.asbooster.R
+import ru.nsu.fit.asbooster.StringsProvider
 import java.text.DecimalFormat
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class NumberFormatter @Inject constructor(
-    private val context: Context
+    private val stringsProvider: StringsProvider
 ) {
 
     private val format = DecimalFormat("0.#")
@@ -30,8 +32,11 @@ class NumberFormatter @Inject constructor(
         else -> "${format.format(count / 1000000.0)}M"
     }
 
-    fun formatPostDate(postDate: String) =
+    fun formatPostDate(postDate: String) = try {
         inputDateFormat.parse(postDate)?.let { date ->
-            "${context.getString(R.string.posted_text)} ${outputDateFormat.format(date)}"
-        } ?: context.getString(R.string.unknown_post_date)
+            "${stringsProvider.postDatePrefix} ${outputDateFormat.format(date)}"
+        } ?: stringsProvider.unknownPostDate
+    } catch (e: ParseException) {
+        stringsProvider.unknownPostDate
+    }
 }
