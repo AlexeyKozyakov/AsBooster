@@ -2,6 +2,7 @@ package ru.nsu.fit.asbooster.repository
 
 import android.content.Context
 import android.widget.ImageView
+import androidx.annotation.IdRes
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.BlurTransformation
@@ -11,7 +12,7 @@ import javax.inject.Singleton
 
 
 @Singleton
-class ImageProvider @Inject constructor(
+class WebImageProvider @Inject constructor(
     private val picasso: Picasso,
     context: Context
 ) {

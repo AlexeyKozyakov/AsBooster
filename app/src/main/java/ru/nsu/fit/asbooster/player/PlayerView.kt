@@ -1,5 +1,6 @@
 package ru.nsu.fit.asbooster.player
 
+import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
 import ru.nsu.fit.asbooster.repository.RequestedImage
 
 interface PlayerView {
@@ -9,6 +10,8 @@ interface PlayerView {
     fun showPlayButton()
 
     fun showPauseButton()
+
+    fun showEffects(effects: List<EffectItem>)
 
 }
 
