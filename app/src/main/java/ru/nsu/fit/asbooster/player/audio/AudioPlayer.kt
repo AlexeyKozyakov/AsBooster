@@ -16,4 +16,6 @@ interface AudioPlayer {
 
     fun destroy()
 
+    fun seekTo(progress : Int)
+
 }
