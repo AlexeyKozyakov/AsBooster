@@ -42,7 +42,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_field_audios"
-        tools:listitem="@layout/layout_audio_item"
+        tools:listitem="@layout/audio_item"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

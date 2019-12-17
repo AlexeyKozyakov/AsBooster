@@ -26,7 +26,7 @@ class AudiosAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.layout_audio_item, parent, false)
+            .inflate(R.layout.audio_item, parent, false)
         val viewHolder = ViewHolder(view)
         view.setOnClickListener {
             onClickListener(viewHolder.adapterPosition)
