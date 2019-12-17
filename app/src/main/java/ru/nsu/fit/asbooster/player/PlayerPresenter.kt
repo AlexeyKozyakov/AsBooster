@@ -9,6 +9,8 @@ import ru.nsu.fit.asbooster.formating.NumberFormatter
 import ru.nsu.fit.asbooster.di.ActivityScoped
 import ru.nsu.fit.asbooster.player.audio.AudioPlayer
 import ru.nsu.fit.asbooster.player.effects.Effect
+import ru.nsu.fit.asbooster.player.effects.EffectImageProvider
+import ru.nsu.fit.asbooster.player.effects.EffectNameProvider
 import ru.nsu.fit.asbooster.player.effects.EffectsManager
 import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
 import javax.inject.Inject
@@ -21,7 +23,9 @@ class PlayerPresenter @Inject constructor(
     private val audioPlayer: AudioPlayer,
     private val uiScope: CoroutineScope,
     private val repository: AudioRepository,
-    private val effectsManager: EffectsManager
+    private val effectsManager: EffectsManager,
+    private val effectImageProvider: EffectImageProvider,
+    private val effectNameProvider: EffectNameProvider
 ) {
 
     private lateinit var audioInfo: AudioInfo
@@ -87,8 +91,8 @@ class PlayerPresenter @Inject constructor(
 
     private fun toEffectItems(effects: List<Effect>) = effects.map {
         EffectItem(
-            it.name,
-            it.image,
+            effectNameProvider.provideEffectName(it),
+            effectImageProvider.provideEffectImage(it),
             it.force
         )
     }
