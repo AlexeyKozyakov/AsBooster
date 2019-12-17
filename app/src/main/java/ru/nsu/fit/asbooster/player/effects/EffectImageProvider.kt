@@ -1,9 +1,9 @@
 package ru.nsu.fit.asbooster.player.effects
 
-import android.widget.ImageView
+import ru.nsu.fit.asbooster.R
 import ru.nsu.fit.asbooster.di.ActivityScoped
-import ru.nsu.fit.asbooster.player.effects.default.BassBoostEffect
-import ru.nsu.fit.asbooster.repository.RequestedImage
+import ru.nsu.fit.asbooster.player.effects.preloaded.BassBoostEffect
+import ru.nsu.fit.asbooster.player.effects.preloaded.Effect
 import ru.nsu.fit.asbooster.repository.ResourcesImageProvider
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
@@ -14,12 +14,7 @@ class EffectImageProvider @Inject constructor(
 ) {
 
     fun provideEffectImage(effect: Effect) = when(effect.id) {
-        BassBoostEffect.ID -> object : RequestedImage {
-            override fun show(view: ImageView) {
-                //TODO: get image from image provider
-            }
-
-        }
+        BassBoostEffect.ID -> imageProvider.privideImage(R.drawable.icon_bass_boost)
         else -> throw IllegalArgumentException("Unsupported effect")
     }
 

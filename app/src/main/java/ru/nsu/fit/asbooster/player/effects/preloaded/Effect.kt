@@ -1,4 +1,4 @@
-package ru.nsu.fit.asbooster.player.effects
+package ru.nsu.fit.asbooster.player.effects.preloaded
 
 
 /**

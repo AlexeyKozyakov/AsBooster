@@ -1,9 +1,8 @@
-package ru.nsu.fit.asbooster.player.effects.default
+package ru.nsu.fit.asbooster.player.effects.preloaded
 
 import android.media.audiofx.BassBoost
 import ru.nsu.fit.asbooster.di.ActivityScoped
 import ru.nsu.fit.asbooster.player.audio.AudioPlayer
-import ru.nsu.fit.asbooster.player.effects.Effect
 import javax.inject.Inject
 
 @ActivityScoped
@@ -20,9 +19,9 @@ class BassBoostEffect @Inject constructor(
         get() = ID
 
     override var force: Int
-        get() = bassBoost.roundedStrength.toInt()
+        get() = bassBoost.roundedStrength.toInt() / STRENGTH_MULTIPLIER
         set(value) {
-            bassBoost.setStrength(value.toShort())
+            bassBoost.setStrength((value * STRENGTH_MULTIPLIER).toShort())
         }
 
     override fun destroy() {
@@ -31,5 +30,6 @@ class BassBoostEffect @Inject constructor(
 
     companion object {
         const val ID = "bass_boost"
+        private const val STRENGTH_MULTIPLIER = 10
     }
 }
