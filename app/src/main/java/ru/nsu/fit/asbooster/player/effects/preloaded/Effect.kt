@@ -1,6 +1,5 @@
-package ru.nsu.fit.asbooster.player.effects
+package ru.nsu.fit.asbooster.player.effects.preloaded
 
-import ru.nsu.fit.asbooster.repository.RequestedImage
 
 /**
  * Base interface for audio effects.
@@ -8,14 +7,9 @@ import ru.nsu.fit.asbooster.repository.RequestedImage
 interface Effect {
 
     /**
-     * Effect name.
+     * Effect id.
      */
-    val name: String
-
-    /**
-     * Effect image.
-     */
-    val image: RequestedImage
+    val id: String
 
     /**
      * Effect force from 0 to 100, where

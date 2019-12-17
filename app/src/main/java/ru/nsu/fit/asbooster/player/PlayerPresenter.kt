@@ -8,7 +8,9 @@ import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.formating.NumberFormatter
 import ru.nsu.fit.asbooster.di.ActivityScoped
 import ru.nsu.fit.asbooster.player.audio.AudioPlayer
-import ru.nsu.fit.asbooster.player.effects.Effect
+import ru.nsu.fit.asbooster.player.effects.preloaded.Effect
+import ru.nsu.fit.asbooster.player.effects.EffectImageProvider
+import ru.nsu.fit.asbooster.player.effects.EffectNameProvider
 import ru.nsu.fit.asbooster.player.effects.EffectsManager
 import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
 import javax.inject.Inject
@@ -21,6 +23,8 @@ class PlayerPresenter @Inject constructor(
     private val audioPlayer: AudioPlayer,
     private val uiScope: CoroutineScope,
     private val repository: AudioRepository,
+    private val effectImageProvider: EffectImageProvider,
+    private val effectNameProvider: EffectNameProvider,
     private val effectsManager: EffectsManager
 ) {
 
@@ -54,7 +58,7 @@ class PlayerPresenter @Inject constructor(
 
     fun onEffectForceChanged(position: Int, force: Int) {
         val effectItem = effectItems[position]
-        effectsManager.setForce(effectItem.name, force)
+        effectsManager.setForce(effectItem.id, force)
     }
 
     private fun initPlayer() {
@@ -87,8 +91,9 @@ class PlayerPresenter @Inject constructor(
 
     private fun toEffectItems(effects: List<Effect>) = effects.map {
         EffectItem(
-            it.name,
-            it.image,
+            it.id,
+            effectNameProvider.provideEffectName(it),
+            effectImageProvider.provideEffectImage(it),
             it.force
         )
     }

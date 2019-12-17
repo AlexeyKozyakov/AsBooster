@@ -17,8 +17,8 @@ class EffectsAdapter(
 
     class ViewHolder(root: View) : RecyclerView.ViewHolder(root) {
         val effectNameView: TextView = root.findViewById(R.id.effect_name_text_view)
-        val effectImageView: ImageView = root.findViewById(R.id.effect_image_view)
-        val effectForceSeekBar: SeekBar = root.findViewById(R.id.effect_force_seek_bar)
+        val effectImageView: ImageView = root.findViewById(R.id.image_view_fx)
+        val effectForceSeekBar: SeekBar = root.findViewById(R.id.seek_bar_fx)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -49,6 +49,7 @@ class EffectsAdapter(
 }
 
 class EffectItem(
+    val id: String,
     val name: String,
     val image: RequestedImage,
     val force: Int
