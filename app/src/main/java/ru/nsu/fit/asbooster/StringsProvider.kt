@@ -14,4 +14,6 @@ class StringsProvider @Inject constructor(
     val unknownPostDate get() = context.getString(R.string.unknown_post_date)
 
     val unknownArtist get() = context.getString(R.string.unknown_artist)
+
+    val bassBoostEffectName get() = context.getString(R.string.bass_boost_effect_name)
 }
