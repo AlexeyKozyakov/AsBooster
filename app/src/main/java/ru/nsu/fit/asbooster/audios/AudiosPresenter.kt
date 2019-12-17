@@ -5,7 +5,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.nsu.fit.asbooster.audios.navigation.AudiosRouter
 import ru.nsu.fit.asbooster.repository.AudioRepository
-import ru.nsu.fit.asbooster.repository.ImageProvider
+import ru.nsu.fit.asbooster.repository.WebImageProvider
 import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.audios.adapter.AudioItem
 import ru.nsu.fit.asbooster.formating.NumberFormatter
@@ -24,7 +24,7 @@ class AudiosPresenter @Inject constructor(
     private val audioRepository: AudioRepository,
     private val uiScope: CoroutineScope,
     private val router: AudiosRouter,
-    private val imageProvider: ImageProvider,
+    private val imageProvider: WebImageProvider,
     private val formatter: NumberFormatter
 ) {
 

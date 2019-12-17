@@ -6,9 +6,13 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ru.nsu.fit.asbooster.App
 import ru.nsu.fit.asbooster.R
 import ru.nsu.fit.asbooster.audios.navigation.AUDIO_INFO_EXTRA
+import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
+import ru.nsu.fit.asbooster.player.effects.ui.EffectsAdapter
 
 class PlayerActivity : AppCompatActivity(), PlayerView {
 
@@ -26,6 +30,7 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         presenter = component.getPresenter()
         presenter.onCreate(intent.getParcelableExtra(AUDIO_INFO_EXTRA))
         initPlayPauseClickListener()
+        initEffectsRecycler()
     }
 
     override fun onDestroy() {
@@ -48,9 +53,22 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         viewHolder.playPauseButton.setImageDrawable(getDrawable(R.drawable.icon_button_pause))
     }
 
+    override fun showEffects(effects: List<EffectItem>) {
+        viewHolder.effectsRecycler.adapter = EffectsAdapter(effects) { position, force ->
+            presenter.onEffectForceChanged(position, force)
+        }
+    }
+
     private fun initPlayPauseClickListener() {
         viewHolder.playPauseButton.setOnClickListener {
             presenter.onPlayPauseClick()
+        }
+    }
+
+    private fun initEffectsRecycler() {
+        viewHolder.effectsRecycler.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(this@PlayerActivity)
         }
     }
 
@@ -61,7 +79,7 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         val remainingTimeTextView: TextView = findViewById(R.id.remaining_time)
         val elapsedTimeTextView: TextView = findViewById(R.id.elapsed_time)
         val playPauseButton: ImageButton = findViewById(R.id.button_play)
-        val fxForceSeekBar: SeekBar = findViewById(R.id.seek_bar_fx_force)
+        val effectsRecycler: RecyclerView = findViewById(R.id.effects_recycler_view)
     }
 
 }
