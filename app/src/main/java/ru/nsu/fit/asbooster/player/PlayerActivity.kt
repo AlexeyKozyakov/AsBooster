@@ -28,7 +28,7 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
             .build()
         viewHolder = ViewHolder()
         presenter = component.getPresenter()
-        presenter.onCreate(intent.getParcelableExtra(AUDIO_INFO_EXTRA))
+        presenter.onCreate(intent.getParcelableExtra(AUDIO_INFO_EXTRA)!!)
         initPlayPauseClickListener()
         initEffectsRecycler()
     }
