@@ -31,6 +31,21 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         presenter.onCreate(intent.getParcelableExtra(AUDIO_INFO_EXTRA)!!)
         initPlayPauseClickListener()
         initEffectsRecycler()
+        viewHolder.seekBarPlayer.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar, i: Int, fromUser: Boolean) {
+                if(fromUser){
+                    presenter.seekTo(i)
+                    //viewHolder.seekBarPlayer.setProgress(i)
+                    //viewHolder.elapsedTimeTextView.setText(i)
+                }
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                // Do something
+            }
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                // Do something
+            }
+        })
     }
 
     override fun onDestroy() {
@@ -80,6 +95,8 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         val elapsedTimeTextView: TextView = findViewById(R.id.elapsed_time)
         val playPauseButton: ImageButton = findViewById(R.id.button_play)
         val effectsRecycler: RecyclerView = findViewById(R.id.effects_recycler_view)
+        val fxForceSeekBar: SeekBar = findViewById(R.id.seek_bar_fx_force)
+        val seekBarPlayer: SeekBar = findViewById(R.id.seek_bar_player)
     }
 
 }
