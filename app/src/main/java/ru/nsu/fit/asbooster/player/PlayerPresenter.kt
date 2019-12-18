@@ -38,6 +38,8 @@ class PlayerPresenter @Inject constructor(
         initEffects()
     }
 
+    fun getDurationMillis() = audioInfo.duration
+
     fun onDestroy() {
         audioPlayer.destroy()
         effectsManager.destroy()

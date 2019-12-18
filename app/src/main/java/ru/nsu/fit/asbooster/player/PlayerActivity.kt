@@ -6,6 +6,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
+import kotlinx.android.synthetic.main.layout_audio_item.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.nsu.fit.asbooster.App
@@ -34,9 +35,8 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         viewHolder.seekBarPlayer.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar, i: Int, fromUser: Boolean) {
                 if(fromUser){
-                    presenter.seekTo(i)
-                    //viewHolder.seekBarPlayer.setProgress(i)
-                    //viewHolder.elapsedTimeTextView.setText(i)
+                    val time = presenter.getDurationMillis()*i/100
+                    presenter.seekTo(time)
                 }
             }
             override fun onStartTrackingTouch(seekBar: SeekBar) {
