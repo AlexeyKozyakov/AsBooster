@@ -31,6 +31,7 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         presenter.onCreate(intent.getParcelableExtra(AUDIO_INFO_EXTRA)!!)
         initPlayPauseClickListener()
         initOnSeekBarChangeListener()
+        initEffectsRecycler()
     }
 
     override fun onDestroy() {
