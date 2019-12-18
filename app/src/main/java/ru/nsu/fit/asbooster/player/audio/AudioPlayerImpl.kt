@@ -43,4 +43,8 @@ class AudioPlayerImpl @Inject constructor(
 
     override fun destroy() = mediaPlayer.release()
 
+    override fun seekTo(progress: Int) {
+        mediaPlayer.seekTo(progress)
+    }
+
 }

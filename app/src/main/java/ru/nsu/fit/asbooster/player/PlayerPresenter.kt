@@ -55,6 +55,10 @@ class PlayerPresenter @Inject constructor(
             view.showPauseButton()
         }
     }
+    fun onSeek(progress : Int){
+        val time = audioInfo.duration*progress/100
+        audioPlayer.seekTo(time)
+    }
 
     fun onEffectForceChanged(position: Int, force: Int) {
         val effectItem = effectItems[position]
