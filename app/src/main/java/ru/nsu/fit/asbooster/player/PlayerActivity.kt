@@ -31,21 +31,7 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         presenter = component.getPresenter()
         presenter.onCreate(intent.getParcelableExtra(AUDIO_INFO_EXTRA)!!)
         initPlayPauseClickListener()
-        initEffectsRecycler()
-        viewHolder.seekBarPlayer.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
-            override fun onProgressChanged(seekBar: SeekBar, i: Int, fromUser: Boolean) {
-                if(fromUser){
-                    val time = presenter.getDurationMillis()*i/100
-                    presenter.seekTo(time)
-                }
-            }
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                // Do something
-            }
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                // Do something
-            }
-        })
+        initOnSeekBarChangeListener()
     }
 
     override fun onDestroy() {
@@ -85,6 +71,23 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@PlayerActivity)
         }
+    }
+
+    private fun initOnSeekBarChangeListener(){
+        viewHolder.seekBarPlayer.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar, i: Int, fromUser: Boolean) {
+                if(fromUser){
+                    val time = presenter.getDurationMillis()*i/100
+                    presenter.seekTo(time)
+                }
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+                // Do something
+            }
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                // Do something
+            }
+        })
     }
 
     private inner class ViewHolder {
