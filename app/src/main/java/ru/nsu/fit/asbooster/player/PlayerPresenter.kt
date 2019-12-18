@@ -38,8 +38,6 @@ class PlayerPresenter @Inject constructor(
         initEffects()
     }
 
-    fun getDurationMillis() = audioInfo.duration
-
     fun onDestroy() {
         audioPlayer.destroy()
         effectsManager.destroy()
@@ -57,8 +55,9 @@ class PlayerPresenter @Inject constructor(
             view.showPauseButton()
         }
     }
-    fun seekTo(progress : Int){
-        audioPlayer.seekTo(progress)
+    fun onSeek(progress : Int){
+        val time = audioInfo.duration*progress/100
+        audioPlayer.seekTo(time)
     }
 
     fun onEffectForceChanged(position: Int, force: Int) {
