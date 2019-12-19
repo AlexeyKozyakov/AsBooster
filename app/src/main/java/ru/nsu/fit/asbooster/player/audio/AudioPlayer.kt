@@ -20,4 +20,6 @@ interface AudioPlayer {
 
     fun attachEffect(id: Int)
 
+    fun setAuxEffectLevel(level: Float)
+
 }

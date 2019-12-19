@@ -1,18 +1,20 @@
 package ru.nsu.fit.asbooster.player.effects.preloaded
 
-import android.media.audiofx.EnvironmentalReverb
+import android.media.audiofx.PresetReverb
 import ru.nsu.fit.asbooster.di.ActivityScoped
 import ru.nsu.fit.asbooster.player.audio.AudioPlayer
 import javax.inject.Inject
 
 @ActivityScoped
 class ReverbEffect @Inject constructor(
-    audioPlayer: AudioPlayer
+    private val audioPlayer: AudioPlayer
 ) : Effect {
 
-    private val reverb = EnvironmentalReverb(0, 0).apply {
+    private var reverbForce = 0
+
+    private val reverb = PresetReverb(0, 0).apply {
+        preset = PresetReverb.PRESET_LARGEHALL
         enabled = true
-        reverbLevel = MIN_LEVEL
     }.also {
         audioPlayer.attachEffect(it.id)
     }
@@ -21,9 +23,10 @@ class ReverbEffect @Inject constructor(
         get() = ID
 
     override var force: Int
-        get() = levelToForce(reverb.reverbLevel)
+        get() = reverbForce
         set(value) {
-            reverb.reverbLevel = forceToLevel(value)
+            reverbForce = value
+            audioPlayer.setAuxEffectLevel(value / 100.0f)
         }
 
     override fun destroy() {
@@ -32,12 +35,6 @@ class ReverbEffect @Inject constructor(
 
     companion object {
         const val ID = "reverb"
-        const val MIN_LEVEL: Short = -9000
-        const val MAX_LEVEL: Short = 2000
     }
-
-    private fun forceToLevel(force: Int) = (MIN_LEVEL + (MAX_LEVEL - MIN_LEVEL) / 100 * force).toShort()
-
-    private fun levelToForce(level: Short) = (level - MIN_LEVEL) * 100 / (MAX_LEVEL - MIN_LEVEL)
 
 }

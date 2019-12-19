@@ -19,7 +19,6 @@ class AudioPlayerImpl @Inject constructor(
             hasError = true
             true
         }
-        setAuxEffectSendLevel(1.0f)
     }
 
     private val onPrepareCallbacks = mutableListOf<() -> Unit>()
@@ -62,5 +61,8 @@ class AudioPlayerImpl @Inject constructor(
         }
     }
 
+    override fun setAuxEffectLevel(level: Float) {
+        mediaPlayer.setAuxEffectSendLevel(level)
+    }
 
 }
