@@ -15,6 +15,8 @@ interface PlayerView {
 
     fun updateProgressSeekBar(progress:Int)
 
+    fun setElapsedTime(time:String)
+
 }
 
 class TrackViewItem(

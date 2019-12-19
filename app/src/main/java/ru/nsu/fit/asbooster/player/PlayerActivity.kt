@@ -46,6 +46,10 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         viewHolder.remainingTimeTextView.text = duration
     }
 
+    override fun setElapsedTime(time: String) {
+        viewHolder.elapsedTimeTextView.text = time
+    }
+
     override fun showPlayButton() {
         viewHolder.playPauseButton.setImageDrawable(getDrawable(R.drawable.icon_button_play))
     }
