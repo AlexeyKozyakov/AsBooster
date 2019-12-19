@@ -30,7 +30,7 @@ class LoudnessEffect @Inject constructor(
 
     companion object {
         const val ID = "loudness"
-        const val MAX_FORCE = 10000
+        const val MAX_FORCE = 20000
     }
 
 }
