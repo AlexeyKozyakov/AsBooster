@@ -8,9 +8,9 @@ interface AudioPlayer {
 
     val sessionId: Int
 
-    suspend fun start(url: String)
+    var progressListener: (progress: Int) -> Unit
 
-    fun getProgress():Int
+    suspend fun start(url: String)
 
     fun play()
 

@@ -31,7 +31,6 @@ class PlayerPresenter @Inject constructor(
     private val effectsManager: EffectsManager
 ) {
 
-    private var destroyed = false
     private lateinit var audioInfo: AudioInfo
     private lateinit var effectItems: List<EffectItem>
 
@@ -44,7 +43,6 @@ class PlayerPresenter @Inject constructor(
     }
 
     fun onDestroy() {
-        destroyed = true
         audioPlayer.destroy()
         effectsManager.destroy()
     }
@@ -86,15 +84,10 @@ class PlayerPresenter @Inject constructor(
     }
 
     private fun initTracker(){
-        uiScope.launch {
-            delay(UPDATE_TIMEOUT)
-            while (!destroyed) {
-                val progress = audioPlayer.getProgress()
-                val current = (progress.toFloat() / audioInfo.duration)*100
-                view.updateProgressSeekBar(current.toInt())
-                view.setElapsedTime(formatter.formatDuration(progress))
-                delay(UPDATE_TIMEOUT)
-            }
+        audioPlayer.progressListener = { progress ->
+            val current = progress * 100 / audioInfo.duration
+            view.updateProgressSeekBar(current)
+            view.setElapsedTime(formatter.formatDuration(progress))
         }
     }
 

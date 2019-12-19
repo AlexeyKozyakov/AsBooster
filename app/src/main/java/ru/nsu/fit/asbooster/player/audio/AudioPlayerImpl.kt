@@ -1,18 +1,23 @@
 package ru.nsu.fit.asbooster.player.audio
 
 import android.media.MediaPlayer
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import ru.nsu.fit.asbooster.di.ActivityScoped
 import javax.inject.Inject
 
+const val TRACKING_DELAY = 1000L
+
 @ActivityScoped
 class AudioPlayerImpl @Inject constructor(
-    private val background: CoroutineDispatcher
+    private val background: CoroutineDispatcher,
+    private val uiScope: CoroutineScope
 ) : AudioPlayer {
 
     private var hasError = false
     private var prepared = false
+    private var destroyed = false
+
+    override var progressListener: (progress: Int) -> Unit = {}
 
     private val mediaPlayer = MediaPlayer().apply {
         setOnErrorListener { _, _, _ ->
@@ -41,11 +46,24 @@ class AudioPlayerImpl @Inject constructor(
 
     override fun play() {
         mediaPlayer.start()
+        startProgressTracking()
+    }
+
+    private fun startProgressTracking() {
+        uiScope.launch {
+            while (!destroyed && mediaPlayer.isPlaying) {
+                progressListener(mediaPlayer.currentPosition)
+                delay(TRACKING_DELAY)
+            }
+        }
     }
 
     override fun pause() = mediaPlayer.pause()
 
-    override fun destroy() = mediaPlayer.release()
+    override fun destroy() {
+        mediaPlayer.release()
+        destroyed = true
+    }
 
     override fun seekTo(progress: Int) {
         if (prepared) {
@@ -55,10 +73,6 @@ class AudioPlayerImpl @Inject constructor(
                 mediaPlayer.seekTo(progress)
             }
         }
-    }
-
-    override fun getProgress(): Int {
-        return mediaPlayer.currentPosition
     }
 
     override fun attachEffect(id: Int) {
