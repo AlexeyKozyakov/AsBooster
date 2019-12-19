@@ -57,6 +57,10 @@ class AudioPlayerImpl @Inject constructor(
         }
     }
 
+    override fun getProgress(): Int {
+        return mediaPlayer.currentPosition
+    }
+
     override fun attachEffect(id: Int) {
         if (prepared) {
             mediaPlayer.attachAuxEffect(id)
