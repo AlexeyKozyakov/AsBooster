@@ -18,4 +18,8 @@ interface AudioPlayer {
 
     fun seekTo(progress : Int)
 
+    fun attachEffect(id: Int)
+
+    fun setAuxEffectLevel(level: Float)
+
 }

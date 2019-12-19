@@ -1,6 +1,7 @@
-package ru.nsu.fit.asbooster
+package ru.nsu.fit.asbooster.repository
 
 import android.content.Context
+import ru.nsu.fit.asbooster.R
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -16,4 +17,6 @@ class StringsProvider @Inject constructor(
     val unknownArtist get() = context.getString(R.string.unknown_artist)
 
     val bassBoostEffectName get() = context.getString(R.string.bass_boost_effect_name)
+
+    val reverbEffectName get() = context.getString(R.string.reverb_effect_name)
 }

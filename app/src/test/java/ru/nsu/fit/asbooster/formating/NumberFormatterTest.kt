@@ -4,7 +4,7 @@ import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import org.junit.Assert
 import org.junit.Test
-import ru.nsu.fit.asbooster.StringsProvider
+import ru.nsu.fit.asbooster.repository.StringsProvider
 
 private const val DURATION_RAW = 73000
 
