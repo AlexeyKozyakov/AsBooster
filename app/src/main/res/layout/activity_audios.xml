@@ -45,4 +45,26 @@
         tools:listitem="@layout/audio_item"
         />
 
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/empty_audios_image"
+        android:layout_width="225dp"
+        android:layout_height="225dp"
+        android:src="@drawable/empty_audios_list_image"
+        app:layout_constraintBottom_toBottomOf="@+id/audios_recycler_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/audios_recycler_view"
+        app:layout_constraintTop_toTopOf="@+id/audios_recycler_view" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/empty_audios_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="@string/empty_audios_text"
+        app:layout_constraintBottom_toTopOf="@+id/empty_audios_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
