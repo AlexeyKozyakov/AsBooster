@@ -2,7 +2,6 @@ package ru.nsu.fit.asbooster.player.effects
 
 import ru.nsu.fit.asbooster.di.ActivityScoped
 import ru.nsu.fit.asbooster.player.effects.preloaded.BassBoostEffect
-import ru.nsu.fit.asbooster.player.effects.preloaded.Effect
 import ru.nsu.fit.asbooster.player.effects.preloaded.ReverbEffect
 import javax.inject.Inject
 

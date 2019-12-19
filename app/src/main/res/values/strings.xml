@@ -23,4 +23,5 @@
     <string name="remaining_time_placeholder">3:33</string>
     <string name="effect_name">Effect Name</string>
     <string name="bass_boost_effect_name">Bass Boost</string>
+    <string name="reverb_effect_name">Reverb</string>
 </resources>
