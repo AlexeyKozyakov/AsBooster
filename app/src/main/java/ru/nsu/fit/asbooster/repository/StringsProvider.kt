@@ -1,6 +1,7 @@
-package ru.nsu.fit.asbooster
+package ru.nsu.fit.asbooster.repository
 
 import android.content.Context
+import ru.nsu.fit.asbooster.R
 import javax.inject.Inject
 import javax.inject.Singleton
 

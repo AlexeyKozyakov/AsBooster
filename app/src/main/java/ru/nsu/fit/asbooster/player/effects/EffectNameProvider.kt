@@ -1,6 +1,6 @@
 package ru.nsu.fit.asbooster.player.effects
 
-import ru.nsu.fit.asbooster.StringsProvider
+import ru.nsu.fit.asbooster.repository.StringsProvider
 import ru.nsu.fit.asbooster.di.ActivityScoped
 import ru.nsu.fit.asbooster.player.effects.preloaded.BassBoostEffect
 import ru.nsu.fit.asbooster.player.effects.preloaded.Effect

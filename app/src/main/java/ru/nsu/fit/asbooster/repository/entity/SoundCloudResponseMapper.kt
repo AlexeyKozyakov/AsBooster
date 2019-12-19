@@ -1,8 +1,6 @@
 package ru.nsu.fit.asbooster.repository.entity
 
-import android.content.Context
-import ru.nsu.fit.asbooster.R
-import ru.nsu.fit.asbooster.StringsProvider
+import ru.nsu.fit.asbooster.repository.StringsProvider
 import ru.nsu.fit.asbooster.repository.SOUND_CLOUD_CLIENT_ID
 import javax.inject.Inject
 import javax.inject.Singleton

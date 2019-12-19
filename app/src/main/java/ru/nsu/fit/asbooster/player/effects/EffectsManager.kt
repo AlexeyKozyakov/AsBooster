@@ -22,7 +22,7 @@ class EffectsManager @Inject constructor(
     )
 
     /**
-     * Set force of effect by its name if effect exists.
+     * Set force of effect by its id if effect exists.
      */
     fun setForce(effectId: String, force: Int) {
         effectsMap[effectId]?.force = force

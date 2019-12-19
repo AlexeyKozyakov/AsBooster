@@ -1,6 +1,6 @@
 package ru.nsu.fit.asbooster.formating
 
-import ru.nsu.fit.asbooster.StringsProvider
+import ru.nsu.fit.asbooster.repository.StringsProvider
 import java.text.DecimalFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
