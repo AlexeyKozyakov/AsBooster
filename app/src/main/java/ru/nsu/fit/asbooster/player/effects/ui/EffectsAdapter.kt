@@ -27,7 +27,9 @@ class EffectsAdapter(
         val viewHolder = ViewHolder(view)
         viewHolder.effectForceSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                onForceChanged(viewHolder.adapterPosition, progress)
+                if (fromUser) {
+                    onForceChanged(viewHolder.adapterPosition, progress)
+                }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit

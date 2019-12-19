@@ -19,7 +19,10 @@ class AudioPlayerImpl @Inject constructor(
             hasError = true
             true
         }
+        setAuxEffectSendLevel(1.0f)
     }
+
+    private val onPrepareCallbacks = mutableListOf<() -> Unit>()
 
     override val started get() = prepared && !hasError
 
@@ -33,6 +36,8 @@ class AudioPlayerImpl @Inject constructor(
             mediaPlayer.prepare()
         }
         prepared = true
+        onPrepareCallbacks.forEach { it() }
+        onPrepareCallbacks.clear()
     }
 
     override fun play() {
@@ -47,7 +52,15 @@ class AudioPlayerImpl @Inject constructor(
         mediaPlayer.seekTo(progress)
     }
 
-    override fun attachEffect(id: Int) = mediaPlayer.attachAuxEffect(id)
+    override fun attachEffect(id: Int) {
+        if (prepared) {
+            mediaPlayer.attachAuxEffect(id)
+        } else {
+            onPrepareCallbacks.add {
+                mediaPlayer.attachAuxEffect(id)
+            }
+        }
+    }
 
 
 }

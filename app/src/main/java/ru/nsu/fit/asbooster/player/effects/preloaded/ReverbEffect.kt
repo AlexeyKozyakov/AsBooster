@@ -10,7 +10,10 @@ class ReverbEffect @Inject constructor(
     audioPlayer: AudioPlayer
 ) : Effect {
 
-    private val reverb = EnvironmentalReverb(0, 0).also {
+    private val reverb = EnvironmentalReverb(0, 0).apply {
+        enabled = true
+        reverbLevel = MIN_LEVEL
+    }.also {
         audioPlayer.attachEffect(it.id)
     }
 
@@ -29,8 +32,8 @@ class ReverbEffect @Inject constructor(
 
     companion object {
         const val ID = "reverb"
-        const val MIN_LEVEL = -9000
-        const val MAX_LEVEL = 2000
+        const val MIN_LEVEL: Short = -9000
+        const val MAX_LEVEL: Short = 2000
     }
 
     private fun forceToLevel(force: Int) = (MIN_LEVEL + (MAX_LEVEL - MIN_LEVEL) / 100 * force).toShort()
