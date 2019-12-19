@@ -89,8 +89,10 @@ class PlayerPresenter @Inject constructor(
         uiScope.launch {
             delay(UPDATE_TIMEOUT)
             while (!destroyed) {
-                val current = (audioPlayer.getProgress().toFloat() / audioInfo.duration)*100
+                val progress = audioPlayer.getProgress()
+                val current = (progress.toFloat() / audioInfo.duration)*100
                 view.updateProgressSeekBar(current.toInt())
+                view.setElapsedTime(formatter.formatDuration(progress))
                 delay(UPDATE_TIMEOUT)
             }
         }
