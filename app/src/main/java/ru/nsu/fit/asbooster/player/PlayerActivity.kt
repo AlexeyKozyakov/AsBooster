@@ -32,7 +32,6 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         initPlayPauseClickListener()
         initOnSeekBarChangeListener()
         initEffectsRecycler()
-        initSeekBarTrecker()
     }
 
     override fun onDestroy() {
@@ -93,9 +92,6 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         })
     }
 
-    private fun initSeekBarTrecker(){
-        presenter.onTrackProgressChanged()
-    }
 
     private inner class ViewHolder {
         val coverImageView: ImageView = findViewById(R.id.image_view_track_cover)

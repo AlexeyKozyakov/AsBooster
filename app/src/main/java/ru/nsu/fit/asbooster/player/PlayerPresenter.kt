@@ -31,27 +31,20 @@ class PlayerPresenter @Inject constructor(
     private val effectsManager: EffectsManager
 ) {
 
+    private var destroyed = false
     private lateinit var audioInfo: AudioInfo
     private lateinit var effectItems: List<EffectItem>
 
-    fun onTrackProgressChanged() {
-        uiScope.launch {
-            while (true) {
-                delay(UPDATE_TIMEOUT)
-                val current = (audioPlayer.getProgress().toFloat() / audioInfo.duration)*100
-                view.updateProgressSeekBar(current.toInt())
-            }
-        }
-    }
 
     fun onCreate(audio: AudioInfo) {
         audioInfo = audio
-
         initPlayer()
         initEffects()
+        initTracker()
     }
 
     fun onDestroy() {
+        destroyed = true
         audioPlayer.destroy()
         effectsManager.destroy()
     }
@@ -88,6 +81,17 @@ class PlayerPresenter @Inject constructor(
                     audioPlayer.start(url)
                     onPlayPauseClick()
                 }
+            }
+        }
+    }
+
+    private fun initTracker(){
+        uiScope.launch {
+            delay(UPDATE_TIMEOUT)
+            while (!destroyed) {
+                val current = (audioPlayer.getProgress().toFloat() / audioInfo.duration)*100
+                view.updateProgressSeekBar(current.toInt())
+                delay(UPDATE_TIMEOUT)
             }
         }
     }
