@@ -21,7 +21,6 @@
         android:id="@+id/search_field_audios"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_search_audio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -47,7 +46,7 @@
 
     <ImageView
         android:visibility="gone"
-        android:id="@+id/empty_audios_image"
+        android:id="@+id/empty_audios_image_view"
         android:layout_width="225dp"
         android:layout_height="225dp"
         android:src="@drawable/empty_audios_list_image"
@@ -63,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="@string/empty_audios_text"
-        app:layout_constraintBottom_toTopOf="@+id/empty_audios_image"
+        app:layout_constraintBottom_toTopOf="@+id/empty_audios_image_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

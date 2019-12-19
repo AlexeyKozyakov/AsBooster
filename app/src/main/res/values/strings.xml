@@ -9,7 +9,7 @@
     <string name="message_login_fail">Authentication error, try again</string>
     <string name="audio_item_author">Author</string>
     <string name="audio_item_name">Name</string>
-    <string name="hint_search_audio">Search audio on soundcloud</string>
+    <string name="hint_search_audio">Search on soundcloud</string>
     <string name="tittle_add_effect">Effects</string>
     <string name="plays_count_placeholder">100k</string>
     <string name="audio_post_time">Posted 1 month ago</string>

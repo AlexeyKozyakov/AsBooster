@@ -14,4 +14,8 @@ interface AudiosView {
 
     fun clearAudios()
 
+    fun showEmptyAudiosImage()
+
+    fun hideEmptyAudiosImage()
+
 }
