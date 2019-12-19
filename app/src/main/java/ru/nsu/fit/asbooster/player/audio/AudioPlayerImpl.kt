@@ -47,4 +47,7 @@ class AudioPlayerImpl @Inject constructor(
         mediaPlayer.seekTo(progress)
     }
 
+    override fun attachEffect(id: Int) = mediaPlayer.attachAuxEffect(id)
+
+
 }
