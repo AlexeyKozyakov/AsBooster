@@ -32,7 +32,14 @@ class AudiosPresenter @Inject constructor(
     private var lastQueryChange = 0L
     private lateinit var audioInfos: List<AudioInfo>
 
+    fun onCreate() {
+        view.showEmptyAudiosImage()
+    }
+
     fun onQueryChanged(query: String) {
+        if (query.isEmpty()) {
+            view.showEmptyAudiosImage()
+        }
         lastQueryChange = System.currentTimeMillis()
         uiScope.launch {
             delay(TYPE_TIMEOUT)
