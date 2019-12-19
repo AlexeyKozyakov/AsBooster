@@ -31,14 +31,17 @@ class AudiosPresenter @Inject constructor(
 
     private var lastQueryChange = 0L
     private lateinit var audioInfos: List<AudioInfo>
+    private lateinit var lastQuery: String
 
     fun onCreate() {
         view.showEmptyAudiosImage()
     }
 
     fun onQueryChanged(query: String) {
+        lastQuery = query
         if (query.isEmpty()) {
             view.showEmptyAudiosImage()
+            return
         }
         lastQueryChange = System.currentTimeMillis()
         uiScope.launch {
@@ -54,13 +57,17 @@ class AudiosPresenter @Inject constructor(
     }
 
     private fun launchQuery(query: String) {
+        if (query != lastQuery) {
+            return
+        }
         view.showProgress()
         uiScope.launch {
             audioInfos = audioRepository.searchAudios(query) ?: emptyList()
-            //TODO: show network error if audios is null
-            view.hideProgress()
             //TODO: show placeholder if audios is empty
-            view.showAudios(toViewItems(audioInfos))
+            if (query == lastQuery) {
+                view.hideProgress()
+                view.showAudios(toViewItems(audioInfos))
+            }
         }
     }
 

@@ -55,6 +55,8 @@ class AudiosActivity : AppCompatActivity(), AudiosView {
     }
 
     override fun showEmptyAudiosImage() {
+        hideProgress()
+        clearAudios()
         viewHolder.emptyAudiosImageView.visibility = View.VISIBLE
         viewHolder.emptyAudiosTextView.visibility = View.VISIBLE
     }
