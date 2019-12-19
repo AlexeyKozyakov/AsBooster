@@ -32,6 +32,7 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         initPlayPauseClickListener()
         initOnSeekBarChangeListener()
         initEffectsRecycler()
+        initSeekBarTrecker()
     }
 
     override fun onDestroy() {
@@ -60,6 +61,10 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         }
     }
 
+    override fun updateProgressSeekBar(progress: Int) {
+        viewHolder.seekBarPlayer.progress = progress
+    }
+
     private fun initPlayPauseClickListener() {
         viewHolder.playPauseButton.setOnClickListener {
             presenter.onPlayPauseClick()
@@ -86,6 +91,10 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
                 // Do something
             }
         })
+    }
+
+    private fun initSeekBarTrecker(){
+        presenter.onTrackProgressChanged()
     }
 
     private inner class ViewHolder {

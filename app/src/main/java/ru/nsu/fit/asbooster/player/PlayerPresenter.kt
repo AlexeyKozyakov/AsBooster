@@ -1,6 +1,7 @@
 package ru.nsu.fit.asbooster.player
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.nsu.fit.asbooster.repository.AudioRepository
 import ru.nsu.fit.asbooster.repository.WebImageProvider
@@ -14,6 +15,8 @@ import ru.nsu.fit.asbooster.player.effects.EffectNameProvider
 import ru.nsu.fit.asbooster.player.effects.EffectsManager
 import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
 import javax.inject.Inject
+
+private const val UPDATE_TIMEOUT = 1000L
 
 @ActivityScoped
 class PlayerPresenter @Inject constructor(
@@ -30,6 +33,16 @@ class PlayerPresenter @Inject constructor(
 
     private lateinit var audioInfo: AudioInfo
     private lateinit var effectItems: List<EffectItem>
+
+    fun onTrackProgressChanged() {
+        uiScope.launch {
+            while (true) {
+                delay(UPDATE_TIMEOUT)
+                val current = (audioPlayer.getProgress().toFloat() / audioInfo.duration)*100
+                view.updateProgressSeekBar(current.toInt())
+            }
+        }
+    }
 
     fun onCreate(audio: AudioInfo) {
         audioInfo = audio

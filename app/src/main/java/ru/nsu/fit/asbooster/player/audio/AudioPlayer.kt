@@ -10,6 +10,8 @@ interface AudioPlayer {
 
     suspend fun start(url: String)
 
+    fun getProgress():Int
+
     fun play()
 
     fun pause()

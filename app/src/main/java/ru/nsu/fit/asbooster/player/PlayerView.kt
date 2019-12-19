@@ -13,6 +13,8 @@ interface PlayerView {
 
     fun showEffects(effects: List<EffectItem>)
 
+    fun updateProgressSeekBar(progress:Int)
+
 }
 
 class TrackViewItem(
