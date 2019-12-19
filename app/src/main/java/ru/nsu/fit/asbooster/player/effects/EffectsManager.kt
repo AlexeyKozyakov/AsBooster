@@ -2,6 +2,7 @@ package ru.nsu.fit.asbooster.player.effects
 
 import ru.nsu.fit.asbooster.di.ActivityScoped
 import ru.nsu.fit.asbooster.player.effects.preloaded.BassBoostEffect
+import ru.nsu.fit.asbooster.player.effects.preloaded.LoudnessEffect
 import ru.nsu.fit.asbooster.player.effects.preloaded.ReverbEffect
 import javax.inject.Inject
 
@@ -12,6 +13,7 @@ import javax.inject.Inject
 @ActivityScoped
 class EffectsManager @Inject constructor(
     bassBoostEffect: BassBoostEffect,
+    loudnessEffect: LoudnessEffect,
     reverbEffect: ReverbEffect
 ) {
 
@@ -20,6 +22,7 @@ class EffectsManager @Inject constructor(
      */
     val effects = listOf(
         bassBoostEffect,
+        loudnessEffect,
         reverbEffect
     )
 

@@ -19,4 +19,6 @@ class StringsProvider @Inject constructor(
     val bassBoostEffectName get() = context.getString(R.string.bass_boost_effect_name)
 
     val reverbEffectName get() = context.getString(R.string.reverb_effect_name)
+
+    val loudnessEffectName get() = context.getString(R.string.loudness_effect_name)
 }
