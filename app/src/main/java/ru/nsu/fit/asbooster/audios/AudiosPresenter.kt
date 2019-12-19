@@ -3,6 +3,7 @@ package ru.nsu.fit.asbooster.audios
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.nsu.fit.asbooster.R
 import ru.nsu.fit.asbooster.audios.navigation.AudiosRouter
 import ru.nsu.fit.asbooster.repository.AudioRepository
 import ru.nsu.fit.asbooster.repository.WebImageProvider
@@ -60,7 +61,10 @@ class AudiosPresenter @Inject constructor(
         AudioItem(
             it.name,
             it.author,
-            imageProvider.provideImage(it.smallImageUrl, it.miniImageUrl),
+            imageProvider.provideImage(
+                it.smallImageUrl, it.miniImageUrl,
+                R.drawable.track_list_item_placeholder_image
+            ),
             formatter.formatDuration(it.duration),
             formatter.formatPlaybackCount(it.playbackCount),
             formatter.formatPostDate(it.postDate)
