@@ -16,8 +16,6 @@ import ru.nsu.fit.asbooster.player.effects.EffectsManager
 import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
 import javax.inject.Inject
 
-private const val UPDATE_TIMEOUT = 1000L
-
 @ActivityScoped
 class PlayerPresenter @Inject constructor(
     private val view: PlayerView,
