@@ -12,5 +12,4 @@ class SavedModule {
     @FragmentScoped
     @Provides
     fun view(fragment: Fragment) = fragment as SavedView
-
 }

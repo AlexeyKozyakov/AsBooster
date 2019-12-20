@@ -7,6 +7,5 @@ import javax.inject.Inject
 class SavedPresenter @Inject constructor(
     private val view: SavedView
 ) {
-
-
+    
 }
