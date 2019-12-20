@@ -10,6 +10,8 @@ class BassBoostEffect @Inject constructor(
     audioPlayer: AudioPlayer
 ) : Effect {
 
+    private var currentForce = 0
+
     private val bassBoost = BassBoost(0, audioPlayer.sessionId).apply {
         setStrength(0)
         enabled = true
@@ -19,8 +21,9 @@ class BassBoostEffect @Inject constructor(
         get() = ID
 
     override var force: Int
-        get() = bassBoost.roundedStrength.toInt() / STRENGTH_MULTIPLIER
+        get() = currentForce
         set(value) {
+            currentForce = value
             bassBoost.setStrength((value * STRENGTH_MULTIPLIER).toShort())
         }
 
