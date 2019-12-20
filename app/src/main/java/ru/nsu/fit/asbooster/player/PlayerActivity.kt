@@ -32,6 +32,7 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         initPlayPauseClickListener()
         initOnSeekBarChangeListener()
         initEffectsRecycler()
+        initSaveButtonListener()
     }
 
     override fun onDestroy() {
