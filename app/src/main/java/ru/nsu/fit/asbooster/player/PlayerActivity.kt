@@ -96,10 +96,10 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
                     presenter.onSeek(progress)
             }
             override fun onStartTrackingTouch(seekBar: SeekBar) {
-                // Do something
+                presenter.onStartSeeking()
             }
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                // Do something
+                presenter.onReleaseSeeking()
             }
         })
     }
