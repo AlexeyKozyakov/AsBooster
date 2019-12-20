@@ -3,35 +3,30 @@ package ru.nsu.fit.asbooster.player
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.nsu.fit.asbooster.repository.AudioRepository
-import ru.nsu.fit.asbooster.repository.WebImageProvider
 import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.formating.NumberFormatter
 import ru.nsu.fit.asbooster.di.ActivityScoped
 import ru.nsu.fit.asbooster.player.audio.AudioPlayer
-import ru.nsu.fit.asbooster.player.effects.preloaded.Effect
-import ru.nsu.fit.asbooster.player.effects.EffectImageProvider
-import ru.nsu.fit.asbooster.player.effects.EffectNameProvider
 import ru.nsu.fit.asbooster.player.effects.EffectsManager
 import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
 import ru.nsu.fit.asbooster.repository.StringsProvider
 import ru.nsu.fit.asbooster.saved.model.Track
 import ru.nsu.fit.asbooster.saved.model.TracksRepository
 import ru.nsu.fit.asbooster.saved.model.entity.EffectInfo
+import ru.nsu.fit.asbooster.view.ViewItemsMapper
 import javax.inject.Inject
 
 @ActivityScoped
 class PlayerPresenter @Inject constructor(
     private val view: PlayerView,
-    private val imageProvider: WebImageProvider,
     private val formatter: NumberFormatter,
     private val audioPlayer: AudioPlayer,
     private val uiScope: CoroutineScope,
     private val repository: AudioRepository,
-    private val effectImageProvider: EffectImageProvider,
-    private val effectNameProvider: EffectNameProvider,
     private val effectsManager: EffectsManager,
     private val tracksRepository: TracksRepository,
-    private val stringsProvider: StringsProvider
+    private val stringsProvider: StringsProvider,
+    private val viewItemsMapper: ViewItemsMapper
 ) {
 
     private lateinit var audioInfo: AudioInfo
@@ -83,7 +78,7 @@ class PlayerPresenter @Inject constructor(
     }
 
     private fun initPlayer() {
-        view.setTrack(toTrackViewItem(audioInfo))
+        view.setTrack(viewItemsMapper.audioInfoToTrackViewItem(audioInfo))
 
         audioInfo.urlToStream?.let {
             uiScope.launch {
@@ -106,27 +101,8 @@ class PlayerPresenter @Inject constructor(
 
     private fun initEffects(effects: List<EffectInfo>) {
         effectsManager.effectsSettings = effects
-        effectItems = toEffectItems(effectsManager.effects)
+        effectItems = viewItemsMapper.effectsToEffectItems(effectsManager.effects)
         view.showEffects(effectItems)
-    }
-
-    private fun toTrackViewItem(audioInfo: AudioInfo) = with(audioInfo) {
-        TrackViewItem(
-            name,
-            author,
-            imageProvider.provideImage(bigImageUrl, miniImageUrl),
-            formatter.formatDuration(duration),
-            audioInfo.duration/1000
-        )
-    }
-
-    private fun toEffectItems(effects: List<Effect>) = effects.map {
-        EffectItem(
-            it.id,
-            effectNameProvider.provideEffectName(it),
-            effectImageProvider.provideEffectImage(it),
-            it.force
-        )
     }
 
 }
