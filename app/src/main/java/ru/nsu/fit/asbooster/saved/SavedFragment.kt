@@ -7,15 +7,24 @@ import android.view.View
 import android.view.ViewGroup
 
 import ru.nsu.fit.asbooster.R
+import ru.nsu.fit.asbooster.audios.AudiosActivity
 
 
-class SavedFragment : Fragment() {
+class SavedFragment : Fragment(), SavedView {
+
+    private lateinit var presenter: SavedPresenter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_saved, container, false)
+        val view = inflater.inflate(R.layout.fragment_saved, container, false)
+        val component = (activity as AudiosActivity).component.value
+            .savedFragmentComponentBuilder()
+            .fragment(this)
+            .build()
+        presenter = component.getPresenter()
+        return view
     }
 
 }
