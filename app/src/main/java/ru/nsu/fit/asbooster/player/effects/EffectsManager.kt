@@ -44,11 +44,15 @@ class EffectsManager @Inject constructor(
 
 
     /**
-     * Information about current effects sate
+     * Current effects settings
      */
-    val effectsInfo get() = effects.map {
-        EffectInfo(it.id, it.force)
-    }
+    var effectsSettings
+        get() = effects.map {
+            EffectInfo(it.id, it.force)
+        }
+        set(value) {
+            value.forEach { setForce(it.id, it.force) }
+        }
 
     private val effectsMap = effects.associateBy { it.id }
 

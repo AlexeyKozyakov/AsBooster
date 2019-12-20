@@ -2,24 +2,23 @@ package ru.nsu.fit.asbooster.search.navigation
 
 import android.app.Activity
 import android.content.Intent
-import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.di.ActivityScoped
-import ru.nsu.fit.asbooster.di.FragmentScoped
 import ru.nsu.fit.asbooster.player.PlayerActivity
+import ru.nsu.fit.asbooster.saved.model.Track
 import javax.inject.Inject
 
 const val PLAYER_CODE = 0
 
-const val AUDIO_INFO_EXTRA = "audio_info"
+const val TRACK_INFO_EXTRA = "track_info"
 
 @ActivityScoped
-class SearchRouter @Inject constructor(
+class Router @Inject constructor(
     private val activity: Activity
 ) {
 
-    fun openPlayer(audio: AudioInfo) {
+    fun openPlayer(track: Track) {
         val intent = Intent(activity, PlayerActivity::class.java)
-        intent.putExtra(AUDIO_INFO_EXTRA, audio)
+        intent.putExtra(TRACK_INFO_EXTRA, track)
         activity.startActivityForResult(intent, PLAYER_CODE)
     }
 
