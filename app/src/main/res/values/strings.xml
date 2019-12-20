@@ -26,4 +26,5 @@
     <string name="reverb_effect_name">Reverb</string>
     <string name="loudness_effect_name">Loudness</string>
     <string name="empty_audios_text">Start typing a track name</string>
+    <string name="saved_fragment_placeholder">Saved fragment</string>
 </resources>
