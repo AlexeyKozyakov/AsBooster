@@ -5,10 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 
 import ru.nsu.fit.asbooster.R
 import ru.nsu.fit.asbooster.audios.AudiosActivity
@@ -33,6 +34,7 @@ class SavedFragment : Fragment(), SavedView {
         presenter = component.getPresenter()
         viewHolder = ViewHolder(view)
         initSavedAudiosRecycler()
+        presenter.onCreate()
         return view
     }
 
@@ -56,6 +58,16 @@ class SavedFragment : Fragment(), SavedView {
         viewHolder.progressBar.visibility = View.GONE
     }
 
+    override fun showPlaceholder() {
+        viewHolder.placeholderImageView.visibility = View.VISIBLE
+        viewHolder.placeholderTextView.visibility = View.VISIBLE
+    }
+
+    override fun hidePlaceholder() {
+        viewHolder.placeholderImageView.visibility = View.GONE
+        viewHolder.placeholderTextView.visibility = View.GONE
+    }
+
     private fun initSavedAudiosRecycler() {
         viewHolder.savedAudiosRecycler.apply {
             setHasFixedSize(true)
@@ -66,6 +78,8 @@ class SavedFragment : Fragment(), SavedView {
     private class ViewHolder(root: View) {
         val savedAudiosRecycler: RecyclerView = root.findViewById(R.id.saved_recycler_view)
         val progressBar: ProgressBar = root.findViewById(R.id.saved_progress_bar)
+        val placeholderTextView: TextView = root.findViewById(R.id.favorites_placeholder_text_view)
+        val placeholderImageView: ImageView = root.findViewById(R.id.favorites_placeholder_image_view)
     }
 
 }
