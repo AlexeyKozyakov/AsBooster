@@ -21,4 +21,6 @@ class StringsProvider @Inject constructor(
     val reverbEffectName get() = context.getString(R.string.reverb_effect_name)
 
     val loudnessEffectName get() = context.getString(R.string.loudness_effect_name)
+
+    val savedMessage get() = context.getString(R.string.saved_message)
 }

@@ -29,4 +29,5 @@
     <string name="saved_fragment_placeholder">Saved fragment</string>
     <string name="search_fragment_title">search</string>
     <string name="saved_fragment_title">saved</string>
+    <string name="saved_message">Saved to favorites</string>
 </resources>

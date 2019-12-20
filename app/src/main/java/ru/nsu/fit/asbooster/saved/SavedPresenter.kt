@@ -16,10 +16,12 @@ class SavedPresenter @Inject constructor(
     private val uiScope: CoroutineScope
 ) {
 
-    private lateinit var tracks: List<Track>
+    private var tracks = listOf<Track>()
 
     fun onShow() {
-        view.showProgress()
+        if (tracks.isEmpty()) {
+            view.showProgress()
+        }
         uiScope.launch {
             tracks = tracksRepository.getTracks()
             view.hideProgress()
