@@ -1,4 +1,4 @@
-package ru.nsu.fit.asbooster.audios.adapter
+package ru.nsu.fit.asbooster.search.adapter
 
 import android.view.LayoutInflater
 import android.view.View

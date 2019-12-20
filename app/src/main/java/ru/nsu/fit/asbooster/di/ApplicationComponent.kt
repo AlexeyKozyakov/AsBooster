@@ -12,7 +12,7 @@ import javax.inject.Singleton
 @Component(modules = [ApplicationModule::class, CoroutinesModule::class])
 interface ApplicationComponent {
 
-    fun audiosActivityComponentBuilder(): AudiosActivityComponent.Builder
+    fun audiosNewActivityComponentBuilder(): AudiosActivityComponent.Builder
 
     fun loginActivityComponentBuilder(): LoginActivityComponent.Builder
 
