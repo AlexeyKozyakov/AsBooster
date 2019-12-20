@@ -1,9 +1,9 @@
-package ru.nsu.fit.asbooster.audios.di
+package ru.nsu.fit.asbooster.search.di
 
 import android.app.Activity
 import dagger.BindsInstance
 import dagger.Subcomponent
-import ru.nsu.fit.asbooster.audios.AudiosPresenter
+import ru.nsu.fit.asbooster.search.AudiosPresenter
 import ru.nsu.fit.asbooster.di.ActivityScoped
 
 /**

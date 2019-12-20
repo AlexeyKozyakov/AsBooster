@@ -1,11 +1,12 @@
-package ru.nsu.fit.asbooster.audios
+package ru.nsu.fit.asbooster.search
 
-import ru.nsu.fit.asbooster.audios.adapter.AudioItem
+import ru.nsu.fit.asbooster.search.adapter.AudioItem
 
 /**
  * View for displaying audios list.
  */
-interface AudiosView {
+interface SearchView {
+
     fun showProgress()
 
     fun hideProgress()

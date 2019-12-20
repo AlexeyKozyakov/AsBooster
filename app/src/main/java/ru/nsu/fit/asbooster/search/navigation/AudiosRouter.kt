@@ -1,4 +1,4 @@
-package ru.nsu.fit.asbooster.audios.navigation
+package ru.nsu.fit.asbooster.search.navigation
 
 import android.app.Activity
 import android.content.Intent

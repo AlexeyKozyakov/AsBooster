@@ -1,4 +1,4 @@
-package ru.nsu.fit.asbooster.audios
+package ru.nsu.fit.asbooster.search
 
 import android.os.Bundle
 import android.view.View
@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.nsu.fit.asbooster.App
 import ru.nsu.fit.asbooster.R
-import ru.nsu.fit.asbooster.audios.adapter.AudioItem
-import ru.nsu.fit.asbooster.audios.adapter.AudiosAdapter
+import ru.nsu.fit.asbooster.search.adapter.AudioItem
+import ru.nsu.fit.asbooster.search.adapter.AudiosAdapter
 
-class AudiosActivity : AppCompatActivity(), AudiosView {
+class AudiosActivity : AppCompatActivity(), SearchView {
 
     private lateinit var presenter: AudiosPresenter
     private lateinit var viewHolder: ViewHolder
@@ -45,9 +45,10 @@ class AudiosActivity : AppCompatActivity(), AudiosView {
     }
 
     override fun showAudios(audios: List<AudioItem>) {
-        viewHolder.audiosRecycler.adapter = AudiosAdapter(audios) {
-            presenter.onAudioClick(it)
-        }
+        viewHolder.audiosRecycler.adapter =
+            AudiosAdapter(audios) {
+                presenter.onAudioClick(it)
+            }
     }
 
     override fun clearAudios() {

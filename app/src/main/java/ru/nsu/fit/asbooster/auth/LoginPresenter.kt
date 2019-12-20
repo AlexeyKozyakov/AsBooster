@@ -2,7 +2,7 @@ package ru.nsu.fit.asbooster.auth
 
 import kotlinx.coroutines.CoroutineScope
 import ru.nsu.fit.asbooster.di.ActivityScoped
-import ru.nsu.fit.asbooster.audios.navigation.AudiosRouter
+import ru.nsu.fit.asbooster.search.navigation.AudiosRouter
 import javax.inject.Inject
 
 @ActivityScoped

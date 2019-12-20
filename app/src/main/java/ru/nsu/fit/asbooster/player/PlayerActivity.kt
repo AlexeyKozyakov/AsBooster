@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.nsu.fit.asbooster.App
 import ru.nsu.fit.asbooster.R
-import ru.nsu.fit.asbooster.audios.navigation.AUDIO_INFO_EXTRA
+import ru.nsu.fit.asbooster.search.navigation.AUDIO_INFO_EXTRA
 import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
 import ru.nsu.fit.asbooster.player.effects.ui.EffectsAdapter
 

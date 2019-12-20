@@ -2,12 +2,18 @@ package ru.nsu.fit.asbooster.audios
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import ru.nsu.fit.asbooster.App
 import ru.nsu.fit.asbooster.R
-import ru.nsu.fit.asbooster.audios.ui.AudiosPagerAdapter
 
 class AudiosNewActivity : AppCompatActivity() {
+
+    val component = lazy {
+        (application as App).component.value
+            .audiosNewActivityComponentBuilder()
+            .activity(this)
+            .build()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

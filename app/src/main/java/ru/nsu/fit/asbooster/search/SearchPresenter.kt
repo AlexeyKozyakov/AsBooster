@@ -1,27 +1,27 @@
-package ru.nsu.fit.asbooster.audios
+package ru.nsu.fit.asbooster.search
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.nsu.fit.asbooster.R
-import ru.nsu.fit.asbooster.audios.navigation.AudiosRouter
+import ru.nsu.fit.asbooster.search.navigation.AudiosRouter
 import ru.nsu.fit.asbooster.repository.AudioRepository
 import ru.nsu.fit.asbooster.repository.WebImageProvider
 import ru.nsu.fit.asbooster.repository.entity.AudioInfo
-import ru.nsu.fit.asbooster.audios.adapter.AudioItem
+import ru.nsu.fit.asbooster.search.adapter.AudioItem
 import ru.nsu.fit.asbooster.formating.NumberFormatter
 import ru.nsu.fit.asbooster.di.ActivityScoped
 import javax.inject.Inject
 
 /**
- * Presenter for [AudiosView]
+ * Presenter for [SearchView]
  */
 
 private const val TYPE_TIMEOUT = 250L
 
 @ActivityScoped
 class AudiosPresenter @Inject constructor(
-    private val view: AudiosView,
+    private val view: SearchView,
     private val audioRepository: AudioRepository,
     private val uiScope: CoroutineScope,
     private val router: AudiosRouter,

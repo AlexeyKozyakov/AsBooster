@@ -1,4 +1,4 @@
-package ru.nsu.fit.asbooster.audios.ui
+package ru.nsu.fit.asbooster.audios
 
 import android.content.Context
 import androidx.fragment.app.FragmentManager
