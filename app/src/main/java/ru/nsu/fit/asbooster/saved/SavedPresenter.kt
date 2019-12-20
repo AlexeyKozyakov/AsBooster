@@ -8,4 +8,5 @@ class SavedPresenter @Inject constructor(
     private val view: SavedView
 ) {
 
+
 }
