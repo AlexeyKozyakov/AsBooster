@@ -23,5 +23,6 @@ class TrackViewItem(
     val name: String,
     val author: String,
     val cover: RequestedImage,
-    val duration: String
+    val duration: String,
+    val durationInSeconds: Int
 )

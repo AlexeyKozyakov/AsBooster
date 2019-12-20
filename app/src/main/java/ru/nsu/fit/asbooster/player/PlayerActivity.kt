@@ -44,6 +44,7 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         viewHolder.artistTextView.text = author
         cover.show(viewHolder.coverImageView)
         viewHolder.remainingTimeTextView.text = duration
+        viewHolder.seekBarPlayer.max = durationInSeconds
     }
 
     override fun setElapsedTime(time: String) {
