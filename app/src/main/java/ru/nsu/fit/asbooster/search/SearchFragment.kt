@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 
 import ru.nsu.fit.asbooster.R
 import ru.nsu.fit.asbooster.audios.AudiosActivity
@@ -87,7 +88,7 @@ class SearchFragment : Fragment(), SearchView {
         }
     }
 
-    private class ViewHolder(root: View) {
+    private class ViewHolder(val root: View) {
         val progressBar: ProgressBar = root.findViewById(R.id.progress_bar_audios)
         val audiosRecycler: RecyclerView = root.findViewById(R.id.saved_recycler_view)
         val searchField: AutoCompleteTextView = root.findViewById(R.id.search_field_audios)

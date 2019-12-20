@@ -13,6 +13,7 @@ import ru.nsu.fit.asbooster.player.effects.EffectImageProvider
 import ru.nsu.fit.asbooster.player.effects.EffectNameProvider
 import ru.nsu.fit.asbooster.player.effects.EffectsManager
 import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
+import ru.nsu.fit.asbooster.repository.StringsProvider
 import ru.nsu.fit.asbooster.saved.model.Track
 import ru.nsu.fit.asbooster.saved.model.TracksRepository
 import javax.inject.Inject
@@ -28,7 +29,8 @@ class PlayerPresenter @Inject constructor(
     private val effectImageProvider: EffectImageProvider,
     private val effectNameProvider: EffectNameProvider,
     private val effectsManager: EffectsManager,
-    private val tracksRepository: TracksRepository
+    private val tracksRepository: TracksRepository,
+    private val stringsProvider: StringsProvider
 ) {
 
     private lateinit var audioInfo: AudioInfo
@@ -71,6 +73,7 @@ class PlayerPresenter @Inject constructor(
     }
 
     fun onSave() {
+        view.showMessage(stringsProvider.savedMessage)
         tracksRepository.saveTrack(Track(
             audioInfo,
             effectsManager.effectsInfo

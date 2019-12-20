@@ -17,6 +17,8 @@ interface PlayerView {
 
     fun setElapsedTime(time:String)
 
+    fun showMessage(message: String)
+
 }
 
 class TrackViewItem(

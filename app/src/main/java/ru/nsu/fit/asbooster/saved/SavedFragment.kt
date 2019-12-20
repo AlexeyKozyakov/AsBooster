@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 
 import ru.nsu.fit.asbooster.R
 import ru.nsu.fit.asbooster.audios.AudiosActivity
@@ -62,7 +63,7 @@ class SavedFragment : Fragment(), SavedView {
         }
     }
 
-    private class ViewHolder(root: View) {
+    private class ViewHolder(val root: View) {
         val savedAudiosRecycler: RecyclerView = root.findViewById(R.id.saved_recycler_view)
         val progressBar: ProgressBar = root.findViewById(R.id.saved_progress_bar)
     }
