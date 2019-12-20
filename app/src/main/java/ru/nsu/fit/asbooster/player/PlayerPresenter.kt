@@ -96,6 +96,8 @@ class PlayerPresenter @Inject constructor(
             val current = progress/1000
             view.updateProgressSeekBar(current)
             view.setElapsedTime(formatter.formatDuration(progress))
+            if(current == audioInfo.duration/1000)
+                view.showPlayButton()
         }
     }
 
