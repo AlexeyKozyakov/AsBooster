@@ -7,7 +7,7 @@ import ru.nsu.fit.asbooster.audios.AudiosPresenter
 import ru.nsu.fit.asbooster.di.ActivityScoped
 
 /**
- * Component bounded with AudiosFragment.
+ * Component bounded with SearchFragment.
  */
 @Subcomponent(modules = [AudiosModule::class])
 @ActivityScoped
