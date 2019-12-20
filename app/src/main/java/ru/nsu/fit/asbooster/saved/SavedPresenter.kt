@@ -1,11 +1,30 @@
 package ru.nsu.fit.asbooster.saved
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import ru.nsu.fit.asbooster.di.FragmentScoped
+import ru.nsu.fit.asbooster.saved.model.Track
+import ru.nsu.fit.asbooster.saved.model.TracksRepository
+import ru.nsu.fit.asbooster.view.ViewItemsMapper
 import javax.inject.Inject
 
 @FragmentScoped
 class SavedPresenter @Inject constructor(
-    private val view: SavedView
+    private val view: SavedView,
+    private val tracksRepository: TracksRepository,
+    private val viewItemsMapper: ViewItemsMapper,
+    private val uiScope: CoroutineScope
 ) {
-    
+
+    private lateinit var tracks: List<Track>
+
+    fun onShow() {
+        view.showProgress()
+        uiScope.launch {
+            tracks = tracksRepository.getTracks()
+            view.hideProgress()
+            view.showAudios(viewItemsMapper.tracksToAudioItems(tracks))
+        }
+    }
+
 }

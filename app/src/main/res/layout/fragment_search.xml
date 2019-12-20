@@ -34,7 +34,7 @@
         />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/audios_recycler_view"
+        android:id="@+id/saved_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -50,10 +50,10 @@
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:src="@drawable/empty_audios_list_image"
-        app:layout_constraintBottom_toBottomOf="@+id/audios_recycler_view"
+        app:layout_constraintBottom_toBottomOf="@+id/saved_recycler_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/audios_recycler_view"
-        app:layout_constraintTop_toTopOf="@+id/audios_recycler_view" />
+        app:layout_constraintStart_toStartOf="@+id/saved_recycler_view"
+        app:layout_constraintTop_toTopOf="@+id/saved_recycler_view" />
 
     <TextView
         android:visibility="gone"
