@@ -27,4 +27,6 @@
     <string name="loudness_effect_name">Loudness</string>
     <string name="empty_audios_text">Start typing a track name</string>
     <string name="saved_fragment_placeholder">Saved fragment</string>
+    <string name="search_fragment_title">search</string>
+    <string name="saved_fragment_title">saved</string>
 </resources>
