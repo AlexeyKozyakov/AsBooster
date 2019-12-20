@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import ru.nsu.fit.asbooster.App
 import ru.nsu.fit.asbooster.R
-import ru.nsu.fit.asbooster.search.navigation.AUDIO_INFO_EXTRA
+import ru.nsu.fit.asbooster.search.navigation.TRACK_INFO_EXTRA
 import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
 import ru.nsu.fit.asbooster.player.effects.ui.EffectsAdapter
 
@@ -30,7 +30,7 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
             .build()
         viewHolder = ViewHolder()
         presenter = component.getPresenter()
-        presenter.onCreate(intent.getParcelableExtra(AUDIO_INFO_EXTRA)!!)
+        presenter.onCreate(intent.getParcelableExtra(TRACK_INFO_EXTRA)!!)
         initPlayPauseClickListener()
         initOnSeekBarChangeListener()
         initEffectsRecycler()
@@ -104,7 +104,7 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         })
     }
 
-    fun initSaveButtonListener() {
+    private fun initSaveButtonListener() {
         viewHolder.saveButton.setOnClickListener {
             presenter.onSave()
         }

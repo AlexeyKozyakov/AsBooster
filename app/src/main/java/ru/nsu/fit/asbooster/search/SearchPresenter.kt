@@ -3,14 +3,11 @@ package ru.nsu.fit.asbooster.search
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.nsu.fit.asbooster.R
-import ru.nsu.fit.asbooster.search.navigation.SearchRouter
+import ru.nsu.fit.asbooster.search.navigation.Router
 import ru.nsu.fit.asbooster.repository.AudioRepository
-import ru.nsu.fit.asbooster.repository.WebImageProvider
 import ru.nsu.fit.asbooster.repository.entity.AudioInfo
-import ru.nsu.fit.asbooster.search.adapter.AudioItem
-import ru.nsu.fit.asbooster.formating.NumberFormatter
 import ru.nsu.fit.asbooster.di.FragmentScoped
+import ru.nsu.fit.asbooster.saved.model.Track
 import ru.nsu.fit.asbooster.view.ViewItemsMapper
 import javax.inject.Inject
 
@@ -25,7 +22,7 @@ class SearchPresenter @Inject constructor(
     private val view: SearchView,
     private val audioRepository: AudioRepository,
     private val uiScope: CoroutineScope,
-    private val router: SearchRouter,
+    private val router: Router,
     private val viewItemsMapper: ViewItemsMapper
 ) {
 
@@ -53,7 +50,7 @@ class SearchPresenter @Inject constructor(
     }
 
     fun onAudioClick(index: Int) {
-        router.openPlayer(audioInfos[index])
+        router.openPlayer(Track(audioInfos[index], emptyList()))
     }
 
     private fun launchQuery(query: String) {

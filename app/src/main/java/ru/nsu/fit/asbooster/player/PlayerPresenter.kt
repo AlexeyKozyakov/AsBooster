@@ -37,8 +37,8 @@ class PlayerPresenter @Inject constructor(
     private lateinit var effectItems: List<EffectItem>
 
 
-    fun onCreate(audio: AudioInfo) {
-        audioInfo = audio
+    fun onCreate(track: Track) {
+        audioInfo = track.audioInfo
         initPlayer()
         initEffects()
         initTracker()

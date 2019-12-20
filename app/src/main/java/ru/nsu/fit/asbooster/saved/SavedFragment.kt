@@ -43,7 +43,7 @@ class SavedFragment : Fragment(), SavedView {
 
     override fun showAudios(audios: List<AudioItem>) {
         viewHolder.savedAudiosRecycler.adapter = AudiosAdapter(audios) {
-            //TODO
+            presenter.onAudioClick(it)
         }
     }
 
@@ -63,7 +63,7 @@ class SavedFragment : Fragment(), SavedView {
         }
     }
 
-    private class ViewHolder(val root: View) {
+    private class ViewHolder(root: View) {
         val savedAudiosRecycler: RecyclerView = root.findViewById(R.id.saved_recycler_view)
         val progressBar: ProgressBar = root.findViewById(R.id.saved_progress_bar)
     }
