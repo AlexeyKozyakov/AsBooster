@@ -16,6 +16,7 @@ import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
 import ru.nsu.fit.asbooster.repository.StringsProvider
 import ru.nsu.fit.asbooster.saved.model.Track
 import ru.nsu.fit.asbooster.saved.model.TracksRepository
+import ru.nsu.fit.asbooster.saved.model.entity.EffectInfo
 import javax.inject.Inject
 
 @ActivityScoped
@@ -39,8 +40,9 @@ class PlayerPresenter @Inject constructor(
 
     fun onCreate(track: Track) {
         audioInfo = track.audioInfo
+        val effects = track.effectsInfo
         initPlayer()
-        initEffects()
+        initEffects(effects)
         initTracker()
     }
 
@@ -76,7 +78,7 @@ class PlayerPresenter @Inject constructor(
         view.showMessage(stringsProvider.savedMessage)
         tracksRepository.saveTrack(Track(
             audioInfo,
-            effectsManager.effectsInfo
+            effectsManager.effectsSettings
         ))
     }
 
@@ -102,7 +104,8 @@ class PlayerPresenter @Inject constructor(
         }
     }
 
-    private fun initEffects() {
+    private fun initEffects(effects: List<EffectInfo>) {
+        effectsManager.effectsSettings = effects
         effectItems = toEffectItems(effectsManager.effects)
         view.showEffects(effectItems)
     }

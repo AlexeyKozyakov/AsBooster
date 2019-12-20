@@ -6,6 +6,7 @@ import ru.nsu.fit.asbooster.di.FragmentScoped
 import ru.nsu.fit.asbooster.player.effects.EffectsManager
 import ru.nsu.fit.asbooster.saved.model.Track
 import ru.nsu.fit.asbooster.saved.model.TracksRepository
+import ru.nsu.fit.asbooster.search.navigation.Router
 import ru.nsu.fit.asbooster.view.ViewItemsMapper
 import java.text.FieldPosition
 import javax.inject.Inject
@@ -15,7 +16,8 @@ class SavedPresenter @Inject constructor(
     private val view: SavedView,
     private val tracksRepository: TracksRepository,
     private val viewItemsMapper: ViewItemsMapper,
-    private val uiScope: CoroutineScope
+    private val uiScope: CoroutineScope,
+    private val router: Router
 ) {
 
     private var tracks = listOf<Track>()
@@ -33,7 +35,7 @@ class SavedPresenter @Inject constructor(
 
     fun onAudioClick(position: Int) {
         val track = tracks[position]
-
+        router.openPlayer(track)
     }
 
 }
