@@ -89,7 +89,7 @@ class SearchFragment : Fragment(), SearchView {
 
     private class ViewHolder(root: View) {
         val progressBar: ProgressBar = root.findViewById(R.id.progress_bar_audios)
-        val audiosRecycler: RecyclerView = root.findViewById(R.id.audios_recycler_view)
+        val audiosRecycler: RecyclerView = root.findViewById(R.id.saved_recycler_view)
         val searchField: AutoCompleteTextView = root.findViewById(R.id.search_field_audios)
         val emptyAudiosImageView: ImageView = root.findViewById(R.id.empty_audios_image_view)
         val emptyAudiosTextView: TextView = root.findViewById(R.id.empty_audios_text_view)

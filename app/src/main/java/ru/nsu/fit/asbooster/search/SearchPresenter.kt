@@ -11,6 +11,7 @@ import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.search.adapter.AudioItem
 import ru.nsu.fit.asbooster.formating.NumberFormatter
 import ru.nsu.fit.asbooster.di.FragmentScoped
+import ru.nsu.fit.asbooster.view.ViewItemsMapper
 import javax.inject.Inject
 
 /**
@@ -25,8 +26,7 @@ class SearchPresenter @Inject constructor(
     private val audioRepository: AudioRepository,
     private val uiScope: CoroutineScope,
     private val router: SearchRouter,
-    private val imageProvider: WebImageProvider,
-    private val formatter: NumberFormatter
+    private val viewItemsMapper: ViewItemsMapper
 ) {
 
     private var lastQueryChange = 0L
@@ -67,22 +67,8 @@ class SearchPresenter @Inject constructor(
             if (query == lastQuery) {
                 audioInfos = requestedAudios
                 view.hideProgress()
-                view.showAudios(toViewItems(audioInfos))
+                view.showAudios(viewItemsMapper.audioInfoToAudioItems(audioInfos))
             }
         }
-    }
-
-    private fun toViewItems(audios: List<AudioInfo>) = audios.map {
-        AudioItem(
-            it.name,
-            it.author,
-            imageProvider.provideImage(
-                it.smallImageUrl, it.miniImageUrl,
-                R.drawable.track_list_item_placeholder_image
-            ),
-            formatter.formatDuration(it.duration),
-            formatter.formatPlaybackCount(it.playbackCount),
-            formatter.formatPostDate(it.postDate)
-        )
     }
 }
