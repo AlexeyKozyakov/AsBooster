@@ -1,40 +1,48 @@
 package ru.nsu.fit.asbooster.player
 
-import android.media.MediaPlayer
-import com.nhaarman.mockitokotlin2.doReturn
-import com.nhaarman.mockitokotlin2.eq
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.CoroutineScope
 import org.junit.Test
 import ru.nsu.fit.asbooster.formating.NumberFormatter
 import ru.nsu.fit.asbooster.player.audio.AudioPlayer
-import ru.nsu.fit.asbooster.player.effects.EffectImageProvider
-import ru.nsu.fit.asbooster.player.effects.EffectNameProvider
 import ru.nsu.fit.asbooster.player.effects.EffectsManager
 import ru.nsu.fit.asbooster.repository.AudioRepository
 import ru.nsu.fit.asbooster.repository.StringsProvider
-import ru.nsu.fit.asbooster.repository.WebImageProvider
 import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.saved.model.Track
 import ru.nsu.fit.asbooster.saved.model.TracksRepository
+import ru.nsu.fit.asbooster.saved.model.entity.EffectInfo
 import ru.nsu.fit.asbooster.view.ViewItemsMapper
+
+private const val SEEK_PROGRESS = 60
+private const val SEEK_FORMATTED = "seek progress"
+private const val EFFECT_ID = "id"
+private const val EFFECT_FORCE = 10
 
 /**
  * Tests for [PlayerPresenter].
  */
-
 class PlayerPresenterTest{
 
     private val audioInfo: AudioInfo = mock()
+    private val effectInfo: EffectInfo = mock {
+        on { id } doReturn EFFECT_ID
+        on { force } doReturn EFFECT_FORCE
+    }
     private val track: Track = mock {
         on { audioInfo } doReturn audioInfo
+        on { effectsInfo } doReturn listOf(effectInfo)
     }
     private val trackViewItem: TrackViewItem = mock()
 
     private val view: PlayerView = mock()
-    private val formatter: NumberFormatter = mock()
-    private val audioPlayer: AudioPlayer = mock()
+
+    private val formatter: NumberFormatter = mock {
+        on { formatDuration(eq(SEEK_PROGRESS * 1000)) } doReturn SEEK_FORMATTED
+    }
+    private val audioPlayer: AudioPlayer = mock {
+        on { started } doReturn true
+    }
     private val uiScope: CoroutineScope = mock()
     private val repository: AudioRepository = mock()
     private val effectsManager: EffectsManager = mock()
@@ -64,43 +72,45 @@ class PlayerPresenterTest{
     }
 
     @Test
-    fun `on destroy`() {
+    fun `release all resources on destroy`() {
+        playerPresenter.onDestroy()
 
+        verify(audioPlayer).destroy()
+        verify(effectsManager).destroy()
     }
 
     @Test
-    fun `on seek`() {
+    fun `set formatted seek time to view on seek`() {
+        playerPresenter.onSeek(SEEK_PROGRESS)
 
+        verify(view).setElapsedTime(eq(SEEK_FORMATTED))
     }
 
     @Test
-    fun `on play pause click`() {
+    fun `do nothing on play pause click if player is not started`() {
+        whenever(audioPlayer.started) doReturn false
 
+        playerPresenter.onPlayPauseClick()
+
+        verify(audioPlayer, never()).play()
+        verify(audioPlayer, never()).pause()
     }
 
     @Test
-    fun `on effect force changed`() {
+    fun `pause on play pause click if player is playing`() {
+        whenever(audioPlayer.playing) doReturn true
 
+        playerPresenter.onPlayPauseClick()
+
+        verify(audioPlayer).pause()
     }
 
     @Test
-    fun `init player`() {
+    fun `play on play pause click if player is paused`() {
+        playerPresenter.onPlayPauseClick()
 
+        verify(audioPlayer).play()
     }
 
-    @Test
-    fun `init tracker`() {
-
-    }
-
-    @Test
-    fun `init effects`() {
-
-    }
-
-    @Test
-    fun `to track new item`() {
-
-    }
 
 }
