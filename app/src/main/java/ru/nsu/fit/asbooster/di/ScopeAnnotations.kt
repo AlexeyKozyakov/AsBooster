@@ -9,3 +9,11 @@ import javax.inject.Scope
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
 annotation class ActivityScoped
+
+/**
+ * Scope bound to fragment lifecycle.
+ */
+@Scope
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+annotation class FragmentScoped

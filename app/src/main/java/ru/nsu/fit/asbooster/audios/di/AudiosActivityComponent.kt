@@ -1,19 +1,16 @@
-package ru.nsu.fit.asbooster.search.di
+package ru.nsu.fit.asbooster.audios.di
 
 import android.app.Activity
 import dagger.BindsInstance
 import dagger.Subcomponent
-import ru.nsu.fit.asbooster.search.AudiosPresenter
 import ru.nsu.fit.asbooster.di.ActivityScoped
+import ru.nsu.fit.asbooster.search.di.SearchFragmentComponent
 
-/**
- * Component bounded with SearchFragment.
- */
-@Subcomponent(modules = [AudiosModule::class])
+@Subcomponent
 @ActivityScoped
 interface AudiosActivityComponent {
 
-    fun getPresenter(): AudiosPresenter
+    fun searchFragmentComponentBuilder(): SearchFragmentComponent.Builder
 
     @Subcomponent.Builder
     interface Builder {

@@ -6,7 +6,7 @@ import androidx.viewpager.widget.ViewPager
 import ru.nsu.fit.asbooster.App
 import ru.nsu.fit.asbooster.R
 
-class AudiosNewActivity : AppCompatActivity() {
+class AudiosActivity : AppCompatActivity() {
 
     val component = lazy {
         (application as App).component.value
@@ -17,7 +17,7 @@ class AudiosNewActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_audios_new)
+        setContentView(R.layout.activity_audios)
         findViewById<ViewPager>(R.id.audios_view_pager).adapter =
             AudiosPagerAdapter(this, supportFragmentManager)
     }
