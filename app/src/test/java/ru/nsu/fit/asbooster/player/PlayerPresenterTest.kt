@@ -112,5 +112,4 @@ class PlayerPresenterTest{
         verify(audioPlayer).play()
     }
 
-
 }
