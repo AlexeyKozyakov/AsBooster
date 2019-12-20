@@ -9,9 +9,9 @@ import javax.inject.Singleton
 @Singleton
 class InMemoryTracksRepository @Inject constructor(): TracksRepository {
 
-    private val tracks = mutableListOf<Track>()
+    private val tracks = HashSet<Track>()
 
-    override fun getTracks() = tracks
+    override fun getTracks() = tracks.toList()
 
     override fun saveTrack(track: Track) {
         tracks.add(track)
@@ -20,6 +20,5 @@ class InMemoryTracksRepository @Inject constructor(): TracksRepository {
     override fun deleteTrack(track: Track) {
         tracks.remove(track)
     }
-
 
 }

@@ -26,7 +26,7 @@ class ApplicationModule {
     @Singleton
     fun repository(repository: SoundCloudAudioRepository) = repository as AudioRepository
 
-    @FragmentScoped
     @Provides
+    @Singleton
     fun tracksRepository(tracksRepository: InMemoryTracksRepository) = tracksRepository as TracksRepository
 }
