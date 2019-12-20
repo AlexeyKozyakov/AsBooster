@@ -4,6 +4,7 @@ import ru.nsu.fit.asbooster.di.ActivityScoped
 import ru.nsu.fit.asbooster.player.effects.preloaded.BassBoostEffect
 import ru.nsu.fit.asbooster.player.effects.preloaded.LoudnessEffect
 import ru.nsu.fit.asbooster.player.effects.preloaded.ReverbEffect
+import ru.nsu.fit.asbooster.saved.model.entity.EffectInfo
 import javax.inject.Inject
 
 
@@ -39,6 +40,14 @@ class EffectsManager @Inject constructor(
      */
     fun destroy() {
         effects.forEach { it.destroy() }
+    }
+
+
+    /**
+     * Information about current effects sate
+     */
+    val effectsInfo get() = effects.map {
+        EffectInfo(it.id, it.force)
     }
 
     private val effectsMap = effects.associateBy { it.id }

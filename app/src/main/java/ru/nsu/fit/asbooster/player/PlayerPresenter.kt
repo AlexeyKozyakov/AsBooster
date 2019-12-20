@@ -13,6 +13,8 @@ import ru.nsu.fit.asbooster.player.effects.EffectImageProvider
 import ru.nsu.fit.asbooster.player.effects.EffectNameProvider
 import ru.nsu.fit.asbooster.player.effects.EffectsManager
 import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
+import ru.nsu.fit.asbooster.saved.model.Track
+import ru.nsu.fit.asbooster.saved.model.TracksRepository
 import javax.inject.Inject
 
 @ActivityScoped
@@ -25,7 +27,8 @@ class PlayerPresenter @Inject constructor(
     private val repository: AudioRepository,
     private val effectImageProvider: EffectImageProvider,
     private val effectNameProvider: EffectNameProvider,
-    private val effectsManager: EffectsManager
+    private val effectsManager: EffectsManager,
+    private val tracksRepository: TracksRepository
 ) {
 
     private lateinit var audioInfo: AudioInfo
@@ -65,6 +68,13 @@ class PlayerPresenter @Inject constructor(
     fun onEffectForceChanged(position: Int, force: Int) {
         val effectItem = effectItems[position]
         effectsManager.setForce(effectItem.id, force)
+    }
+
+    fun onSave() {
+        tracksRepository.saveTrack(Track(
+            audioInfo,
+            effectsManager.effectsInfo
+        ))
     }
 
     private fun initPlayer() {

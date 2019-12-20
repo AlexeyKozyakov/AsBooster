@@ -97,6 +97,11 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         })
     }
 
+    fun initSaveButtonListener() {
+        viewHolder.saveButton.setOnClickListener {
+            presenter.onSave()
+        }
+    }
 
     private inner class ViewHolder {
         val coverImageView: ImageView = findViewById(R.id.image_view_track_cover)
@@ -107,6 +112,7 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         val playPauseButton: ImageButton = findViewById(R.id.button_play)
         val effectsRecycler: RecyclerView = findViewById(R.id.effects_recycler_view)
         val seekBarPlayer: SeekBar = findViewById(R.id.seek_bar_player)
+        val saveButton: ImageButton = findViewById(R.id.save_track_button)
     }
 
 }
