@@ -25,6 +25,7 @@ class SavedPresenter @Inject constructor(
     }
 
     fun onShow() {
+        view.hidePlaceholder()
         if (tracks.isEmpty()) {
             view.showProgress()
         } else {
