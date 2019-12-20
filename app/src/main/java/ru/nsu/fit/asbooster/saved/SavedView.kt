@@ -10,4 +10,8 @@ interface SavedView {
 
     fun hideProgress()
 
+    fun showPlaceholder()
+
+    fun hidePlaceholder()
+
 }
