@@ -2,20 +2,18 @@ package ru.nsu.fit.asbooster.saved.model
 
 import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.saved.model.entity.EffectInfo
-import javax.inject.Singleton
 
 /**
  * Base interface for store tracks.
  * It can be implemented as sql database, in memory database, etc.
  */
-@Singleton
-interface SavedTracks {
+interface TracksRepository {
 
-    fun getTracks(): List<AudioInfo>
+    fun getTracks(): List<Track>
 
-    fun saveTrack(track: AudioInfo)
+    fun saveTrack(track: Track)
 
-    fun deleteTrack(track: AudioInfo)
+    fun deleteTrack(track: Track)
 }
 
 data class Track(
