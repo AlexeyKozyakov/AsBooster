@@ -60,6 +60,7 @@ class PlayerPresenter @Inject constructor(
     fun onSeek(progress : Int){
         val time = audioInfo.duration*progress/100
         audioPlayer.seekTo(time)
+        view.setElapsedTime(formatter.formatDuration(time))
     }
 
     fun onEffectForceChanged(position: Int, force: Int) {
