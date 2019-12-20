@@ -1,7 +1,6 @@
 package ru.nsu.fit.asbooster.player
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import ru.nsu.fit.asbooster.repository.AudioRepository
 import ru.nsu.fit.asbooster.repository.WebImageProvider
@@ -58,7 +57,7 @@ class PlayerPresenter @Inject constructor(
         }
     }
     fun onSeek(progress : Int){
-        val time = audioInfo.duration*progress/100
+        val time = progress*1000
         audioPlayer.seekTo(time)
         view.setElapsedTime(formatter.formatDuration(time))
     }
@@ -84,7 +83,7 @@ class PlayerPresenter @Inject constructor(
 
     private fun initTracker(){
         audioPlayer.progressListener = { progress ->
-            val current = progress * 100 / audioInfo.duration
+            val current = progress/1000
             view.updateProgressSeekBar(current)
             view.setElapsedTime(formatter.formatDuration(progress))
         }
@@ -100,7 +99,8 @@ class PlayerPresenter @Inject constructor(
             name,
             author,
             imageProvider.provideImage(bigImageUrl, miniImageUrl),
-            formatter.formatDuration(duration)
+            formatter.formatDuration(duration),
+            audioInfo.duration/1000
         )
     }
 
