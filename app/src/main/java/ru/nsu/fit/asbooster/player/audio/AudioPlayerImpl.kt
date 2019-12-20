@@ -28,6 +28,8 @@ class AudioPlayerImpl @Inject constructor(
 
     private val onPrepareCallbacks = mutableListOf<() -> Unit>()
 
+    private val nonPreparedSeekCallbacks = mutableListOf<() -> Unit>()
+
     override val started get() = prepared && !hasError
 
     override val playing get() = mediaPlayer.isPlaying
@@ -42,6 +44,8 @@ class AudioPlayerImpl @Inject constructor(
         prepared = true
         onPrepareCallbacks.forEach { it() }
         onPrepareCallbacks.clear()
+        nonPreparedSeekCallbacks.forEach { it() }
+        nonPreparedSeekCallbacks.clear()
     }
 
     override fun play() {
@@ -69,9 +73,13 @@ class AudioPlayerImpl @Inject constructor(
         if (prepared) {
             mediaPlayer.seekTo(progress)
         } else {
-            onPrepareCallbacks.add {
+            if(!nonPreparedSeekCallbacks.isEmpty()) {
+                nonPreparedSeekCallbacks.removeAt(nonPreparedSeekCallbacks.lastIndex)
+            }
+            nonPreparedSeekCallbacks.add {
                 mediaPlayer.seekTo(progress)
             }
+
         }
     }
 
