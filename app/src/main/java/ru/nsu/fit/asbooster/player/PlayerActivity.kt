@@ -2,12 +2,14 @@ package ru.nsu.fit.asbooster.player
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import ru.nsu.fit.asbooster.App
 import ru.nsu.fit.asbooster.R
 import ru.nsu.fit.asbooster.search.navigation.AUDIO_INFO_EXTRA
@@ -70,6 +72,10 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         viewHolder.seekBarPlayer.progress = progress
     }
 
+    override fun showMessage(message: String) {
+        Snackbar.make(viewHolder.content, message, Snackbar.LENGTH_LONG).show()
+    }
+
     private fun initPlayPauseClickListener() {
         viewHolder.playPauseButton.setOnClickListener {
             presenter.onPlayPauseClick()
@@ -105,6 +111,7 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
     }
 
     private inner class ViewHolder {
+        val content: View = findViewById(android.R.id.content)
         val coverImageView: ImageView = findViewById(R.id.image_view_track_cover)
         val nameTextView: TextView = findViewById(R.id.player_song_name)
         val artistTextView: TextView = findViewById(R.id.player_artist)
