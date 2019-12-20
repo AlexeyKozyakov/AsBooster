@@ -28,7 +28,7 @@ class AudioPlayerImpl @Inject constructor(
 
     private val onPrepareCallbacks = mutableListOf<() -> Unit>()
 
-    private lateinit var lastSeekCallback: () -> Unit
+    private var lastSeekCallback: () -> Unit = {}
 
     override val started get() = prepared && !hasError
 
