@@ -31,6 +31,7 @@ class PlayerPresenter @Inject constructor(
 
     private lateinit var audioInfo: AudioInfo
     private lateinit var effectItems: List<EffectItem>
+    private var userIsSeeking:Boolean = false
 
 
     fun onCreate(track: Track) {
@@ -64,6 +65,20 @@ class PlayerPresenter @Inject constructor(
         view.setElapsedTime(formatter.formatDuration(time))
     }
 
+    fun onStartSeeking(){
+        userIsSeeking = true
+    }
+
+    fun onReleaseSeeking(){
+        userIsSeeking = false
+        if(!audioPlayer.playing) {
+            view.showPlayButton()
+        } else{
+            view.showPauseButton()
+        }
+    }
+
+
     fun onEffectForceChanged(position: Int, force: Int) {
         val effectItem = effectItems[position]
         effectsManager.setForce(effectItem.id, force)
@@ -96,6 +111,8 @@ class PlayerPresenter @Inject constructor(
             val current = progress/1000
             view.updateProgressSeekBar(current)
             view.setElapsedTime(formatter.formatDuration(progress))
+            if(current == audioInfo.duration/1000 && !userIsSeeking)
+                view.showPlayButton()
         }
     }
 
