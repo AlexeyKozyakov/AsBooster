@@ -4,6 +4,7 @@ import android.app.Activity
 import dagger.BindsInstance
 import dagger.Subcomponent
 import ru.nsu.fit.asbooster.di.ActivityScoped
+import ru.nsu.fit.asbooster.saved.di.SavedFragmentComponent
 import ru.nsu.fit.asbooster.search.di.SearchFragmentComponent
 
 @Subcomponent
@@ -11,6 +12,8 @@ import ru.nsu.fit.asbooster.search.di.SearchFragmentComponent
 interface AudiosActivityComponent {
 
     fun searchFragmentComponentBuilder(): SearchFragmentComponent.Builder
+
+    fun savedFragmentComponentBuilder(): SavedFragmentComponent.Builder
 
     @Subcomponent.Builder
     interface Builder {
