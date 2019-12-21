@@ -22,4 +22,11 @@ class InMemoryTracksRepositoryTest {
         repository.saveTrack(track)
         Assert.assertEquals(track, repository.getTracks().single())
     }
+
+    @Test
+    fun `delete and get track`() {
+        repository.saveTrack(track)
+        repository.deleteTrack(track)
+        Assert.assertEquals(0, repository.getTracks().size)
+    }
 }
