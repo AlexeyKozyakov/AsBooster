@@ -9,6 +9,7 @@ import org.junit.Test
 import ru.nsu.fit.asbooster.formating.NumberFormatter
 import ru.nsu.fit.asbooster.player.effects.EffectImageProvider
 import ru.nsu.fit.asbooster.player.effects.EffectNameProvider
+import ru.nsu.fit.asbooster.player.effects.preloaded.Effect
 import ru.nsu.fit.asbooster.repository.WebImageProvider
 import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.saved.model.Track
@@ -21,6 +22,10 @@ private const val DURATION_STRING = "duration"
 private const val PLAYBACK_COUNT_STRING = "playback count"
 private const val POST_DATE_STRING = "post date"
 
+private const val EFFECT_ID = "42"
+private const val EFFECT_FORCE = 42
+private const val EFFECT_NAME = "effect name"
+
 class ViewItemsMapperTest {
 
     private val audioInfo: AudioInfo = mock {
@@ -31,6 +36,10 @@ class ViewItemsMapperTest {
     }
     private val track: Track = mock {
         on { audioInfo } doReturn audioInfo
+    }
+    private val effect: Effect = mock {
+        on { id } doReturn EFFECT_ID
+        on { force } doReturn EFFECT_FORCE
     }
 
     private val webImageProvider: WebImageProvider = mock {
@@ -79,5 +88,13 @@ class ViewItemsMapperTest {
         Assert.assertEquals(audioInfo.name, trackViewItem.name)
         Assert.assertEquals(audioInfo.author, trackViewItem.author)
         Assert.assertEquals(DURATION_STRING, trackViewItem.duration)
+    }
+
+    @Test
+    fun `effects to effects items`() {
+        val effectItem = viewItemsMapper.effectsToEffectItems(listOf(effect)).single()
+        Assert.assertEquals(effect.id, effectItem.id)
+        Assert.assertEquals(EFFECT_NAME, effectItem.name)
+        Assert.assertEquals(effect.force, effectItem.force)
     }
 }
