@@ -75,13 +75,19 @@ class SavedFragment : Fragment(), SavedView {
             layoutManager = LinearLayoutManager(activity)
         }
         val helper = ItemTouchHelper(
-            object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            object : ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
                 override fun onMove(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder,
                     target: RecyclerView.ViewHolder
                 ): Boolean {
-                    return false
+                    val from = viewHolder.adapterPosition
+                    val target = target.adapterPosition
+                    val adapter = recyclerView.adapter as AudiosAdapter
+                    adapter.move(from, target)
+                    presenter.onMove(from, target)
+                    return true
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
