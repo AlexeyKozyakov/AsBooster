@@ -27,4 +27,9 @@ class EffectsManagerTest {
         loudnessEffect,
         reverbEffect
     )
+
+    @Test
+    fun `list of all effects`() {
+        Assert.assertEquals(effectsManager.effects, listOf(bassBoostEffect, loudnessEffect, reverbEffect))
+    }
 }
