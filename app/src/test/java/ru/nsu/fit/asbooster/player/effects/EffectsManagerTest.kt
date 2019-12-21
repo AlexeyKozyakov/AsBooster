@@ -16,6 +16,7 @@ private const val EFFECT_FORCE = 42
 class EffectsManagerTest {
     private val bassBoostEffect: BassBoostEffect = mock {
         on { id } doReturn "bass"
+        on { force } doReturn EFFECT_FORCE
     }
     private val loudnessEffect: LoudnessEffect = mock {
         on { id } doReturn "loudness"
@@ -40,5 +41,13 @@ class EffectsManagerTest {
         effectsManager.setForce(bassBoostEffect.id, EFFECT_FORCE)
 
         verify(bassBoostEffect).force = eq(EFFECT_FORCE)
+    }
+
+    @Test
+    fun `get effects settings`() {
+        val settings = effectsManager.effectsSettings
+
+        Assert.assertEquals(3, settings.size)
+        Assert.assertEquals(EFFECT_FORCE, settings.first().force)
     }
 }
