@@ -9,6 +9,8 @@ import ru.nsu.fit.asbooster.repository.AudioRepository
 import ru.nsu.fit.asbooster.search.navigation.Router
 import ru.nsu.fit.asbooster.view.ViewItemsMapper
 
+private const val QUERY = "query"
+
 class SearchPresenterTest {
     private val view: SearchView = mock()
     private val audioRepository: AudioRepository = mock()
@@ -27,6 +29,13 @@ class SearchPresenterTest {
     @Test
     fun `empty audios image on create`() {
         searchPresenter.onCreate()
+
+        verify(view).showEmptyAudiosImage()
+    }
+
+    @Test
+    fun `on query changed empty query`() {
+        searchPresenter.onQueryChanged("")
 
         verify(view).showEmptyAudiosImage()
     }
