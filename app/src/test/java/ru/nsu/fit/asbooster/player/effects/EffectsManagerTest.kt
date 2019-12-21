@@ -11,6 +11,8 @@ import ru.nsu.fit.asbooster.player.effects.preloaded.LoudnessEffect
 import ru.nsu.fit.asbooster.player.effects.preloaded.ReverbEffect
 import ru.nsu.fit.asbooster.saved.model.entity.EffectInfo
 
+private const val EFFECT_FORCE = 42
+
 class EffectsManagerTest {
     private val bassBoostEffect: BassBoostEffect = mock {
         on { id } doReturn "bass"
@@ -31,5 +33,12 @@ class EffectsManagerTest {
     @Test
     fun `list of all effects`() {
         Assert.assertEquals(effectsManager.effects, listOf(bassBoostEffect, loudnessEffect, reverbEffect))
+    }
+
+    @Test
+    fun `set force test`() {
+        effectsManager.setForce(bassBoostEffect.id, EFFECT_FORCE)
+
+        verify(bassBoostEffect).force = eq(EFFECT_FORCE)
     }
 }
