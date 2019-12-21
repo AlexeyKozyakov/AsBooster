@@ -2,6 +2,7 @@ package ru.nsu.fit.asbooster.player
 
 import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import org.junit.Test
 import ru.nsu.fit.asbooster.formating.NumberFormatter
 import ru.nsu.fit.asbooster.player.audio.AudioPlayer
@@ -18,13 +19,16 @@ private const val SEEK_PROGRESS = 60
 private const val SEEK_FORMATTED = "seek progress"
 private const val EFFECT_ID = "id"
 private const val EFFECT_FORCE = 10
+private const val URL_TO_STREAM = "url to stream"
 
 /**
  * Tests for [PlayerPresenter].
  */
 class PlayerPresenterTest{
 
-    private val audioInfo: AudioInfo = mock()
+    private val audioInfo: AudioInfo = mock {
+        on { urlToStream } doReturn URL_TO_STREAM
+    }
     private val effectInfo: EffectInfo = mock {
         on { id } doReturn EFFECT_ID
         on { force } doReturn EFFECT_FORCE
@@ -43,8 +47,10 @@ class PlayerPresenterTest{
     private val audioPlayer: AudioPlayer = mock {
         on { started } doReturn true
     }
-    private val uiScope: CoroutineScope = mock()
-    private val repository: AudioRepository = mock()
+    private val uiScope: CoroutineScope = CoroutineScope(Dispatchers.Unconfined)
+    private val repository: AudioRepository = mock {
+        onBlocking { getStreamUrl(eq(audioInfo.urlToStream!!)) } doReturn URL_TO_STREAM
+    }
     private val effectsManager: EffectsManager = mock()
     private val tracksRepository: TracksRepository = mock()
     private val stringsProvider: StringsProvider = mock()
@@ -69,6 +75,7 @@ class PlayerPresenterTest{
         playerPresenter.onCreate(track)
 
         verify(view).setTrack(eq(trackViewItem))
+        verifyBlocking(audioPlayer) { start(eq(URL_TO_STREAM)) }
     }
 
     @Test
