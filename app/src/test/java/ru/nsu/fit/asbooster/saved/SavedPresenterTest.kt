@@ -1,8 +1,10 @@
 package ru.nsu.fit.asbooster.saved
 
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import org.junit.Test
 import ru.nsu.fit.asbooster.saved.model.TracksRepository
 import ru.nsu.fit.asbooster.search.navigation.Router
 import ru.nsu.fit.asbooster.view.ViewItemsMapper
@@ -21,4 +23,11 @@ class SavedPresenterTest {
         uiScope,
         router
     )
+
+    @Test
+    fun `on create test`() {
+        savedPresenter.onCreate()
+
+        verify(savedView).showProgress()
+    }
 }
