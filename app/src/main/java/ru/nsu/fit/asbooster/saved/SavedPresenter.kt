@@ -40,6 +40,10 @@ class SavedPresenter @Inject constructor(
         updateTracks()
     }
 
+    fun onMove(from: Int, to: Int) {
+        tracksRepository.move(tracks[from], tracks[to])
+    }
+
     private fun updateTracks() {
         uiScope.launch {
             tracks = tracksRepository.getTracks()

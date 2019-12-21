@@ -2,7 +2,6 @@ package ru.nsu.fit.asbooster.saved.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import kotlinx.android.parcel.RawValue
 import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.saved.model.entity.EffectInfo
 
@@ -17,6 +16,8 @@ interface TracksRepository {
     fun saveTrack(track: Track)
 
     fun deleteTrack(track: Track)
+
+    fun move(from: Track, to: Track)
 }
 
 @Parcelize
