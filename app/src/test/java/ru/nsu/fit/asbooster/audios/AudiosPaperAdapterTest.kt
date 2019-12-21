@@ -33,4 +33,9 @@ class AudiosPaperAdapterTest {
 
         Assert.assertTrue(result is SearchFragment)
     }
+
+    @Test
+    fun `get count`() {
+        Assert.assertEquals(2, audiosPaperAdapter.count)
+    }
 }
