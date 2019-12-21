@@ -50,4 +50,13 @@ class EffectsManagerTest {
         Assert.assertEquals(3, settings.size)
         Assert.assertEquals(EFFECT_FORCE, settings.first().force)
     }
+
+    @Test
+    fun `set effects settings`() {
+        val effects = listOf(bassBoostEffect).map { EffectInfo(it.id, it.force) }
+
+        effectsManager.effectsSettings = effects
+
+        verify(bassBoostEffect).force = eq(EFFECT_FORCE)
+    }
 }
