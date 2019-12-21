@@ -31,6 +31,16 @@ class SavedPresenter @Inject constructor(
         } else {
             view.hideProgress()
         }
+        updateTracks()
+    }
+
+    fun onSwipe(position: Int){
+        val track = tracks[position]
+        tracksRepository.deleteTrack(track)
+        updateTracks()
+    }
+
+    private fun updateTracks() {
         uiScope.launch {
             tracks = tracksRepository.getTracks()
             view.hideProgress()

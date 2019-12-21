@@ -46,7 +46,6 @@ class AudiosAdapter(
             holder.postDateView.text = postDate
         }
     }
-
 }
 
 class AudioItem(
