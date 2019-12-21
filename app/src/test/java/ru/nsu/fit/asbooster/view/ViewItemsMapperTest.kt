@@ -50,7 +50,9 @@ class ViewItemsMapperTest {
         on { formatPlaybackCount(any()) } doReturn PLAYBACK_COUNT_STRING
         on { formatPostDate(any()) } doReturn POST_DATE_STRING
     }
-    private val effectNameProvider: EffectNameProvider = mock()
+    private val effectNameProvider: EffectNameProvider = mock {
+        on { provideEffectName(any()) } doReturn EFFECT_NAME
+    }
     private val effectImageProvider: EffectImageProvider = mock {
         on { provideEffectImage(any()) } doReturn mock()
     }
