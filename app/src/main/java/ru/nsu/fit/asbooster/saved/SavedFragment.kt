@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -73,7 +74,26 @@ class SavedFragment : Fragment(), SavedView {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
         }
-    }
+        val helper = ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val position = viewHolder.adapterPosition
+                    presenter.onSwipe(position)
+                }
+
+            })
+        helper.attachToRecyclerView(viewHolder.savedAudiosRecycler)
+        }
+
+
 
     private class ViewHolder(root: View) {
         val savedAudiosRecycler: RecyclerView = root.findViewById(R.id.saved_recycler_view)
