@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager
 import com.nhaarman.mockitokotlin2.mock
 import org.junit.Assert
 import org.junit.Test
+import ru.nsu.fit.asbooster.search.SearchFragment
 
 class AudiosPaperAdapterTest {
     private val context: Context = mock()
@@ -24,5 +25,12 @@ class AudiosPaperAdapterTest {
         }
 
         Assert.assertTrue(false)
+    }
+
+    @Test
+    fun `get right item test`() {
+        val result = audiosPaperAdapter.getItem(0)
+
+        Assert.assertTrue(result is SearchFragment)
     }
 }
