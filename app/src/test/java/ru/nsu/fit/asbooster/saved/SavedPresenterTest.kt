@@ -1,6 +1,7 @@
 package ru.nsu.fit.asbooster.saved
 
 import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import kotlinx.coroutines.CoroutineScope
@@ -53,5 +54,11 @@ class SavedPresenterTest {
         verify(tracksRepository).getTracks()
     }
 
+    @Test
+    fun `on audio click`() {
+        savedPresenter.onShow()
+        savedPresenter.onAudioClick(0)
 
+        verify(router).openPlayer(eq(track))
+    }
 }
