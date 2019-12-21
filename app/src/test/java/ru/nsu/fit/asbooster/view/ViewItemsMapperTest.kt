@@ -62,4 +62,14 @@ class ViewItemsMapperTest {
         Assert.assertEquals(PLAYBACK_COUNT_STRING, audioItem.plays)
         Assert.assertEquals(POST_DATE_STRING, audioItem.postDate)
     }
+
+    @Test
+    fun `tracks to audio items`() {
+        val audioItem = viewItemsMapper.tracksToAudioItems(listOf(track)).single()
+        Assert.assertEquals(audioInfo.name, audioItem.name)
+        Assert.assertEquals(audioInfo.author, audioItem.author)
+        Assert.assertEquals(DURATION_STRING, audioItem.duration)
+        Assert.assertEquals(PLAYBACK_COUNT_STRING, audioItem.plays)
+        Assert.assertEquals(POST_DATE_STRING, audioItem.postDate)
+    }
 }
