@@ -11,7 +11,7 @@ private const val DURATION_RAW = 73000
 private const val DURATION_FORMATTED = "1:13"
 private const val PLAYBACK_RAW = 1312
 
-private const val PLAYBACK_FORMATTED = "1.3K"
+private const val PLAYBACK_FORMATTED = "1,3K"
 
 private const val POST_DATE_PREFIX = "Posted"
 private const val POST_DATE_RAW = "2019-08-12T12:31:48Z"
