@@ -3,8 +3,6 @@ package ru.nsu.fit.asbooster.repository
 import android.content.Context
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
-import androidx.annotation.IdRes
-import androidx.constraintlayout.widget.Placeholder
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.BlurTransformation
@@ -27,11 +25,8 @@ class WebImageProvider @Inject constructor(
                      @DrawableRes placeholder: Int? = null) = object : RequestedImage {
         override fun show(view: ImageView) {
             lowQualityImageUrl?.let { lowQuality ->
-                val loadRequest = picasso.load(lowQuality)
-                placeholder?.let {
-                    loadRequest.placeholder(it)
-                }
-                loadRequest.transform(blurTransform).into(view, object : Callback {
+                picasso.load(lowQuality).transform(blurTransform).into(view, object : Callback {
+
                     override fun onSuccess() {
                         load(imageUrl, view)
                     }
