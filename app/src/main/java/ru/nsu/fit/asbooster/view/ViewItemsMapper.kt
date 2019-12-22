@@ -56,8 +56,8 @@ class ViewItemsMapper @Inject constructor(
             name,
             author,
             imageProvider.provideImage(
-                smallImageUrl, miniImageUrl,
-                R.drawable.track_list_item_placeholder_image
+                imageUrl = smallImageUrl,
+                placeholder = R.drawable.track_list_item_placeholder_image
             ),
             formatter.formatDuration(duration),
             formatter.formatPlaybackCount(playbackCount),

@@ -38,12 +38,19 @@ class WebImageProvider @Inject constructor(
 
                     override fun onError(e: Exception?) = Unit
                 })
-            } ?: load(imageUrl, view)
+            } ?: load(imageUrl, view, placeholder)
         }
     }
 
-    private fun load(imageUrl: String?, view: ImageView) = imageUrl?.let {
-        picasso.load(it).placeholder(view.drawable).into(view)
+    private fun load(
+        imageUrl: String?,
+        view: ImageView,
+        @DrawableRes placeholder: Int? = null
+    ) = imageUrl?.let {
+        val request = picasso.load(it)
+        (placeholder?.let { placeholder ->
+            request.placeholder(placeholder)
+        } ?: request.placeholder(view.drawable)).into(view)
     }
 
 }
