@@ -29,6 +29,9 @@ class SavedPresenter @Inject constructor(
         uiScope.launch {
             tracksRepository.deleteTrack(tracksRepository.getTrack(position))
             view.removeAudioItem(position)
+            if (tracksRepository.empty) {
+                view.showPlaceholder()
+            }
         }
     }
 

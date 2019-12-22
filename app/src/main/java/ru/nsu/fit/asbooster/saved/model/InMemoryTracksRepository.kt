@@ -10,6 +10,9 @@ import kotlin.collections.LinkedHashSet
 @Singleton
 class InMemoryTracksRepository @Inject constructor(): TracksRepository {
 
+    override val empty: Boolean
+        get() = tracks.isEmpty()
+
     override var saveTrackListener: (Track) -> Unit = {}
 
     private val tracks = LinkedHashSet<Track>()

@@ -88,7 +88,8 @@ class SavedFragment : Fragment(), SavedView {
         }
         val helper = ItemTouchHelper(
             object : ItemTouchHelper.SimpleCallback(
-                ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT) {
+                ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT
+            ) {
                 override fun onMove(
                     recyclerView: RecyclerView,
                     viewHolder: RecyclerView.ViewHolder,
@@ -104,7 +105,7 @@ class SavedFragment : Fragment(), SavedView {
 
             })
         helper.attachToRecyclerView(viewHolder.savedAudiosRecycler)
-        }
+    }
 
 
 

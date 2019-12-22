@@ -11,6 +11,8 @@ import ru.nsu.fit.asbooster.saved.model.entity.EffectInfo
  */
 interface TracksRepository {
 
+    val empty: Boolean
+
     var saveTrackListener: (Track) -> Unit
 
     fun getTrack(position: Int): Track
