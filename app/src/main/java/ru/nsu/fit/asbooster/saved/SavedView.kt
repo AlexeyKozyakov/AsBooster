@@ -4,7 +4,7 @@ import ru.nsu.fit.asbooster.search.adapter.AudioItem
 
 interface SavedView {
 
-    fun showAudios(audios: List<AudioItem>)
+    fun showAudios(audios: MutableList<AudioItem>)
 
     fun showProgress()
 
@@ -13,5 +13,7 @@ interface SavedView {
     fun showPlaceholder()
 
     fun hidePlaceholder()
+
+    fun removeTrackItem(position: Int)
 
 }

@@ -12,7 +12,6 @@ import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 
 import ru.nsu.fit.asbooster.R
 import ru.nsu.fit.asbooster.audios.AudiosActivity
@@ -52,7 +51,7 @@ class SearchFragment : Fragment(), SearchView {
         viewHolder.progressBar.visibility = View.GONE
     }
 
-    override fun showAudios(audios: List<AudioItem>) {
+    override fun showAudios(audios: MutableList<AudioItem>) {
         viewHolder.audiosRecycler.adapter =
             AudiosAdapter(audios) {
                 presenter.onAudioClick(it)

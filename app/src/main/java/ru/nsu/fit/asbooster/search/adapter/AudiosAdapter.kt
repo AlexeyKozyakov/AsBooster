@@ -10,7 +10,7 @@ import ru.nsu.fit.asbooster.R
 import ru.nsu.fit.asbooster.repository.RequestedImage
 
 class AudiosAdapter(
-    private var audios: List<AudioItem>,
+    private var audios: MutableList<AudioItem>,
     private val onClickListener: (adapterPosition: Int) -> Unit
 ) :
     RecyclerView.Adapter<AudiosAdapter.ViewHolder>() {
@@ -45,6 +45,11 @@ class AudiosAdapter(
             holder.playsView.text = plays
             holder.postDateView.text = postDate
         }
+    }
+
+    fun remove(position: Int) {
+        audios.removeAt(position)
+        notifyItemRemoved(position)
     }
 
     fun move(from: Int, to: Int) {

@@ -24,11 +24,11 @@ class ViewItemsMapper @Inject constructor(
 
     fun audioInfoToAudioItems(audios: List<AudioInfo>) = audios.map {
        toAudioItem(it)
-    }
+    }.toMutableList()
 
     fun tracksToAudioItems(audios: List<Track>) = audios.map {
        toAudioItem(it.audioInfo)
-    }
+    }.toMutableList()
 
     fun audioInfoToTrackViewItem(audioInfo: AudioInfo) = with(audioInfo) {
         TrackViewItem(

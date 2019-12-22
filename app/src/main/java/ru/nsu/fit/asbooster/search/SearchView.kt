@@ -11,7 +11,7 @@ interface SearchView {
 
     fun hideProgress()
 
-    fun showAudios(audios: List<AudioItem>)
+    fun showAudios(audios: MutableList<AudioItem>)
 
     fun clearAudios()
 

@@ -44,7 +44,7 @@ class SavedFragment : Fragment(), SavedView {
         presenter.onShow()
     }
 
-    override fun showAudios(audios: List<AudioItem>) {
+    override fun showAudios(audios: MutableList<AudioItem>) {
         viewHolder.savedAudiosRecycler.adapter = AudiosAdapter(audios) {
             presenter.onAudioClick(it)
         }
@@ -69,6 +69,10 @@ class SavedFragment : Fragment(), SavedView {
         viewHolder.placeholderTextView.visibility = View.GONE
     }
 
+    override fun removeTrackItem(position: Int) {
+        (viewHolder.savedAudiosRecycler.adapter as AudiosAdapter).remove(position)
+    }
+
     private fun initSavedAudiosRecycler() {
         viewHolder.savedAudiosRecycler.apply {
             setHasFixedSize(true)
@@ -91,8 +95,7 @@ class SavedFragment : Fragment(), SavedView {
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val position = viewHolder.adapterPosition
-                    presenter.onSwipe(position)
+                    presenter.onSwipe(viewHolder.adapterPosition)
                 }
 
             })
