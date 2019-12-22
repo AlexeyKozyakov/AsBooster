@@ -58,6 +58,11 @@ class AudiosAdapter(
         audios.add(positionTo,  item)
         notifyItemMoved(positionFrom, positionTo)
     }
+
+    fun add(audio: AudioItem) {
+        audios.add(audio)
+        notifyItemInserted(audios.size - 1)
+    }
 }
 
 class AudioItem(

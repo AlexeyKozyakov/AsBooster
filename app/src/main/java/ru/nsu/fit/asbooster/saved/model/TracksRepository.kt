@@ -11,6 +11,10 @@ import ru.nsu.fit.asbooster.saved.model.entity.EffectInfo
  */
 interface TracksRepository {
 
+    var saveTrackListener: (Track) -> Unit
+
+    fun getTrack(position: Int): Track
+
     fun getTracks(): List<Track>
 
     fun saveTrack(track: Track)

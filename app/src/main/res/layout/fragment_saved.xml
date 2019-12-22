@@ -24,7 +24,6 @@
 
     <ImageView
         android:id="@+id/favorites_placeholder_image_view"
-        android:visibility="gone"
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:src="@drawable/favorites_placeholder_icon"
@@ -37,7 +36,6 @@
         android:id="@+id/favorites_placeholder_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_marginBottom="16dp"
         android:text="@string/saved_placeholder_text"
         app:layout_constraintBottom_toTopOf="@+id/favorites_placeholder_image_view"

@@ -10,14 +10,19 @@ import kotlin.collections.LinkedHashSet
 @Singleton
 class InMemoryTracksRepository @Inject constructor(): TracksRepository {
 
+    override var saveTrackListener: (Track) -> Unit = {}
+
     private val tracks = LinkedHashSet<Track>()
     private val trackList = mutableListOf<Track>()
+
+    override fun getTrack(position: Int) = trackList[position]
 
     override fun getTracks() = trackList
 
     override fun saveTrack(track: Track) {
         if (tracks.add(track)) {
             trackList.add(track)
+            saveTrackListener(track)
         }
     }
 

@@ -3,7 +3,6 @@ package ru.nsu.fit.asbooster.saved
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.nsu.fit.asbooster.di.FragmentScoped
-import ru.nsu.fit.asbooster.saved.model.Track
 import ru.nsu.fit.asbooster.saved.model.TracksRepository
 import ru.nsu.fit.asbooster.search.navigation.Router
 import ru.nsu.fit.asbooster.view.ViewItemsMapper
@@ -18,48 +17,55 @@ class SavedPresenter @Inject constructor(
     private val router: Router
 ) {
 
-    private var tracks = listOf<Track>()
-
     fun onCreate() {
-        view.showProgress()
-    }
-
-    fun onShow() {
-        view.hidePlaceholder()
-        if (tracks.isEmpty()) {
-            view.showProgress()
-        } else {
-            view.hideProgress()
-        }
         updateTracks()
     }
 
-    fun onSwipe(position: Int){
-        tracksRepository.deleteTrack(tracks[position])
-        view.removeTrackItem(position)
+    fun onDestroy() {
+        tracksRepository.saveTrackListener = {}
+    }
+
+    fun onSwipe(position: Int) {
+        uiScope.launch {
+            tracksRepository.deleteTrack(tracksRepository.getTrack(position))
+            view.removeAudioItem(position)
+        }
     }
 
     fun onMove(from: Int, to: Int) {
-        tracksRepository.move(tracks[from], tracks[to])
-        view.moveTrackItem(from, to)
+        uiScope.launch {
+            with(tracksRepository) {
+                move(getTrack(from), getTrack(to))
+                view.moveAudioItem(from, to)
+            }
+        }
     }
 
     private fun updateTracks() {
+        view.showProgress()
         uiScope.launch {
-            tracks = tracksRepository.getTracks()
-            view.hideProgress()
-            if (tracks.isEmpty()) {
-                view.showPlaceholder()
-                return@launch
+            val tracks = tracksRepository.getTracks()
+            if (tracks.any()) {
+                view.hidePlaceholder()
             }
-            view.hidePlaceholder()
+            view.hideProgress()
             view.showAudios(viewItemsMapper.tracksToAudioItems(tracks))
+            initOnSaveTrackListener()
+        }
+    }
+
+    private fun initOnSaveTrackListener() {
+        tracksRepository.saveTrackListener = { track ->
+            view.hidePlaceholder()
+            view.addAudioItem(viewItemsMapper.trackToAudioItem(track))
         }
     }
 
     fun onAudioClick(position: Int) {
-        val track = tracks[position]
-        router.openPlayer(track)
+        uiScope.launch {
+            val track = tracksRepository.getTrack(position)
+            router.openPlayer(track)
+        }
     }
 
 }

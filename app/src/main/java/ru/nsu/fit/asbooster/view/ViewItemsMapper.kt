@@ -49,6 +49,8 @@ class ViewItemsMapper @Inject constructor(
         )
     }
 
+    fun trackToAudioItem(track: Track) = toAudioItem(track.audioInfo)
+
     private fun toAudioItem(audioInfo: AudioInfo) = with(audioInfo) {
         AudioItem(
             name,

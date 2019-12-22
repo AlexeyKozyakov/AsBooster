@@ -39,9 +39,9 @@ class SavedFragment : Fragment(), SavedView {
         return view
     }
 
-    override fun onResume() {
-        super.onResume()
-        presenter.onShow()
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
     }
 
     override fun showAudios(audios: MutableList<AudioItem>) {
@@ -69,12 +69,16 @@ class SavedFragment : Fragment(), SavedView {
         viewHolder.placeholderTextView.visibility = View.GONE
     }
 
-    override fun removeTrackItem(position: Int) {
+    override fun removeAudioItem(position: Int) {
         (viewHolder.savedAudiosRecycler.adapter as AudiosAdapter).remove(position)
     }
 
-    override fun moveTrackItem(positionFrom: Int, positionTo: Int) {
+    override fun moveAudioItem(positionFrom: Int, positionTo: Int) {
         (viewHolder.savedAudiosRecycler.adapter as AudiosAdapter).move(positionFrom, positionTo)
+    }
+
+    override fun addAudioItem(audio: AudioItem) {
+        (viewHolder.savedAudiosRecycler.adapter as AudiosAdapter).add(audio)
     }
 
     private fun initSavedAudiosRecycler() {

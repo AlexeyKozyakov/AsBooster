@@ -14,8 +14,10 @@ interface SavedView {
 
     fun hidePlaceholder()
 
-    fun removeTrackItem(position: Int)
+    fun removeAudioItem(position: Int)
 
-    fun moveTrackItem(positionFrom: Int, positionTo: Int)
+    fun moveAudioItem(positionFrom: Int, positionTo: Int)
+
+    fun addAudioItem(audio: AudioItem)
 
 }
