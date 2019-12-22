@@ -27,13 +27,13 @@ class InMemoryTracksRepository @Inject constructor(): TracksRepository {
         }
     }
 
-    override fun move(from: Track, to: Track) {
-        val toIndex = trackList.indexOf(to)
-        if (toIndex == -1) {
+    override fun move(track: Track, insertAfter: Track) {
+        val insertIndex = trackList.indexOf(insertAfter)
+        if (insertIndex == -1) {
             return
         }
-        trackList.remove(from)
-        trackList.add(toIndex, from)
+        trackList.remove(track)
+        trackList.add(insertIndex, track)
     }
 
 }

@@ -17,7 +17,7 @@ interface TracksRepository {
 
     fun deleteTrack(track: Track)
 
-    fun move(from: Track, to: Track)
+    fun move(track: Track, insertAfter: Track)
 }
 
 @Parcelize

@@ -73,6 +73,10 @@ class SavedFragment : Fragment(), SavedView {
         (viewHolder.savedAudiosRecycler.adapter as AudiosAdapter).remove(position)
     }
 
+    override fun moveTrackItem(positionFrom: Int, positionTo: Int) {
+        (viewHolder.savedAudiosRecycler.adapter as AudiosAdapter).move(positionFrom, positionTo)
+    }
+
     private fun initSavedAudiosRecycler() {
         viewHolder.savedAudiosRecycler.apply {
             setHasFixedSize(true)
@@ -86,11 +90,7 @@ class SavedFragment : Fragment(), SavedView {
                     viewHolder: RecyclerView.ViewHolder,
                     target: RecyclerView.ViewHolder
                 ): Boolean {
-                    val from = viewHolder.adapterPosition
-                    val target = target.adapterPosition
-                    val adapter = recyclerView.adapter as AudiosAdapter
-                    adapter.move(from, target)
-                    presenter.onMove(from, target)
+                    presenter.onMove(viewHolder.adapterPosition, target.adapterPosition)
                     return true
                 }
 

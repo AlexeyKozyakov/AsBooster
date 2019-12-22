@@ -35,13 +35,13 @@ class SavedPresenter @Inject constructor(
     }
 
     fun onSwipe(position: Int){
-        val track = tracks[position]
-        tracksRepository.deleteTrack(track)
+        tracksRepository.deleteTrack(tracks[position])
         view.removeTrackItem(position)
     }
 
     fun onMove(from: Int, to: Int) {
         tracksRepository.move(tracks[from], tracks[to])
+        view.moveTrackItem(from, to)
     }
 
     private fun updateTracks() {

@@ -52,13 +52,11 @@ class AudiosAdapter(
         notifyItemRemoved(position)
     }
 
-    fun move(from: Int, to: Int) {
-        val audiosCopy = audios.toMutableList()
-        val moved = audiosCopy[from]
-        audiosCopy.removeAt(from)
-        audiosCopy.add(to, moved)
-        audios = audiosCopy
-        notifyItemMoved(from, to)
+    fun move(positionFrom: Int, positionTo: Int) {
+        val item = audios[positionFrom]
+        audios.removeAt(positionFrom)
+        audios.add(positionTo,  item)
+        notifyItemMoved(positionFrom, positionTo)
     }
 }
 

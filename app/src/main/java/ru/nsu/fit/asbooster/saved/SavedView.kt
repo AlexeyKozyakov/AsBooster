@@ -16,4 +16,6 @@ interface SavedView {
 
     fun removeTrackItem(position: Int)
 
+    fun moveTrackItem(positionFrom: Int, positionTo: Int)
+
 }
