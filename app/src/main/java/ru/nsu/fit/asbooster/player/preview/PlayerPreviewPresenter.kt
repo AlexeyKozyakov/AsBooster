@@ -9,6 +9,7 @@ import ru.nsu.fit.asbooster.player.audio.AudioPlayer
 import ru.nsu.fit.asbooster.base.navigation.Router
 import ru.nsu.fit.asbooster.formating.NumberFormatter
 import ru.nsu.fit.asbooster.mappers.ViewItemsMapper
+import ru.nsu.fit.asbooster.player.effects.EffectsManager
 import ru.nsu.fit.asbooster.repository.StringsProvider
 import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.saved.model.Track
@@ -25,7 +26,8 @@ class PlayerPreviewPresenter @Inject constructor(
     private val repository: TracksRepository,
     private val uiScope: CoroutineScope,
     private val messageHelper: SnackbarMessageHelper,
-    private val stringsProvider: StringsProvider
+    private val stringsProvider: StringsProvider,
+    private val effectsManager: EffectsManager
 ) {
 
     private lateinit var audioInfo: AudioInfo
@@ -44,7 +46,10 @@ class PlayerPreviewPresenter @Inject constructor(
         override fun onLoadingStart(audioInfo: AudioInfo) {
             this@PlayerPreviewPresenter.audioInfo = audioInfo
             with(view.get()) {
-                val audioItem = viewItemsMapper.trackToAudioItem(Track(audioInfo, emptyList()))
+                val audioItem = viewItemsMapper.trackToAudioItem(Track(
+                    audioInfo,
+                    effectsManager.effectsSettings
+                ))
                 show(audioItem)
                 showProgress()
             }
