@@ -2,7 +2,7 @@ package ru.nsu.fit.asbooster.audios
 
 import android.os.Bundle
 import androidx.viewpager.widget.ViewPager
-import ru.nsu.fit.asbooster.App
+import ru.nsu.fit.asbooster.base.App
 import ru.nsu.fit.asbooster.R
 import ru.nsu.fit.asbooster.base.BaseActivity
 
@@ -20,20 +20,19 @@ class AudiosActivity : BaseActivity() {
         setContentView(R.layout.activity_audios)
         findViewById<ViewPager>(R.id.audios_view_pager).adapter =
             AudiosPagerAdapter(this, supportFragmentManager)
-
-        notifyPresentersOnCreate()
+        notifyOnCreate()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        notifyPresentersOnDestroy()
+        notifyOnDestroy()
     }
 
-    private fun notifyPresentersOnCreate() {
+    private fun notifyOnCreate() {
         component.value.getPlayerPreviewPresenter().onCreate()
     }
 
-    private fun notifyPresentersOnDestroy() {
+    private fun notifyOnDestroy() {
         component.value.getPlayerPreviewPresenter().onDestroy()
     }
 }

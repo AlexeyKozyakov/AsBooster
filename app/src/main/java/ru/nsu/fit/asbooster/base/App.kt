@@ -1,4 +1,4 @@
-package ru.nsu.fit.asbooster
+package ru.nsu.fit.asbooster.base
 
 import android.app.Application
 import ru.nsu.fit.asbooster.di.DaggerApplicationComponent

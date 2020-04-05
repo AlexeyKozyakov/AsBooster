@@ -11,8 +11,8 @@ import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.saved.model.Track
 import ru.nsu.fit.asbooster.saved.model.TracksRepository
 import ru.nsu.fit.asbooster.saved.model.entity.EffectInfo
-import ru.nsu.fit.asbooster.search.navigation.Router
-import ru.nsu.fit.asbooster.view.ViewItemsMapper
+import ru.nsu.fit.asbooster.base.navigation.Router
+import ru.nsu.fit.asbooster.mappers.ViewItemsMapper
 
 class SavedPresenterTest {
     private val savedView: SavedView = mock()

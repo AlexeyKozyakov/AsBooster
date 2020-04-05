@@ -48,7 +48,7 @@ open class InMemoryTracksRepository @Inject constructor(): TracksRepository {
      * Only for internal usage.
      * Save listener is not called.
      */
-    protected fun saveTracks(tracks: List<Track>) {
+    protected fun loadTracks(tracks: List<Track>) {
         this.tracks.addAll(tracks)
         this.trackList.addAll(tracks)
     }

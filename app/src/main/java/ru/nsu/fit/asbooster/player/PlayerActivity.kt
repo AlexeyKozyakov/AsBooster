@@ -6,13 +6,13 @@ import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import ru.nsu.fit.asbooster.App
+import ru.nsu.fit.asbooster.base.App
 import ru.nsu.fit.asbooster.R
 import ru.nsu.fit.asbooster.base.BaseActivity
-import ru.nsu.fit.asbooster.search.navigation.TRACK_INFO_EXTRA
 import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
 import ru.nsu.fit.asbooster.player.effects.ui.EffectsAdapter
 import ru.nsu.fit.asbooster.saved.model.Track
+import ru.nsu.fit.asbooster.base.navigation.Router
 
 class PlayerActivity : BaseActivity(), PlayerView {
 
@@ -28,7 +28,7 @@ class PlayerActivity : BaseActivity(), PlayerView {
             .build()
         viewHolder = ViewHolder()
         presenter = component.getPresenter()
-        val trackInfo: Track? = intent.getParcelableExtra(TRACK_INFO_EXTRA)
+        val trackInfo: Track? = intent.getParcelableExtra(Router.TRACK_INFO_EXTRA)
         presenter.onCreate(trackInfo)
         initPlayPauseClickListener()
         initOnSeekBarChangeListener()

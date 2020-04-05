@@ -13,7 +13,7 @@ import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.saved.model.Track
 import ru.nsu.fit.asbooster.saved.model.TracksRepository
 import ru.nsu.fit.asbooster.saved.model.entity.EffectInfo
-import ru.nsu.fit.asbooster.view.ViewItemsMapper
+import ru.nsu.fit.asbooster.mappers.ViewItemsMapper
 
 private const val SEEK_PROGRESS = 60
 private const val SEEK_FORMATTED = "seek progress"

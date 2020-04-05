@@ -13,7 +13,7 @@ import ru.nsu.fit.asbooster.repository.StringsProvider
 import ru.nsu.fit.asbooster.saved.model.Track
 import ru.nsu.fit.asbooster.saved.model.TracksRepository
 import ru.nsu.fit.asbooster.saved.model.entity.EffectInfo
-import ru.nsu.fit.asbooster.view.ViewItemsMapper
+import ru.nsu.fit.asbooster.mappers.ViewItemsMapper
 import java.lang.RuntimeException
 import javax.inject.Inject
 
@@ -32,7 +32,7 @@ class PlayerPresenter @Inject constructor(
     private lateinit var audioInfo: AudioInfo
     private lateinit var effectItems: List<EffectItem>
 
-    private val progressListener = object : AudioPlayer.Listener {
+    private val playerListener = object : AudioPlayer.Listener {
         override fun onProgress(progress: Int) {
             val current = progress / 1000
             view.updateProgressSeekBar(current)
@@ -67,11 +67,11 @@ class PlayerPresenter @Inject constructor(
             initEffects(effects)
         }
         showEffects(effectsManager.effects)
-        audioPlayer.addListener(progressListener)
+        audioPlayer.addListener(playerListener)
     }
 
     fun onDestroy() {
-        audioPlayer.removeListener(progressListener)
+        audioPlayer.removeListener(playerListener)
     }
 
     fun onPlayPauseClick() {

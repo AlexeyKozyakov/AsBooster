@@ -3,7 +3,7 @@ package ru.nsu.fit.asbooster.player.preview
 import dagger.Lazy
 import ru.nsu.fit.asbooster.di.ActivityScoped
 import ru.nsu.fit.asbooster.player.audio.AudioPlayer
-import ru.nsu.fit.asbooster.search.navigation.Router
+import ru.nsu.fit.asbooster.base.navigation.Router
 import javax.inject.Inject
 
 @ActivityScoped

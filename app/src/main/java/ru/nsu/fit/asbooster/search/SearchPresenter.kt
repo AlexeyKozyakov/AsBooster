@@ -3,12 +3,12 @@ package ru.nsu.fit.asbooster.search
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import ru.nsu.fit.asbooster.search.navigation.Router
+import ru.nsu.fit.asbooster.base.navigation.Router
 import ru.nsu.fit.asbooster.repository.AudioRepository
 import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.di.FragmentScoped
 import ru.nsu.fit.asbooster.saved.model.Track
-import ru.nsu.fit.asbooster.view.ViewItemsMapper
+import ru.nsu.fit.asbooster.mappers.ViewItemsMapper
 import javax.inject.Inject
 
 /**

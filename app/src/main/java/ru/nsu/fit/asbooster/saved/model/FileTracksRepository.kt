@@ -19,7 +19,7 @@ class FileTracksRepository @Inject constructor(
     applicationLifecycle: ApplicationLifecycle
 ) : InMemoryTracksRepository() {
 
-    private val loadCallbacks = mutableListOf<suspend () -> Any>()
+    private val loadCallbacks = mutableListOf<suspend () -> Unit>()
 
     private var loaded = false
 
@@ -49,7 +49,7 @@ class FileTracksRepository @Inject constructor(
                         reader,
                         object : TypeToken<List<Track>>() {}.type
                     )
-                saveTracks(tracksFromFile)
+                loadTracks(tracksFromFile)
             }
         }
     }

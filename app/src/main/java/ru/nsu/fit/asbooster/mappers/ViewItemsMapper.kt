@@ -1,4 +1,4 @@
-package ru.nsu.fit.asbooster.view
+package ru.nsu.fit.asbooster.mappers
 
 import ru.nsu.fit.asbooster.R
 import ru.nsu.fit.asbooster.formating.NumberFormatter

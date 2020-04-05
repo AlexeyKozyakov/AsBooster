@@ -6,8 +6,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import org.junit.Test
 import ru.nsu.fit.asbooster.repository.AudioRepository
-import ru.nsu.fit.asbooster.search.navigation.Router
-import ru.nsu.fit.asbooster.view.ViewItemsMapper
+import ru.nsu.fit.asbooster.base.navigation.Router
+import ru.nsu.fit.asbooster.mappers.ViewItemsMapper
 
 private const val QUERY = "query"
 
