@@ -79,9 +79,13 @@ class PlayerPreviewViewImpl @Inject constructor(
         viewHolder.root.setOnClickListener {
             presenter.onOpenClick()
         }
+
+        viewHolder.favoritesButton.setOnClickListener {
+            presenter.onAddToFavorites()
+        }
     }
 
-    private class ViewHolder(val root: View) {
+    private inner class ViewHolder(val root: View) {
         val playButton: ImageButton = root.findViewById(R.id.button_preview_play)
         val closeButton: ImageButton = root.findViewById(R.id.button_preview_close)
         val progressBar: ProgressBar = root.findViewById(R.id.player_preview_progress_bar)
@@ -90,6 +94,7 @@ class PlayerPreviewViewImpl @Inject constructor(
         val audioNameView: TextView = root.findViewById(R.id.player_preview_name)
         val elapsedTime: TextView = root.findViewById(R.id.player_preview_elapsed_time)
         val allTime: TextView = root.findViewById(R.id.player_preview_all_time)
+        val favoritesButton: ImageButton = root.findViewById(R.id.preview_favorites_button)
     }
 
 }

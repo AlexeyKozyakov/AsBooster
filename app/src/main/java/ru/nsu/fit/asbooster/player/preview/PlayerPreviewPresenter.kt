@@ -1,13 +1,18 @@
 package ru.nsu.fit.asbooster.player.preview
 
 import dagger.Lazy
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import ru.nsu.fit.asbooster.base.SnackbarMessageHelper
 import ru.nsu.fit.asbooster.di.ActivityScoped
 import ru.nsu.fit.asbooster.player.audio.AudioPlayer
 import ru.nsu.fit.asbooster.base.navigation.Router
 import ru.nsu.fit.asbooster.formating.NumberFormatter
 import ru.nsu.fit.asbooster.mappers.ViewItemsMapper
+import ru.nsu.fit.asbooster.repository.StringsProvider
 import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.saved.model.Track
+import ru.nsu.fit.asbooster.saved.model.TracksRepository
 import javax.inject.Inject
 
 @ActivityScoped
@@ -16,7 +21,11 @@ class PlayerPreviewPresenter @Inject constructor(
     private val player: AudioPlayer,
     private val router: Router,
     private val viewItemsMapper: ViewItemsMapper,
-    private val numberFormatter: NumberFormatter
+    private val numberFormatter: NumberFormatter,
+    private val repository: TracksRepository,
+    private val uiScope: CoroutineScope,
+    private val messageHelper: SnackbarMessageHelper,
+    private val stringsProvider: StringsProvider
 ) {
 
     private lateinit var audioInfo: AudioInfo
@@ -72,6 +81,14 @@ class PlayerPreviewPresenter @Inject constructor(
     fun onCloseClick() {
         view.get().hide()
         player.reset()
+    }
+
+
+    fun onAddToFavorites() {
+        uiScope.launch {
+            messageHelper.showMessage(stringsProvider.savedMessage)
+            repository.saveTrack(Track(audioInfo, emptyList()))
+        }
     }
 
     fun onCreate() {

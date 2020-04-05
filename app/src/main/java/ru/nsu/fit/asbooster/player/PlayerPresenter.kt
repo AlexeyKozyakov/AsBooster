@@ -2,6 +2,7 @@ package ru.nsu.fit.asbooster.player
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import ru.nsu.fit.asbooster.base.SnackbarMessageHelper
 import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.formating.NumberFormatter
 import ru.nsu.fit.asbooster.di.ActivityScoped
@@ -26,7 +27,8 @@ class PlayerPresenter @Inject constructor(
     private val effectsManager: EffectsManager,
     private val tracksRepository: TracksRepository,
     private val stringsProvider: StringsProvider,
-    private val viewItemsMapper: ViewItemsMapper
+    private val viewItemsMapper: ViewItemsMapper,
+    private val messageHelper: SnackbarMessageHelper
 ) {
 
     private lateinit var audioInfo: AudioInfo
@@ -99,7 +101,7 @@ class PlayerPresenter @Inject constructor(
     }
 
     fun onSave() {
-        view.showMessage(stringsProvider.savedMessage)
+        messageHelper.showMessage(stringsProvider.savedMessage)
         uiScope.launch {
             tracksRepository.saveTrack(
                 Track(

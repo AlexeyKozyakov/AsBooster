@@ -71,10 +71,6 @@ class PlayerActivity : BaseActivity(), PlayerView {
         viewHolder.seekBarPlayer.progress = progress
     }
 
-    override fun showMessage(message: String) {
-        Snackbar.make(viewHolder.content, message, Snackbar.LENGTH_LONG).show()
-    }
-
     override fun showProgress() {
         viewHolder.progressBar.visibility = View.VISIBLE
     }
@@ -116,7 +112,6 @@ class PlayerActivity : BaseActivity(), PlayerView {
     }
 
     private inner class ViewHolder {
-        val content: View = findViewById(android.R.id.content)
         val coverImageView: ImageView = findViewById(R.id.image_view_track_cover)
         val nameTextView: TextView = findViewById(R.id.player_song_name)
         val artistTextView: TextView = findViewById(R.id.player_artist)

@@ -17,8 +17,6 @@ interface PlayerView {
 
     fun setElapsedTime(time:String)
 
-    fun showMessage(message: String)
-
     fun showProgress()
 
     fun hideProgress()
