@@ -15,8 +15,4 @@ class PlayerModule {
     @Provides
     fun view(activity: Activity) = activity as PlayerView
 
-    @ActivityScoped
-    @Provides
-    fun audioPLayer(audioPlayerImpl: AudioPlayerImpl) = audioPlayerImpl as AudioPlayer
-
 }

@@ -1,6 +1,7 @@
 package ru.nsu.fit.asbooster.saved.model.entity
 
 import android.os.Parcelable
+import androidx.room.Entity
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize

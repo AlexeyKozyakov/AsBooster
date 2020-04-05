@@ -4,8 +4,9 @@ import android.media.audiofx.LoudnessEnhancer
 import ru.nsu.fit.asbooster.di.ActivityScoped
 import ru.nsu.fit.asbooster.player.audio.AudioPlayer
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@ActivityScoped
+@Singleton
 class LoudnessEffect @Inject constructor(
     audioPlayer: AudioPlayer
 ): Effect {

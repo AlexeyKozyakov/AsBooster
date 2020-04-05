@@ -16,7 +16,7 @@ class Router @Inject constructor(
     private val activity: Activity
 ) {
 
-    fun openPlayer(track: Track) {
+    fun openPlayer(track: Track? = null) {
         val intent = Intent(activity, PlayerActivity::class.java)
         intent.putExtra(TRACK_INFO_EXTRA, track)
         activity.startActivityForResult(intent, PLAYER_CODE)

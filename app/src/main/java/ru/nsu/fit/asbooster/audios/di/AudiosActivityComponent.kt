@@ -4,16 +4,19 @@ import android.app.Activity
 import dagger.BindsInstance
 import dagger.Subcomponent
 import ru.nsu.fit.asbooster.di.ActivityScoped
+import ru.nsu.fit.asbooster.player.preview.PlayerPreviewPresenter
 import ru.nsu.fit.asbooster.saved.di.SavedFragmentComponent
 import ru.nsu.fit.asbooster.search.di.SearchFragmentComponent
 
-@Subcomponent
+@Subcomponent(modules = [AudiosModule::class])
 @ActivityScoped
 interface AudiosActivityComponent {
 
     fun searchFragmentComponentBuilder(): SearchFragmentComponent.Builder
 
     fun savedFragmentComponentBuilder(): SavedFragmentComponent.Builder
+
+    fun getPlayerPreviewPresenter(): PlayerPreviewPresenter
 
     @Subcomponent.Builder
     interface Builder {

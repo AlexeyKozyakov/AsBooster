@@ -2,18 +2,19 @@ package ru.nsu.fit.asbooster.player
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import ru.nsu.fit.asbooster.repository.AudioRepository
 import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.formating.NumberFormatter
 import ru.nsu.fit.asbooster.di.ActivityScoped
 import ru.nsu.fit.asbooster.player.audio.AudioPlayer
 import ru.nsu.fit.asbooster.player.effects.EffectsManager
+import ru.nsu.fit.asbooster.player.effects.preloaded.Effect
 import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
 import ru.nsu.fit.asbooster.repository.StringsProvider
 import ru.nsu.fit.asbooster.saved.model.Track
 import ru.nsu.fit.asbooster.saved.model.TracksRepository
 import ru.nsu.fit.asbooster.saved.model.entity.EffectInfo
 import ru.nsu.fit.asbooster.view.ViewItemsMapper
+import java.lang.RuntimeException
 import javax.inject.Inject
 
 @ActivityScoped
@@ -22,7 +23,6 @@ class PlayerPresenter @Inject constructor(
     private val formatter: NumberFormatter,
     private val audioPlayer: AudioPlayer,
     private val uiScope: CoroutineScope,
-    private val repository: AudioRepository,
     private val effectsManager: EffectsManager,
     private val tracksRepository: TracksRepository,
     private val stringsProvider: StringsProvider,
@@ -31,24 +31,51 @@ class PlayerPresenter @Inject constructor(
 
     private lateinit var audioInfo: AudioInfo
     private lateinit var effectItems: List<EffectItem>
-    private var userIsSeeking:Boolean = false
+
+    private val progressListener = object : AudioPlayer.Listener {
+        override fun onProgress(progress: Int) {
+            val current = progress / 1000
+            view.updateProgressSeekBar(current)
+            view.setElapsedTime(formatter.formatDuration(progress))
+        }
+
+        override fun onComplete() {
+            view.showPlayButton()
+        }
+
+        override fun onLoadingStart() {
+            view.showProgress()
+        }
+
+        override fun onLoadingFinish() {
+            view.hideProgress()
+        }
+    }
 
 
-    fun onCreate(track: Track) {
-        audioInfo = track.audioInfo
-        val effects = track.effectsInfo
-        initPlayer()
-        initEffects(effects)
-        initTracker()
+    fun onCreate(track: Track?) {
+        val effects = track?.effectsInfo
+        audioInfo = track?.audioInfo ?: audioPlayer.currentAudio
+        ?: throw RuntimeException("Player created but no track is provided")
+        if (track != null) {
+            initPlayerWithNewTrack()
+        } else {
+            initViewWithCurrentTrack()
+        }
+        showAudio(audioInfo)
+        if (effects != null) {
+            initEffects(effects)
+        }
+        showEffects(effectsManager.effects)
+        audioPlayer.addListener(progressListener)
     }
 
     fun onDestroy() {
-        audioPlayer.destroy()
-        effectsManager.destroy()
+        audioPlayer.removeListener(progressListener)
     }
 
     fun onPlayPauseClick() {
-        if (!audioPlayer.started) {
+        if (!audioPlayer.loaded) {
             return
         }
         if (audioPlayer.playing) {
@@ -59,25 +86,12 @@ class PlayerPresenter @Inject constructor(
             view.showPauseButton()
         }
     }
-    fun onSeek(progress : Int){
-        val time = progress*1000
+
+    fun onSeek(progress: Int) {
+        val time = progress * 1000
         audioPlayer.seekTo(time)
         view.setElapsedTime(formatter.formatDuration(time))
     }
-
-    fun onStartSeeking(){
-        userIsSeeking = true
-    }
-
-    fun onReleaseSeeking(){
-        userIsSeeking = false
-        if(!audioPlayer.playing) {
-            view.showPlayButton()
-        } else{
-            view.showPauseButton()
-        }
-    }
-
 
     fun onEffectForceChanged(position: Int, force: Int) {
         val effectItem = effectItems[position]
@@ -86,39 +100,47 @@ class PlayerPresenter @Inject constructor(
 
     fun onSave() {
         view.showMessage(stringsProvider.savedMessage)
-        tracksRepository.saveTrack(Track(
-            audioInfo,
-            effectsManager.effectsSettings
-        ))
+        uiScope.launch {
+            tracksRepository.saveTrack(
+                Track(
+                    audioInfo,
+                    effectsManager.effectsSettings
+                )
+            )
+        }
     }
 
-    private fun initPlayer() {
+    private fun initViewWithCurrentTrack() {
+        if (audioPlayer.playing) {
+            view.showPauseButton()
+        }
+        if (audioPlayer.loading) {
+            view.showProgress()
+        }
+    }
+
+    private fun initPlayerWithNewTrack() {
+        if (audioPlayer.loaded || audioPlayer.loading) {
+            audioPlayer.reset()
+        }
+
+        uiScope.launch {
+            audioPlayer.start(audioInfo)
+            onPlayPauseClick()
+        }
+    }
+
+    private fun showAudio(audioInfo: AudioInfo) {
+        this.audioInfo = audioInfo
         view.setTrack(viewItemsMapper.audioInfoToTrackViewItem(audioInfo))
-
-        audioInfo.urlToStream?.let {
-            uiScope.launch {
-                val streamUrl = repository.getStreamUrl(it)
-                streamUrl?.let { url ->
-                    audioPlayer.start(url)
-                    onPlayPauseClick()
-                }
-            }
-        }
-    }
-
-    private fun initTracker(){
-        audioPlayer.progressListener = { progress ->
-            val current = progress/1000
-            view.updateProgressSeekBar(current)
-            view.setElapsedTime(formatter.formatDuration(progress))
-            if(current == audioInfo.duration/1000 && !userIsSeeking)
-                view.showPlayButton()
-        }
     }
 
     private fun initEffects(effects: List<EffectInfo>) {
         effectsManager.effectsSettings = effects
-        effectItems = viewItemsMapper.effectsToEffectItems(effectsManager.effects)
+    }
+
+    private fun showEffects(effects: List<Effect>) {
+        effectItems = viewItemsMapper.effectsToEffectItems(effects)
         view.showEffects(effectItems)
     }
 

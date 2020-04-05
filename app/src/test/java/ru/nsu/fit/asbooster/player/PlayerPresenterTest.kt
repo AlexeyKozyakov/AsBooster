@@ -45,7 +45,7 @@ class PlayerPresenterTest{
         on { formatDuration(eq(SEEK_PROGRESS * 1000)) } doReturn SEEK_FORMATTED
     }
     private val audioPlayer: AudioPlayer = mock {
-        on { started } doReturn true
+        on { loaded } doReturn true
     }
     private val uiScope: CoroutineScope = CoroutineScope(Dispatchers.Unconfined)
     private val repository: AudioRepository = mock {
@@ -95,7 +95,7 @@ class PlayerPresenterTest{
 
     @Test
     fun `do nothing on play pause click if player is not started`() {
-        whenever(audioPlayer.started) doReturn false
+        whenever(audioPlayer.loaded) doReturn false
 
         playerPresenter.onPlayPauseClick()
 

@@ -8,34 +8,34 @@ import kotlin.collections.LinkedHashSet
  * Tracks repository implementation to store tracks in memory.
  */
 @Singleton
-class InMemoryTracksRepository @Inject constructor(): TracksRepository {
+open class InMemoryTracksRepository @Inject constructor(): TracksRepository {
 
-    override val empty: Boolean
-        get() = tracks.isEmpty()
+    override suspend fun isEmpty() = tracks.isEmpty()
 
     override var saveTrackListener: (Track) -> Unit = {}
 
     private val tracks = LinkedHashSet<Track>()
     private val trackList = mutableListOf<Track>()
 
-    override fun getTrack(position: Int) = trackList[position]
+    override suspend fun getTrack(position: Int) = trackList[position]
 
-    override fun getTracks() = trackList
+    override suspend fun getTracks() = trackList
 
-    override fun saveTrack(track: Track) {
+    override suspend fun saveTrack(track: Track) {
         if (tracks.add(track)) {
             trackList.add(track)
             saveTrackListener(track)
         }
     }
 
-    override fun deleteTrack(track: Track) {
+    override suspend fun deleteTrack(position: Int) {
+        val track = trackList[position]
         if(tracks.remove(track)) {
             trackList.remove(track)
         }
     }
 
-    override fun move(track: Track, insertAfter: Track) {
+    override suspend fun move(track: Track, insertAfter: Track) {
         val insertIndex = trackList.indexOf(insertAfter)
         if (insertIndex == -1) {
             return
@@ -44,4 +44,12 @@ class InMemoryTracksRepository @Inject constructor(): TracksRepository {
         trackList.add(insertIndex, track)
     }
 
+    /**
+     * Only for internal usage.
+     * Save listener is not called.
+     */
+    protected fun saveTracks(tracks: List<Track>) {
+        this.tracks.addAll(tracks)
+        this.trackList.addAll(tracks)
+    }
 }

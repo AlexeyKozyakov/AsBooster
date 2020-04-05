@@ -1,17 +1,17 @@
 package ru.nsu.fit.asbooster.player.effects
 
-import ru.nsu.fit.asbooster.di.ActivityScoped
 import ru.nsu.fit.asbooster.player.effects.preloaded.BassBoostEffect
 import ru.nsu.fit.asbooster.player.effects.preloaded.LoudnessEffect
 import ru.nsu.fit.asbooster.player.effects.preloaded.ReverbEffect
 import ru.nsu.fit.asbooster.saved.model.entity.EffectInfo
 import javax.inject.Inject
+import javax.inject.Singleton
 
 
 /**
  * Manages all audio effects.
  */
-@ActivityScoped
+@Singleton
 class EffectsManager @Inject constructor(
     bassBoostEffect: BassBoostEffect,
     loudnessEffect: LoudnessEffect,

@@ -60,7 +60,7 @@ class SearchPresenter @Inject constructor(
         view.showProgress()
         uiScope.launch {
             val requestedAudios = audioRepository.searchAudios(query) ?: emptyList()
-            //TODO: show placeholder if audios is empty
+            //TODO: show placeholder if audios is isEmpty
             if (query == lastQuery) {
                 audioInfos = requestedAudios
                 view.hideProgress()

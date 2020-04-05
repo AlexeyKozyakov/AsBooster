@@ -18,7 +18,10 @@ class SavedPresenter @Inject constructor(
 ) {
 
     fun onCreate() {
-        updateTracks()
+        uiScope.launch {
+            view.showProgress()
+            updateTracks()
+        }
     }
 
     fun onDestroy() {
@@ -27,9 +30,9 @@ class SavedPresenter @Inject constructor(
 
     fun onSwipe(position: Int) {
         uiScope.launch {
-            tracksRepository.deleteTrack(tracksRepository.getTrack(position))
+            tracksRepository.deleteTrack(position)
             view.removeAudioItem(position)
-            if (tracksRepository.empty) {
+            if (tracksRepository.isEmpty()) {
                 view.showPlaceholder()
             }
         }
@@ -45,7 +48,6 @@ class SavedPresenter @Inject constructor(
     }
 
     private fun updateTracks() {
-        view.showProgress()
         uiScope.launch {
             val tracks = tracksRepository.getTracks()
             if (tracks.any()) {

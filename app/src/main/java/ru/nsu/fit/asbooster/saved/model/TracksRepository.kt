@@ -7,23 +7,24 @@ import ru.nsu.fit.asbooster.saved.model.entity.EffectInfo
 
 /**
  * Base interface for store tracks.
+ * Tracks are stored with preserving order.
  * It can be implemented as sql database, in memory database, etc.
  */
 interface TracksRepository {
 
-    val empty: Boolean
-
     var saveTrackListener: (Track) -> Unit
 
-    fun getTrack(position: Int): Track
+    suspend fun isEmpty(): Boolean
 
-    fun getTracks(): List<Track>
+    suspend fun getTrack(position: Int): Track
 
-    fun saveTrack(track: Track)
+    suspend fun getTracks(): List<Track>
 
-    fun deleteTrack(track: Track)
+    suspend fun saveTrack(track: Track)
 
-    fun move(track: Track, insertAfter: Track)
+    suspend fun deleteTrack(position: Int)
+
+    suspend fun move(track: Track, insertAfter: Track)
 }
 
 @Parcelize

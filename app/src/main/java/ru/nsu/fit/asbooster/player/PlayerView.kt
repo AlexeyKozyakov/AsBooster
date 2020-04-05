@@ -19,6 +19,10 @@ interface PlayerView {
 
     fun showMessage(message: String)
 
+    fun showProgress()
+
+    fun hideProgress()
+
 }
 
 class TrackViewItem(

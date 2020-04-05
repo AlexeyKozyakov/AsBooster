@@ -1,22 +1,20 @@
 package ru.nsu.fit.asbooster.player
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.SeekBar
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import ru.nsu.fit.asbooster.App
 import ru.nsu.fit.asbooster.R
+import ru.nsu.fit.asbooster.base.BaseActivity
 import ru.nsu.fit.asbooster.search.navigation.TRACK_INFO_EXTRA
 import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
 import ru.nsu.fit.asbooster.player.effects.ui.EffectsAdapter
+import ru.nsu.fit.asbooster.saved.model.Track
 
-class PlayerActivity : AppCompatActivity(), PlayerView {
+class PlayerActivity : BaseActivity(), PlayerView {
 
     private lateinit var presenter: PlayerPresenter
     private lateinit var viewHolder: ViewHolder
@@ -30,7 +28,8 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
             .build()
         viewHolder = ViewHolder()
         presenter = component.getPresenter()
-        presenter.onCreate(intent.getParcelableExtra(TRACK_INFO_EXTRA)!!)
+        val trackInfo: Track? = intent.getParcelableExtra(TRACK_INFO_EXTRA)
+        presenter.onCreate(trackInfo)
         initPlayPauseClickListener()
         initOnSeekBarChangeListener()
         initEffectsRecycler()
@@ -76,6 +75,14 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         Snackbar.make(viewHolder.content, message, Snackbar.LENGTH_LONG).show()
     }
 
+    override fun showProgress() {
+        viewHolder.progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        viewHolder.progressBar.visibility = View.INVISIBLE
+    }
+
     private fun initPlayPauseClickListener() {
         viewHolder.playPauseButton.setOnClickListener {
             presenter.onPlayPauseClick()
@@ -91,15 +98,13 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
 
     private fun initOnSeekBarChangeListener(){
         viewHolder.seekBarPlayer.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onStartTrackingTouch(p0: SeekBar?) = Unit
+
+            override fun onStopTrackingTouch(p0: SeekBar?) = Unit
+
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 if(fromUser)
                     presenter.onSeek(progress)
-            }
-            override fun onStartTrackingTouch(seekBar: SeekBar) {
-                presenter.onStartSeeking()
-            }
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                presenter.onReleaseSeeking()
             }
         })
     }
@@ -121,6 +126,7 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
         val effectsRecycler: RecyclerView = findViewById(R.id.effects_recycler_view)
         val seekBarPlayer: SeekBar = findViewById(R.id.seek_bar_player)
         val saveButton: ImageButton = findViewById(R.id.save_track_button)
+        val progressBar: ProgressBar = findViewById(R.id.player_progress_bar)
     }
 
 }

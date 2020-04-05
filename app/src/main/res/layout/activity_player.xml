@@ -125,5 +125,16 @@
         app:layout_constraintTop_toBottomOf="@+id/player_artist"
         app:srcCompat="@drawable/star_icon" />
 
+    <ProgressBar
+        android:id="@+id/player_progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="37dp"
+        android:layout_height="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/text_add_effect"
+        app:layout_constraintEnd_toStartOf="@+id/button_play"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/player_artist"
+        android:visibility="invisible" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
