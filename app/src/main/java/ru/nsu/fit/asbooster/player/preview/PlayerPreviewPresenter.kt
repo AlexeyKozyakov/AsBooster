@@ -92,7 +92,10 @@ class PlayerPreviewPresenter @Inject constructor(
     fun onAddToFavorites() {
         uiScope.launch {
             messageHelper.showMessage(stringsProvider.savedMessage)
-            repository.saveTrack(Track(audioInfo, emptyList()))
+            repository.saveTrack(Track(
+                audioInfo,
+                effectsManager.effectsSettings
+            ))
         }
     }
 
