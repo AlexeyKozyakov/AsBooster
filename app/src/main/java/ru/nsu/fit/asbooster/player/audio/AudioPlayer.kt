@@ -15,7 +15,7 @@ interface AudioPlayer {
 
         fun onProgress(progress: Int) = Unit
 
-        fun onLoadingStart() = Unit
+        fun onLoadingStart(audioInfo: AudioInfo) = Unit
 
         fun onLoadingFinish() = Unit
 

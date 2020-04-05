@@ -24,6 +24,10 @@ class FileIoHelper @Inject constructor(
         filename: String,
         block: (BufferedReader) -> Unit
     ) {
+        val file = application.getFileStreamPath(filename)
+        if (!file.exists()) {
+            return
+        }
         application.openFileInput(filename).bufferedReader().use(block)
     }
 

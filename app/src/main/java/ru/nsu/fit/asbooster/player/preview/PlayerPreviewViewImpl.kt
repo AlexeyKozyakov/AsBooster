@@ -4,9 +4,12 @@ import android.app.Activity
 import android.view.View
 import android.view.ViewStub
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import ru.nsu.fit.asbooster.R
 import ru.nsu.fit.asbooster.di.ActivityScoped
+import ru.nsu.fit.asbooster.search.adapter.AudioItem
 import javax.inject.Inject
 
 @ActivityScoped
@@ -24,8 +27,14 @@ class PlayerPreviewViewImpl @Inject constructor(
         viewHolder
     }
 
-    override fun show() {
-        viewHolder.value.root.visibility = View.VISIBLE
+    override fun show(audioItem: AudioItem) {
+        with(viewHolder.value) {
+            root.visibility = View.VISIBLE
+            audioAuthorView.text = audioItem.author
+            audioNameView.text = audioItem.name
+            audioItem.image.show(audioImage)
+            allTime.text = audioItem.duration
+        }
     }
 
     override fun hide() {
@@ -54,25 +63,33 @@ class PlayerPreviewViewImpl @Inject constructor(
         }
     }
 
+    override fun setElapsed(duration: String) {
+        viewHolder.value.elapsedTime.text = duration
+    }
+
     private fun initListeners(viewHolder: ViewHolder) {
         viewHolder.playButton.setOnClickListener {
             presenter.onPlayClick()
         }
 
-        viewHolder.openButton.setOnClickListener {
-            presenter.onOpenClick()
-        }
-
         viewHolder.closeButton.setOnClickListener {
             presenter.onCloseClick()
+        }
+
+        viewHolder.root.setOnClickListener {
+            presenter.onOpenClick()
         }
     }
 
     private class ViewHolder(val root: View) {
         val playButton: ImageButton = root.findViewById(R.id.button_preview_play)
-        val openButton: ImageButton = root.findViewById(R.id.button_preview_open)
         val closeButton: ImageButton = root.findViewById(R.id.button_preview_close)
         val progressBar: ProgressBar = root.findViewById(R.id.player_preview_progress_bar)
+        val audioImage: ImageView = root.findViewById(R.id.player_preview_track_image)
+        val audioAuthorView: TextView = root.findViewById(R.id.player_preview_author)
+        val audioNameView: TextView = root.findViewById(R.id.player_preview_name)
+        val elapsedTime: TextView = root.findViewById(R.id.player_preview_elapsed_time)
+        val allTime: TextView = root.findViewById(R.id.player_preview_all_time)
     }
 
 }

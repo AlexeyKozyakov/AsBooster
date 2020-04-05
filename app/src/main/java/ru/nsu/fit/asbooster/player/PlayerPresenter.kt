@@ -43,7 +43,7 @@ class PlayerPresenter @Inject constructor(
             view.showPlayButton()
         }
 
-        override fun onLoadingStart() {
+        override fun onLoadingStart(audioInfo: AudioInfo) {
             view.showProgress()
         }
 
@@ -57,10 +57,10 @@ class PlayerPresenter @Inject constructor(
         val effects = track?.effectsInfo
         audioInfo = track?.audioInfo ?: audioPlayer.currentAudio
         ?: throw RuntimeException("Player created but no track is provided")
-        if (track != null) {
-            initPlayerWithNewTrack()
+        if (track != null && audioPlayer.currentAudio != audioInfo) {
+            initWithNewTrack()
         } else {
-            initViewWithCurrentTrack()
+            initWithCurrentTrack()
         }
         showAudio(audioInfo)
         if (effects != null) {
@@ -110,7 +110,7 @@ class PlayerPresenter @Inject constructor(
         }
     }
 
-    private fun initViewWithCurrentTrack() {
+    private fun initWithCurrentTrack() {
         if (audioPlayer.playing) {
             view.showPauseButton()
         }
@@ -119,7 +119,7 @@ class PlayerPresenter @Inject constructor(
         }
     }
 
-    private fun initPlayerWithNewTrack() {
+    private fun initWithNewTrack() {
         if (audioPlayer.loaded || audioPlayer.loading) {
             audioPlayer.reset()
         }

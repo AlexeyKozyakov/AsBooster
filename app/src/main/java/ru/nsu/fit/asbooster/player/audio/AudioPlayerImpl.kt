@@ -49,7 +49,7 @@ class AudioPlayerImpl @Inject constructor(
     override val sessionId get() = mediaPlayer.audioSessionId
 
     override suspend fun start(audioInfo: AudioInfo) {
-        notifyLoadingStart()
+        notifyLoadingStart(audioInfo)
         starting = true
         val url  = getStreamUrl(audioInfo) ?: return
         currentAudio = audioInfo
@@ -158,8 +158,8 @@ class AudioPlayerImpl @Inject constructor(
         listeners.forEach { it.onStop() }
     }
 
-    private fun notifyLoadingStart() {
-        listeners.forEach { it.onLoadingStart() }
+    private fun notifyLoadingStart(audioInfo: AudioInfo) {
+        listeners.forEach { it.onLoadingStart(audioInfo) }
     }
 
     private fun notifyLoadingFinish() {

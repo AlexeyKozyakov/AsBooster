@@ -1,47 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_player_preview"
     android:elevation="2dp">
 
-    <ProgressBar
-        android:id="@+id/player_preview_progress_bar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <TextView
+        android:id="@+id/player_preview_name"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:layout_weight="1"
-        android:paddingStart="20dp"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:visibility="gone"/>
+        android:text="@string/placeholder_audio_name"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/player_preview_elapsed_time"
+        app:layout_constraintStart_toEndOf="@+id/player_preview_track_image"
+        app:layout_constraintTop_toBottomOf="@+id/player_preview_author" />
 
-    <ImageButton
-        android:id="@+id/button_preview_play"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <TextView
+        android:id="@+id/player_preview_author"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_weight="1"
-        android:background="@null"
-        app:srcCompat="@drawable/icon_button_play_preview"
-        android:paddingStart="20dp"/>
+        android:maxLines="1"
+        android:text="@string/placeholder_artist"
+        android:textColor="#555555"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/player_preview_name"
+        app:layout_constraintEnd_toEndOf="@+id/player_preview_name"
+        app:layout_constraintStart_toStartOf="@+id/player_preview_name"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/button_preview_open"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@null"
-        app:srcCompat="@drawable/ic_goto_player" />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/player_preview_track_image"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/track_list_item_placeholder_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/player_preview_play_layout"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_preview_close"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ProgressBar
+            android:id="@+id/player_preview_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/button_preview_play"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_button_play_preview"
+            android:visibility="visible" />
+
+    </FrameLayout>
+
 
     <ImageButton
         android:id="@+id/button_preview_close"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="32dp"
         android:background="@null"
-        app:srcCompat="@drawable/ic_preview_close"
-        android:paddingEnd="20dp"/>
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_preview_close"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/player_preview_elapsed_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/elapsed_time_placeholder"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/player_preview_play_layout"
+        app:layout_constraintTop_toTopOf="@+id/player_preview_author" />
+
+    <TextView
+        android:id="@+id/player_preview_all_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/remaining_time_placeholder"
+        android:textColor="#555555"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/player_preview_name"
+        app:layout_constraintEnd_toStartOf="@+id/player_preview_play_layout" />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
