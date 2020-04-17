@@ -6,6 +6,7 @@ import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_player.*
 import ru.nsu.fit.asbooster.base.App
 import ru.nsu.fit.asbooster.R
 import ru.nsu.fit.asbooster.base.BaseActivity
@@ -13,6 +14,9 @@ import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
 import ru.nsu.fit.asbooster.player.effects.ui.EffectsAdapter
 import ru.nsu.fit.asbooster.saved.model.Track
 import ru.nsu.fit.asbooster.base.navigation.Router
+
+private const val LOOPING_ALPHA = 1f
+private const val DEFAULT_ALPHA = 0.2f
 
 class PlayerActivity : BaseActivity(), PlayerView {
 
@@ -28,12 +32,13 @@ class PlayerActivity : BaseActivity(), PlayerView {
             .build()
         viewHolder = ViewHolder()
         presenter = component.getPresenter()
-        val trackInfo: Track? = intent.getParcelableExtra(Router.TRACK_INFO_EXTRA)
-        presenter.onCreate(trackInfo)
+        presenter.onCreate(intent)
         initPlayPauseClickListener()
         initOnSeekBarChangeListener()
         initEffectsRecycler()
         initSaveButtonListener()
+        initLoopingButtonListener()
+        initNavigationButtonListeners()
     }
 
     override fun onDestroy() {
@@ -79,6 +84,10 @@ class PlayerActivity : BaseActivity(), PlayerView {
         viewHolder.progressBar.visibility = View.INVISIBLE
     }
 
+    override fun showLooping(looping: Boolean) {
+        loopingButton.alpha = if (looping) LOOPING_ALPHA else DEFAULT_ALPHA
+    }
+
     private fun initPlayPauseClickListener() {
         viewHolder.playPauseButton.setOnClickListener {
             presenter.onPlayPauseClick()
@@ -108,6 +117,22 @@ class PlayerActivity : BaseActivity(), PlayerView {
     private fun initSaveButtonListener() {
         viewHolder.saveButton.setOnClickListener {
             presenter.onSave()
+        }
+    }
+
+    private fun initLoopingButtonListener() {
+        loopingButton.setOnClickListener {
+            presenter.onLoopingClick()
+        }
+    }
+
+    private fun initNavigationButtonListeners() {
+        previousButton.setOnClickListener {
+            presenter.onPreviousClick()
+        }
+
+        nextButton.setOnClickListener {
+            presenter.onNextClick()
         }
     }
 

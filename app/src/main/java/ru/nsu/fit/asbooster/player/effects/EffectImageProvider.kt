@@ -15,10 +15,12 @@ class EffectImageProvider @Inject constructor(
     private val imageProvider: ResourcesImageProvider
 ) {
 
-    fun provideEffectImage(effect: Effect) = when(effect.id) {
-        BassBoostEffect.ID -> imageProvider.privideImage(R.drawable.icon_bass_boost)
-        ReverbEffect.ID -> imageProvider.privideImage(R.drawable.reverb_icon)
-        LoudnessEffect.ID -> imageProvider.privideImage(R.drawable.loudness_icon)
+    fun provideEffectImage(effect: Effect) = provideEffectImage(effect.id)
+
+    fun provideEffectImage(effectId: String) = when(effectId) {
+        BassBoostEffect.ID -> imageProvider.provideImage(R.drawable.icon_bass_boost)
+        ReverbEffect.ID -> imageProvider.provideImage(R.drawable.reverb_icon)
+        LoudnessEffect.ID -> imageProvider.provideImage(R.drawable.loudness_icon)
         else -> throw IllegalArgumentException("Unsupported effect")
     }
 

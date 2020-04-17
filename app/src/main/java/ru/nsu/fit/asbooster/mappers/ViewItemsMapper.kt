@@ -10,7 +10,8 @@ import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
 import ru.nsu.fit.asbooster.repository.WebImageProvider
 import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.saved.model.Track
-import ru.nsu.fit.asbooster.search.adapter.AudioItem
+import ru.nsu.fit.asbooster.saved.model.entity.EffectInfo
+import ru.nsu.fit.asbooster.audios.view.AudioItem
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -45,6 +46,15 @@ class ViewItemsMapper @Inject constructor(
             it.id,
             effectNameProvider.provideEffectName(it),
             effectImageProvider.provideEffectImage(it),
+            it.force
+        )
+    }
+
+    fun effectsInfoToEffectItems(effectsInfo: List<EffectInfo>) = effectsInfo.map {
+        EffectItem(
+            it.id,
+            effectNameProvider.provideEffectName(it.id),
+            effectImageProvider.provideEffectImage(it.id),
             it.force
         )
     }

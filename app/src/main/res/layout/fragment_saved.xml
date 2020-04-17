@@ -6,21 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".saved.SavedFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/saved_recycler_view"
+    <ru.nsu.fit.asbooster.audios.view.TracksRecyclerView
+        android:id="@+id/search_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/audio_item" />
+        tools:listitem="@layout/audio_item"
+        app:editable="true"/>
 
     <ProgressBar
         android:id="@+id/saved_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/saved_recycler_view"
+        app:layout_constraintBottom_toBottomOf="@+id/search_recycler_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/saved_recycler_view"
-        app:layout_constraintTop_toTopOf="@+id/saved_recycler_view" />
+        app:layout_constraintStart_toStartOf="@+id/search_recycler_view"
+        app:layout_constraintTop_toTopOf="@+id/search_recycler_view" />
 
     <ImageView
         android:id="@+id/favorites_placeholder_image_view"
@@ -28,9 +29,9 @@
         android:layout_height="180dp"
         android:src="@drawable/favorites_placeholder_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/saved_recycler_view"
-        app:layout_constraintStart_toStartOf="@+id/saved_recycler_view"
-        app:layout_constraintTop_toTopOf="@+id/saved_recycler_view" />
+        app:layout_constraintEnd_toEndOf="@+id/search_recycler_view"
+        app:layout_constraintStart_toStartOf="@+id/search_recycler_view"
+        app:layout_constraintTop_toTopOf="@+id/search_recycler_view" />
 
     <TextView
         android:id="@+id/favorites_placeholder_text_view"

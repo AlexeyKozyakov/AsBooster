@@ -3,8 +3,8 @@ package ru.nsu.fit.asbooster.audios.di
 import android.app.Activity
 import dagger.BindsInstance
 import dagger.Subcomponent
+import ru.nsu.fit.asbooster.audios.AudiosActivityDependencies
 import ru.nsu.fit.asbooster.di.ActivityScoped
-import ru.nsu.fit.asbooster.player.preview.PlayerPreviewPresenter
 import ru.nsu.fit.asbooster.saved.di.SavedFragmentComponent
 import ru.nsu.fit.asbooster.search.di.SearchFragmentComponent
 
@@ -16,7 +16,7 @@ interface AudiosActivityComponent {
 
     fun savedFragmentComponentBuilder(): SavedFragmentComponent.Builder
 
-    fun getPlayerPreviewPresenter(): PlayerPreviewPresenter
+    fun getAudiosActivityDependencies(): AudiosActivityDependencies
 
     @Subcomponent.Builder
     interface Builder {

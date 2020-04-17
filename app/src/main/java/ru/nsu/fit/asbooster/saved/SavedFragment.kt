@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_saved.view.*
 
 import ru.nsu.fit.asbooster.R
 import ru.nsu.fit.asbooster.audios.AudiosActivity
-import ru.nsu.fit.asbooster.search.adapter.AudioItem
-import ru.nsu.fit.asbooster.search.adapter.AudiosAdapter
+import ru.nsu.fit.asbooster.audios.view.AudioHolderState
+import ru.nsu.fit.asbooster.audios.view.AudioItem
+import ru.nsu.fit.asbooster.audios.view.AudiosAdapter
+import ru.nsu.fit.asbooster.audios.view.TracksRecyclerView
 
 
 class SavedFragment : Fragment(), SavedView {
@@ -34,8 +34,8 @@ class SavedFragment : Fragment(), SavedView {
             .build()
         presenter = component.getPresenter()
         viewHolder = ViewHolder(view)
-        initSavedAudiosRecycler()
         presenter.onCreate()
+        initTrackRecyclerListener()
         return view
     }
 
@@ -45,13 +45,14 @@ class SavedFragment : Fragment(), SavedView {
     }
 
     override fun showAudios(audios: MutableList<AudioItem>) {
-        viewHolder.savedAudiosRecycler.adapter = AudiosAdapter(audios) {
-            presenter.onAudioClick(it)
-        }
+        viewHolder.tracksRecicler.adapter =
+            AudiosAdapter(audios) {
+                presenter.onAudioClick(it)
+            }
     }
 
     override fun showProgress() {
-        viewHolder.savedAudiosRecycler.adapter = null
+        viewHolder.tracksRecicler.adapter = null
         viewHolder.progressBar.visibility = View.VISIBLE
     }
 
@@ -70,50 +71,49 @@ class SavedFragment : Fragment(), SavedView {
     }
 
     override fun removeAudioItem(position: Int) {
-        (viewHolder.savedAudiosRecycler.adapter as AudiosAdapter).remove(position)
+        audiosAdapter.remove(position)
     }
 
     override fun moveAudioItem(positionFrom: Int, positionTo: Int) {
-        (viewHolder.savedAudiosRecycler.adapter as AudiosAdapter).move(positionFrom, positionTo)
+        audiosAdapter.move(positionFrom, positionTo)
     }
 
     override fun addAudioItem(audio: AudioItem) {
-        (viewHolder.savedAudiosRecycler.adapter as AudiosAdapter).add(audio)
+        audiosAdapter.add(audio)
     }
 
-    private fun initSavedAudiosRecycler() {
-        viewHolder.savedAudiosRecycler.apply {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(activity)
+    override fun showPlaying(position: Int) {
+        audiosAdapter.setState(position, AudioHolderState.PLAYING)
+    }
+
+    override fun showPaused(position: Int) {
+        audiosAdapter.setState(position, AudioHolderState.PAUSED)
+    }
+
+    override fun hideAllInfo(position: Int) {
+        audiosAdapter.setState(position, AudioHolderState.NONE)
+    }
+
+    private val audiosAdapter get() = viewHolder.tracksRecicler.adapter as AudiosAdapter
+
+    private fun initTrackRecyclerListener() {
+        viewHolder.tracksRecicler.listener = object : TracksRecyclerView.Listener {
+            override fun onMove(positionFrom: Int, positionTo: Int) {
+                presenter.onMove(positionFrom, positionTo)
+            }
+
+            override fun onSwipe(position: Int) {
+                presenter.onSwipe(position)
+            }
         }
-        val helper = ItemTouchHelper(
-            object : ItemTouchHelper.SimpleCallback(
-                ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.LEFT
-            ) {
-                override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
-                ): Boolean {
-                    presenter.onMove(viewHolder.adapterPosition, target.adapterPosition)
-                    return true
-                }
-
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    presenter.onSwipe(viewHolder.adapterPosition)
-                }
-
-            })
-        helper.attachToRecyclerView(viewHolder.savedAudiosRecycler)
     }
-
-
 
     private class ViewHolder(root: View) {
-        val savedAudiosRecycler: RecyclerView = root.findViewById(R.id.saved_recycler_view)
+        val tracksRecicler: TracksRecyclerView = root.search_recycler_view
         val progressBar: ProgressBar = root.findViewById(R.id.saved_progress_bar)
         val placeholderTextView: TextView = root.findViewById(R.id.favorites_placeholder_text_view)
-        val placeholderImageView: ImageView = root.findViewById(R.id.favorites_placeholder_image_view)
+        val placeholderImageView: ImageView =
+            root.findViewById(R.id.favorites_placeholder_image_view)
     }
 
 }

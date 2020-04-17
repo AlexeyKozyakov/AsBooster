@@ -13,7 +13,9 @@ import javax.inject.Singleton
 class EffectNameProvider @Inject constructor(
     private val stringsProvider: StringsProvider
 ) {
-    fun provideEffectName(effect: Effect) = when(effect.id) {
+    fun provideEffectName(effect: Effect) = provideEffectName(effect.id)
+
+    fun provideEffectName(effectId: String) = when(effectId) {
         BassBoostEffect.ID -> stringsProvider.bassBoostEffectName
         ReverbEffect.ID -> stringsProvider.reverbEffectName
         LoudnessEffect.ID -> stringsProvider.loudnessEffectName

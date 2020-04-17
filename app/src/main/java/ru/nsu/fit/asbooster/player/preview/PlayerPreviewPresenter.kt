@@ -1,6 +1,9 @@
 package ru.nsu.fit.asbooster.player.preview
 
-import dagger.Lazy
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.nsu.fit.asbooster.base.SnackbarMessageHelper
@@ -9,6 +12,7 @@ import ru.nsu.fit.asbooster.player.audio.AudioPlayer
 import ru.nsu.fit.asbooster.base.navigation.Router
 import ru.nsu.fit.asbooster.formating.NumberFormatter
 import ru.nsu.fit.asbooster.mappers.ViewItemsMapper
+import ru.nsu.fit.asbooster.player.PlayerFacade
 import ru.nsu.fit.asbooster.player.effects.EffectsManager
 import ru.nsu.fit.asbooster.repository.StringsProvider
 import ru.nsu.fit.asbooster.repository.entity.AudioInfo
@@ -18,7 +22,7 @@ import javax.inject.Inject
 
 @ActivityScoped
 class PlayerPreviewPresenter @Inject constructor(
-    private val view: Lazy<PlayerPreviewView>,
+    private val view: PlayerPreviewView,
     private val player: AudioPlayer,
     private val router: Router,
     private val viewItemsMapper: ViewItemsMapper,
@@ -27,25 +31,25 @@ class PlayerPreviewPresenter @Inject constructor(
     private val uiScope: CoroutineScope,
     private val messageHelper: SnackbarMessageHelper,
     private val stringsProvider: StringsProvider,
-    private val effectsManager: EffectsManager
+    private val effectsManager: EffectsManager,
+    private val playerFacade: PlayerFacade,
+    activity: AppCompatActivity
 ) {
 
     private lateinit var audioInfo: AudioInfo
 
     private val playerListener = object : AudioPlayer.Listener {
         override fun onPLay() {
-            with(view.get()) {
-                showPauseButton()
-            }
+            view.showPauseButton()
         }
 
         override fun onPause() {
-            view.get().showPlayButton()
+            view.showPlayButton()
         }
 
         override fun onLoadingStart(audioInfo: AudioInfo) {
             this@PlayerPreviewPresenter.audioInfo = audioInfo
-            with(view.get()) {
+            with(view) {
                 val audioItem = viewItemsMapper.trackToAudioItem(Track(
                     audioInfo,
                     effectsManager.effectsSettings
@@ -56,55 +60,64 @@ class PlayerPreviewPresenter @Inject constructor(
         }
 
         override fun onLoadingFinish() {
-            view.get().hideProgress()
+            view.hideProgress()
         }
 
         override fun onComplete() {
-            view.get().showPlayButton()
+            view.showPlayButton()
         }
 
         override fun onProgress(progress: Int) {
             val elapsedDuration = numberFormatter.formatDuration(progress)
-            view.get().setElapsed(elapsedDuration)
+            view.setElapsed(elapsedDuration)
+        }
+
+        override fun onLoopingModeChanged(looping: Boolean) = Unit
+    }
+
+    private val viewListener = object : PlayerPreviewView.Listener {
+        override fun onCloseClick() {
+            view.hide()
+            playerFacade.stop()
+        }
+
+        override fun onFavoritesClick() {
+            uiScope.launch {
+                messageHelper.showMessage(stringsProvider.savedMessage)
+                repository.saveTrack(Track(
+                    audioInfo,
+                    effectsManager.effectsSettings
+                ))
+            }
+        }
+
+        override fun onOpenClick() {
+            router.openPlayer()
+        }
+
+        override fun onPlayClick() {
+            if (player.playing) {
+                player.pause()
+                view.showPlayButton()
+            } else {
+                player.play()
+                view.showPauseButton()
+            }
         }
     }
 
-    fun onPlayClick() {
-        if (player.playing) {
-            player.pause()
-            view.get().showPlayButton()
-        } else {
-            player.play()
-            view.get().showPauseButton()
-        }
-    }
-
-    fun onOpenClick() {
-        router.openPlayer()
-    }
-
-    fun onCloseClick() {
-        view.get().hide()
-        player.reset()
-    }
-
-
-    fun onAddToFavorites() {
-        uiScope.launch {
-            messageHelper.showMessage(stringsProvider.savedMessage)
-            repository.saveTrack(Track(
-                audioInfo,
-                effectsManager.effectsSettings
-            ))
-        }
-    }
-
-    fun onCreate() {
+    init {
         player.addListener(playerListener)
-    }
+        view.listener = viewListener
 
-    fun onDestroy() {
-        player.removeListener(playerListener)
-    }
+        activity.lifecycle.addObserver(object : LifecycleObserver {
 
+            @Suppress("unused")
+            @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+            fun onDestroy() {
+                player.removeListener(playerListener)
+            }
+
+        })
+    }
 }

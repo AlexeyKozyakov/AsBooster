@@ -8,7 +8,7 @@ import javax.inject.Singleton
 @Singleton
 class ResourcesImageProvider @Inject constructor() {
 
-    fun privideImage(@DrawableRes resId: Int) = object : RequestedImage {
+    fun provideImage(@DrawableRes resId: Int) = object : RequestedImage {
         override fun show(view: ImageView) {
             view.setImageResource(resId)
         }

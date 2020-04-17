@@ -35,7 +35,7 @@
         android:text="@string/audio_item_name"
         android:textColor="#000000"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/equalizerView"
         app:layout_constraintStart_toEndOf="@+id/audio_item_image"
         app:layout_constraintTop_toBottomOf="@+id/audio_item_author" />
 
@@ -78,5 +78,17 @@
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <es.claucookie.miniequalizerlibrary.EqualizerView
+        android:id="@+id/equalizerView"
+        android:layout_width="21dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        app:animDuration="7000"
+        app:foregroundColor="@color/equalizerColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/track_duration"
+        android:visibility="invisible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

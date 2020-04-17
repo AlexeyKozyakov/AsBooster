@@ -21,6 +21,8 @@ interface PlayerView {
 
     fun hideProgress()
 
+    fun showLooping(looping: Boolean)
+
 }
 
 class TrackViewItem(

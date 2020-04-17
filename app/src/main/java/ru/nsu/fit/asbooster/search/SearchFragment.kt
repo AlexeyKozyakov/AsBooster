@@ -11,12 +11,13 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 
 import ru.nsu.fit.asbooster.R
 import ru.nsu.fit.asbooster.audios.AudiosActivity
-import ru.nsu.fit.asbooster.search.adapter.AudioItem
-import ru.nsu.fit.asbooster.search.adapter.AudiosAdapter
+import ru.nsu.fit.asbooster.audios.view.AudioHolderState
+import ru.nsu.fit.asbooster.audios.view.AudioItem
+import ru.nsu.fit.asbooster.audios.view.AudiosAdapter
+import ru.nsu.fit.asbooster.audios.view.TracksRecyclerView
 
 
 class SearchFragment : Fragment(), SearchView {
@@ -41,6 +42,11 @@ class SearchFragment : Fragment(), SearchView {
         return view
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDestroy()
+    }
+
     override fun showProgress() {
         clearAudios()
         hideEmptyAudiosImage()
@@ -52,14 +58,14 @@ class SearchFragment : Fragment(), SearchView {
     }
 
     override fun showAudios(audios: MutableList<AudioItem>) {
-        viewHolder.audiosRecycler.adapter =
+        viewHolder.tracksRecycler.adapter =
             AudiosAdapter(audios) {
                 presenter.onAudioClick(it)
             }
     }
 
     override fun clearAudios() {
-        viewHolder.audiosRecycler.adapter = null
+        viewHolder.tracksRecycler.adapter = null
     }
 
     override fun showEmptyAudiosImage() {
@@ -74,8 +80,23 @@ class SearchFragment : Fragment(), SearchView {
         viewHolder.emptyAudiosTextView.visibility = View.GONE
     }
 
+    override fun showPlaying(position: Int) {
+        audiosAdapter.setState(position, AudioHolderState.PLAYING)
+    }
+
+    override fun showPaused(position: Int) {
+        audiosAdapter.setState(position, AudioHolderState.PAUSED)
+
+    }
+
+    override fun hideAllInfo(position: Int) {
+        audiosAdapter.setState(position, AudioHolderState.NONE)
+    }
+
+    private val audiosAdapter get() = viewHolder.tracksRecycler.adapter as AudiosAdapter
+
     private fun initAudiosRecycler() {
-        viewHolder.audiosRecycler.apply {
+        viewHolder.tracksRecycler.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
         }
@@ -89,7 +110,7 @@ class SearchFragment : Fragment(), SearchView {
 
     private class ViewHolder(val root: View) {
         val progressBar: ProgressBar = root.findViewById(R.id.progress_bar_audios)
-        val audiosRecycler: RecyclerView = root.findViewById(R.id.saved_recycler_view)
+        val tracksRecycler: TracksRecyclerView = root.findViewById(R.id.search_recycler_view)
         val searchField: AutoCompleteTextView = root.findViewById(R.id.search_field_audios)
         val emptyAudiosImageView: ImageView = root.findViewById(R.id.empty_audios_image_view)
         val emptyAudiosTextView: TextView = root.findViewById(R.id.empty_audios_text_view)

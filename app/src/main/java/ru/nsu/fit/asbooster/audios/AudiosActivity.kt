@@ -20,19 +20,11 @@ class AudiosActivity : BaseActivity() {
         setContentView(R.layout.activity_audios)
         findViewById<ViewPager>(R.id.audios_view_pager).adapter =
             AudiosPagerAdapter(this, supportFragmentManager)
-        notifyOnCreate()
+        initDependencies()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        notifyOnDestroy()
+    private fun initDependencies() {
+        component.value.getAudiosActivityDependencies()
     }
 
-    private fun notifyOnCreate() {
-        component.value.getPlayerPreviewPresenter().onCreate()
-    }
-
-    private fun notifyOnDestroy() {
-        component.value.getPlayerPreviewPresenter().onDestroy()
-    }
 }

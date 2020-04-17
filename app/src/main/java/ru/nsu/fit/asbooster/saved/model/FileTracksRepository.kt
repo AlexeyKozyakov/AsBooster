@@ -73,6 +73,8 @@ class FileTracksRepository @Inject constructor(
 
     override suspend fun deleteTrack(position: Int) = afterLoad { super.deleteTrack(position) }
 
+    override suspend fun getPosition(track: Track) = afterLoad { super.getPosition(track) }
+
     override suspend fun move(track: Track, insertAfter: Track) =
         afterLoad { super.move(track, insertAfter) }
 

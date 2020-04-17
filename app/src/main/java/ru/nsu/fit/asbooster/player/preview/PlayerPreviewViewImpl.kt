@@ -9,14 +9,15 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import ru.nsu.fit.asbooster.R
 import ru.nsu.fit.asbooster.di.ActivityScoped
-import ru.nsu.fit.asbooster.search.adapter.AudioItem
+import ru.nsu.fit.asbooster.audios.view.AudioItem
 import javax.inject.Inject
 
 @ActivityScoped
 class PlayerPreviewViewImpl @Inject constructor(
-    private val activity: Activity,
-    private val presenter: PlayerPreviewPresenter
+    private val activity: Activity
 ) : PlayerPreviewView {
+
+    override var listener = object : PlayerPreviewView.Listener {}
 
     private val viewHolder = lazy {
         val inflatedView = activity
@@ -69,19 +70,19 @@ class PlayerPreviewViewImpl @Inject constructor(
 
     private fun initListeners(viewHolder: ViewHolder) {
         viewHolder.playButton.setOnClickListener {
-            presenter.onPlayClick()
+            listener.onPlayClick()
         }
 
         viewHolder.closeButton.setOnClickListener {
-            presenter.onCloseClick()
+            listener.onCloseClick()
         }
 
         viewHolder.root.setOnClickListener {
-            presenter.onOpenClick()
+            listener.onOpenClick()
         }
 
         viewHolder.favoritesButton.setOnClickListener {
-            presenter.onAddToFavorites()
+            listener.onFavoritesClick()
         }
     }
 

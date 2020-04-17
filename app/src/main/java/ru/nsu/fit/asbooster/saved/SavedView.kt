@@ -1,6 +1,6 @@
 package ru.nsu.fit.asbooster.saved
 
-import ru.nsu.fit.asbooster.search.adapter.AudioItem
+import ru.nsu.fit.asbooster.audios.view.AudioItem
 
 interface SavedView {
 
@@ -19,5 +19,11 @@ interface SavedView {
     fun moveAudioItem(positionFrom: Int, positionTo: Int)
 
     fun addAudioItem(audio: AudioItem)
+
+    fun showPaused(position: Int)
+
+    fun showPlaying(position: Int)
+
+    fun hideAllInfo(position: Int)
 
 }
