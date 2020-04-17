@@ -22,29 +22,45 @@ class SavedPresenter @Inject constructor(
     private val player: AudioPlayer
 ) {
 
-    private var currentPlayingPosition = 0
+    private var currentPlayList: RepositoryPlaylist? = null
+    private var currentPlayingPosition: Int? = null
 
     private val playListListener = object : PlayerFacade.Listener {
-        override fun onTrackStarted(track: Track) {
-            updatePlayingTrack(track)
-        }
-
-        override fun onPlayListStarted(playList: PlayList) {
-            currentPlayingPosition = 0
-        }
-
         override fun onPlayListDropped(playList: PlayList) {
-            view.hideAllInfo(currentPlayingPosition)
+            if (playList != currentPlayList) {
+                return
+            }
+            val pos = currentPlayingPosition ?: return
+            view.hideAllInfo(pos)
+            currentPlayingPosition = null
+            currentPlayList = null
+        }
+
+        override fun onTrackStarted(track: Track) {
+            currentPlayList?.let { playlist ->
+                uiScope.launch {
+                    val trackPos = tracksRepository.getPosition(track) ?: return@launch
+                    currentPlayingPosition?.let {
+                        view.hideAllInfo(it)
+                    }
+                    view.showPlaying(trackPos)
+                    currentPlayingPosition = trackPos
+                }
+            }
         }
     }
 
     private val playerListener = object : AudioPlayer.Listener {
-        override fun onPause() {
-            view.showPaused(currentPlayingPosition)
+        override fun onPLay() {
+            currentPlayingPosition?.let {
+                view.showPlaying(it)
+            }
         }
 
-        override fun onPLay() {
-            view.showPlaying(currentPlayingPosition)
+        override fun onPause() {
+            currentPlayingPosition?.let {
+                view.showPaused(it)
+            }
         }
     }
 
@@ -60,7 +76,9 @@ class SavedPresenter @Inject constructor(
     }
 
     private fun updatePlayingTrack(track: Track?) {
-        view.hideAllInfo(currentPlayingPosition)
+        currentPlayingPosition?.let {
+            view.hideAllInfo(it)
+        }
         uiScope.launch {
             track?.let { newTrack ->
                 tracksRepository.getPosition(newTrack)?.let { trackPosition ->
@@ -114,9 +132,11 @@ class SavedPresenter @Inject constructor(
     }
 
     fun onAudioClick(position: Int) {
-        playerFacade.start(
-            RepositoryPlaylist(tracksRepository, uiScope, position)
-        )
+        val playList = RepositoryPlaylist(tracksRepository, uiScope, position)
+        playerFacade.start(playList)
+        currentPlayList = playList
+        currentPlayingPosition = position
+        view.showPlaying(position)
     }
 
 }
