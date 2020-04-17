@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import ru.nsu.fit.asbooster.R
 
 class TracksRecyclerView @JvmOverloads constructor(
@@ -30,6 +31,8 @@ class TracksRecyclerView @JvmOverloads constructor(
         if (editable) {
             initTouchHelper()
         }
+
+        (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 
     private fun processAttrs(attrs: AttributeSet?) {
