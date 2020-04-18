@@ -37,7 +37,7 @@ class SavedPresenter @Inject constructor(
         }
 
         override fun onTrackStarted(track: Track) {
-            currentPlayList?.let { playlist ->
+            currentPlayList?.let {
                 uiScope.launch {
                     val trackPos = tracksRepository.getPosition(track) ?: return@launch
                     currentPlayingPosition?.let {
@@ -47,6 +47,14 @@ class SavedPresenter @Inject constructor(
                     currentPlayingPosition = trackPos
                 }
             }
+        }
+
+        override fun onPlayListStarted(playList: PlayList) {
+            if (playList is RepositoryPlaylist) {
+                currentPlayList = playList
+                currentPlayingPosition = playList.currentPos
+            }
+
         }
     }
 
@@ -133,10 +141,8 @@ class SavedPresenter @Inject constructor(
 
     fun onAudioClick(position: Int) {
         val playList = RepositoryPlaylist(tracksRepository, uiScope, position)
-        playerFacade.start(playList)
-        currentPlayList = playList
-        currentPlayingPosition = position
         view.showPlaying(position)
+        playerFacade.start(playList)
     }
 
 }

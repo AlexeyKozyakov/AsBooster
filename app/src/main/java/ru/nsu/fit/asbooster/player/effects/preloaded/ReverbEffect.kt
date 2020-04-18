@@ -1,7 +1,6 @@
 package ru.nsu.fit.asbooster.player.effects.preloaded
 
 import android.media.audiofx.PresetReverb
-import ru.nsu.fit.asbooster.di.ActivityScoped
 import ru.nsu.fit.asbooster.player.audio.AudioPlayer
 import javax.inject.Inject
 import javax.inject.Singleton

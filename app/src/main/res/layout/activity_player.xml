@@ -19,9 +19,8 @@
 
     <ImageButton
         android:id="@+id/button_play"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:background="@null"
         android:src="@drawable/icon_button_pause"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,7 +60,6 @@
         android:id="@+id/text_add_effect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="@string/tittle_add_effect"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,10 +114,9 @@
 
     <ImageButton
         android:id="@+id/save_track_button"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="43dp"
+        android:layout_height="41dp"
         android:background="@null"
-        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@+id/text_add_effect"
         app:layout_constraintEnd_toEndOf="@+id/player_artist"
         app:srcCompat="@drawable/star_icon" />
@@ -137,22 +134,18 @@
 
     <ImageButton
         android:id="@+id/loopingButton"
-        android:layout_width="25dp"
-        android:layout_height="31dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="48dp"
+        android:layout_height="39dp"
         android:background="@null"
-        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="@+id/text_add_effect"
         app:layout_constraintEnd_toStartOf="@+id/save_track_button"
         app:srcCompat="@drawable/looping_icon" />
 
     <ImageButton
         android:id="@+id/nextButton"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="32dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:background="@null"
-        android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/text_add_effect"
         app:layout_constraintStart_toEndOf="@+id/button_play"
         app:layout_constraintTop_toBottomOf="@+id/player_artist"
@@ -160,11 +153,9 @@
 
     <ImageButton
         android:id="@+id/previousButton"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginEnd="32dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:background="@null"
-        android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/text_add_effect"
         app:layout_constraintEnd_toStartOf="@+id/button_play"
         app:layout_constraintTop_toBottomOf="@+id/player_artist"

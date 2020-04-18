@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.*
 import ru.nsu.fit.asbooster.base.FileIoHelper
+import ru.nsu.fit.asbooster.base.SharedPreferencesHelper
 import ru.nsu.fit.asbooster.base.lifecicle.ApplicationLifecycle
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,7 +17,8 @@ class FileTracksRepository @Inject constructor(
     private val gson: Gson,
     private val fileIoHelper: FileIoHelper,
     private val uiScope: CoroutineScope,
-    applicationLifecycle: ApplicationLifecycle
+    applicationLifecycle: ApplicationLifecycle,
+    private val preferencesHelper: SharedPreferencesHelper
 ) : InMemoryTracksRepository() {
 
     private val loadCallbacks = mutableListOf<suspend () -> Unit>()
@@ -52,6 +54,8 @@ class FileTracksRepository @Inject constructor(
                 loadTracks(tracksFromFile)
             }
         }
+
+
     }
 
     private suspend fun dump() {
@@ -60,10 +64,15 @@ class FileTracksRepository @Inject constructor(
             fileIoHelper.useFileWriter(FileIoHelper.TRACK_DATABASE_FILENAME, { writer ->
                 gson.toJson(tracksFromMemory, writer)
             })
+            preferencesHelper.writeBoolean(SharedPreferencesHelper.TRACK_DB_EMPTY_KEY, isEmpty())
         }
     }
 
-    override suspend fun isEmpty() = afterLoad { super.isEmpty() }
+    override suspend fun isEmpty() = if (!loaded) {
+        preferencesHelper.readBoolean(SharedPreferencesHelper.TRACK_DB_EMPTY_KEY)
+    } else {
+        super.isEmpty()
+    }
 
     override suspend fun getTracks() = afterLoad { super.getTracks() }
 

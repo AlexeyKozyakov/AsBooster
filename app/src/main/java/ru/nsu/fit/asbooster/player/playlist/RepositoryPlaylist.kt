@@ -13,7 +13,8 @@ class RepositoryPlaylist(
     startPos: Int
 ): PlayList {
 
-    private var currentPos = startPos
+    var currentPos = startPos
+    private set
 
     private var linearPlayList: LinearPlaylist = emptyLinearPlaylist()
 
