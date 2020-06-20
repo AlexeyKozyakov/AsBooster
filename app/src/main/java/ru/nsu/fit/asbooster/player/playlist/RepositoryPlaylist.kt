@@ -10,11 +10,10 @@ import kotlin.coroutines.suspendCoroutine
 class RepositoryPlaylist(
     private val repository: TracksRepository,
     private val uiScope: CoroutineScope,
-    startPos: Int
+    private val startPos: Int
 ): PlayList {
 
-    var currentPos = startPos
-    private set
+    val currentPos get() = if (linearPlayList.empty) startPos else linearPlayList.currentPos
 
     private var linearPlayList: LinearPlaylist = emptyLinearPlaylist()
 
@@ -28,7 +27,6 @@ class RepositoryPlaylist(
         }
 
         override fun onSave() = Unit
-
     }
 
     init {
@@ -48,20 +46,23 @@ class RepositoryPlaylist(
         return linearPlayList.hasPrevious()
     }
 
+    override suspend fun peekNext(): Track? {
+        waitUpdate()
+        return linearPlayList.peekNext()
+    }
+
     override suspend fun previous(): Track? {
         waitUpdate()
-        --currentPos
         return linearPlayList.previous()
     }
 
-    override suspend fun current(): Track {
+    override suspend fun current(): Track? {
         waitUpdate()
         return linearPlayList.current()
     }
 
     override suspend fun next(): Track? {
         waitUpdate()
-        ++currentPos
         return linearPlayList.next()
     }
 
@@ -72,7 +73,8 @@ class RepositoryPlaylist(
     private fun update() {
         updating = true
         uiScope.launch {
-            linearPlayList = LinearPlaylist(repository.getTracks(), currentPos)
+            val newPlayList = LinearPlaylist(repository.getTracks(), currentPos)
+            linearPlayList = newPlayList
             updating = false
             updateCallbacks.forEach { it() }
             updateCallbacks.clear()
@@ -86,5 +88,4 @@ class RepositoryPlaylist(
 
         suspendCoroutine<Unit> { updateCallbacks.add { it.resume(Unit) } }
     }
-
 }

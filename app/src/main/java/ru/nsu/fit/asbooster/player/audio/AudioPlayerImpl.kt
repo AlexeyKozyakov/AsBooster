@@ -2,6 +2,7 @@ package ru.nsu.fit.asbooster.player.audio
 
 import android.media.MediaPlayer
 import kotlinx.coroutines.*
+import ru.nsu.fit.asbooster.player.preloader.PlayerPreloader
 import ru.nsu.fit.asbooster.repository.AudioRepository
 import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import javax.inject.Inject
@@ -14,7 +15,8 @@ const val TRACKING_DELAY = 1000L
 @Singleton
 class AudioPlayerImpl @Inject constructor(
     private val uiScope: CoroutineScope,
-    private val repository: AudioRepository
+    private val repository: AudioRepository,
+    private val playerPreloader: PlayerPreloader
 ) : AudioPlayer {
 
     override var audio: AudioInfo? = null
@@ -27,7 +29,7 @@ class AudioPlayerImpl @Inject constructor(
 
     private val listeners = mutableListOf<AudioPlayer.Listener>()
 
-    private val mediaPlayer = MediaPlayer().apply {
+    private var mediaPlayer = MediaPlayer().apply {
         setOnErrorListener { _, _, _ ->
             hasError = true
             true
@@ -68,22 +70,41 @@ class AudioPlayerImpl @Inject constructor(
         audio = audioInfo
         notify { onLoadingStart(audioInfo) }
         notify { onProgress(0) }
-        val url  = getStreamUrl(audioInfo) ?: return
-        if (audioInfo !== audio) {
-            return
+        preparePlayer(audioInfo)
+    }
+
+    private suspend fun preparePlayer(audioInfo: AudioInfo) {
+        val preloadingMediaPlayer = playerPreloader.popPreloadingPlayer(audioInfo)
+        if (preloadingMediaPlayer != null) {
+            mediaPlayer.release()
+            mediaPlayer = preloadingMediaPlayer.player
+            if (preloadingMediaPlayer.prepared) {
+                onMediaPlayerPrepared()
+            }
+        } else {
+            val url  = getStreamUrl(audioInfo) ?: return
+            if (audioInfo !== audio) {
+                return
+            }
+            mediaPlayer.setDataSource(url)
+            mediaPlayer.prepareAsync()
         }
-        mediaPlayer.setDataSource(url)
-        mediaPlayer.prepareAsync()
-        mediaPlayer.setOnPreparedListener {
-            starting = false
-            prepared =true
-            notify { onLoadingFinish() }
-            onPrepareCallbacks.forEach { it() }
-            onPrepareCallbacks.clear()
-            lastSeekCallback()
-            lastSeekCallback = {}
-            play()
+        if (!prepared) {
+            mediaPlayer.setOnPreparedListener {
+                onMediaPlayerPrepared()
+            }
         }
+    }
+
+    private fun onMediaPlayerPrepared() {
+        starting = false
+        prepared = true
+        notify { onLoadingFinish() }
+        onPrepareCallbacks.forEach { it() }
+        onPrepareCallbacks.clear()
+        lastSeekCallback()
+        lastSeekCallback = {}
+        play()
     }
 
     override fun play() {
@@ -120,7 +141,7 @@ class AudioPlayerImpl @Inject constructor(
 
     override fun seekTo(progress: Int) = afterPrepare { seekTo(progress) }
 
-    override fun attachEffect(id: Int) = afterPrepare { attachAuxEffect(id) }
+    override fun attachEffect(id: Int) = mediaPlayer.attachAuxEffect(id)
 
     override fun reset() {
         mediaPlayer.reset()

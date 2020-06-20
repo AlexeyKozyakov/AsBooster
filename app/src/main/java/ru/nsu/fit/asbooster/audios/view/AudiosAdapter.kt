@@ -11,19 +11,10 @@ import kotlinx.android.synthetic.main.audio_item.view.*
 import ru.nsu.fit.asbooster.R
 import ru.nsu.fit.asbooster.repository.RequestedImage
 
-enum class AudioHolderState {
-    PLAYING,
-    PAUSED,
-    NONE
-}
-
 class AudiosAdapter(
-    audios: MutableList<AudioItem>,
+    private val audios: MutableList<AudioItem>,
     private val onClickListener: (adapterPosition: Int) -> Unit
 ) : RecyclerView.Adapter<AudiosAdapter.ViewHolder>() {
-
-    private val audiosWithStates =
-        audios.map { it to AudioHolderState.NONE }.toMutableList()
 
     private lateinit var recyclerView: TracksRecyclerView
 
@@ -47,10 +38,10 @@ class AudiosAdapter(
         return viewHolder
     }
 
-    override fun getItemCount() = audiosWithStates.size
+    override fun getItemCount() = audios.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        with(audiosWithStates[position].first) {
+        with(audios[position]) {
             holder.authorView.text = author
             holder.nameView.text = name
             image.show(holder.imageView)
@@ -64,18 +55,18 @@ class AudiosAdapter(
 
     private fun showPlayingState(holder: ViewHolder, position: Int) {
         with(holder) {
-            when(audiosWithStates[position].second) {
-                AudioHolderState.PLAYING -> {
+            when(audios[position].state) {
+                AudioItemState.PLAYING -> {
                     equalizerView.visibility = View.VISIBLE
                     equalizerView.animateBars()
                 }
 
-                AudioHolderState.PAUSED -> {
+                AudioItemState.PAUSED -> {
                     equalizerView.visibility = View.VISIBLE
                     equalizerView.stopBars()
                 }
 
-                AudioHolderState.NONE -> {
+                AudioItemState.NONE -> {
                     equalizerView.visibility = View.INVISIBLE
                     equalizerView.animateBars()
                 }
@@ -88,27 +79,32 @@ class AudiosAdapter(
     }
 
     fun remove(position: Int) {
-        audiosWithStates.removeAt(position)
+        audios.removeAt(position)
         notifyItemRemoved(position)
     }
 
     fun move(positionFrom: Int, positionTo: Int) {
-        val item = audiosWithStates[positionFrom]
-        audiosWithStates.removeAt(positionFrom)
-        audiosWithStates.add(positionTo,  item)
+        val item = audios[positionFrom]
+        audios.removeAt(positionFrom)
+        audios.add(positionTo,  item)
         notifyItemMoved(positionFrom, positionTo)
     }
 
     fun add(audio: AudioItem) {
-        audiosWithStates.add(audio to AudioHolderState.NONE)
-        notifyItemInserted(audiosWithStates.size - 1)
+        audios.add(audio)
+        notifyItemInserted(audios.size - 1)
     }
 
-    fun setState(position: Int, state: AudioHolderState) {
-        val audioWithState = audiosWithStates[position]
-        audiosWithStates[position] = audioWithState.first to state
+    fun setState(position: Int, state: AudioItemState) {
+        audios[position].state = state
         notifyItemChanged(position)
     }
+}
+
+enum class AudioItemState {
+    PLAYING,
+    PAUSED,
+    NONE
 }
 
 class AudioItem(
@@ -118,4 +114,6 @@ class AudioItem(
     val duration: String,
     val plays: String,
     val postDate: String
-)
+) {
+    var state: AudioItemState = AudioItemState.NONE
+}

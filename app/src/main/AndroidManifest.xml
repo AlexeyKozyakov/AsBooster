@@ -26,8 +26,7 @@
         </activity>
         <activity
             android:name=".player.PlayerActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Design.Light.NoActionBar" />
+            android:theme="@style/DragDismissTheme" />
     </application>
 
 </manifest>

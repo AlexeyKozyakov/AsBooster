@@ -1,31 +1,30 @@
 package ru.nsu.fit.asbooster.player
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_player.*
 import ru.nsu.fit.asbooster.base.App
 import ru.nsu.fit.asbooster.R
-import ru.nsu.fit.asbooster.base.BaseActivity
+import ru.nsu.fit.asbooster.base.lifecicle.ApplicationLifecycleImpl
 import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
 import ru.nsu.fit.asbooster.player.effects.ui.EffectsAdapter
-import ru.nsu.fit.asbooster.saved.model.Track
-import ru.nsu.fit.asbooster.base.navigation.Router
+import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity
 
 private const val LOOPING_ALPHA = 1f
 private const val DEFAULT_ALPHA = 0.2f
 
-class PlayerActivity : BaseActivity(), PlayerView {
+class PlayerActivity : DragDismissActivity(), PlayerView {
 
     private lateinit var presenter: PlayerPresenter
     private lateinit var viewHolder: ViewHolder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_player)
         val component = (application as App).component.value
             .playerActivityComponentBuilder()
             .activity(this)
@@ -45,6 +44,22 @@ class PlayerActivity : BaseActivity(), PlayerView {
         super.onDestroy()
         presenter.onDestroy()
     }
+
+    override fun onPause() {
+        super.onPause()
+        ApplicationLifecycleImpl.onActivityPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        ApplicationLifecycleImpl.onActivityResume()
+    }
+
+    override fun onCreateContent(
+        inflater: LayoutInflater?,
+        parent: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) = inflater?.inflate(R.layout.activity_player, parent, false)
 
     override fun setTrack(track: TrackViewItem) = with(track) {
         viewHolder.nameTextView.text = name

@@ -10,7 +10,7 @@ private const val NOT_FOUND = -1
  * Tracks repository implementation to store tracks in memory.
  */
 @Singleton
-open class InMemoryTracksRepository @Inject constructor(): TracksRepository {
+open class InMemoryTracksRepository @Inject constructor() : TracksRepository {
     override suspend fun isEmpty() = tracks.isEmpty()
 
     override var saveTrackListener: (Track) -> Unit = {}
@@ -35,13 +35,14 @@ open class InMemoryTracksRepository @Inject constructor(): TracksRepository {
 
     override suspend fun deleteTrack(position: Int) {
         val track = trackList[position]
-        if(tracks.remove(track)) {
+        if (tracks.remove(track)) {
             trackList.remove(track)
             notify { onUpdate() }
         }
     }
 
-    override suspend fun getPosition(track: Track) = trackList.indexOf(track).takeIf { it != NOT_FOUND }
+    override suspend fun getPosition(track: Track) =
+        trackList.indexOf(track).takeIf { it != NOT_FOUND }
 
     override suspend fun move(track: Track, insertAfter: Track) {
         val insertIndex = trackList.indexOf(insertAfter)

@@ -25,10 +25,16 @@ object ApplicationLifecycleImpl : ApplicationLifecycle {
         listeners.add(listener)
     }
 
+    /**
+     * Should be called in onResume for each tracking activity.
+     */
     fun onActivityResume() {
         notifyResumed()
     }
 
+    /**
+     * Should be called in onPause for each tracking activity.
+     */
     fun onActivityPause() {
         notifyPaused()
     }

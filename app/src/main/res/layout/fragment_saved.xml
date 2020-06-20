@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/audio_item"
-        app:editable="true"/>
+        app:editable="true"
+        android:paddingBottom="73dp"
+        android:clipToPadding="false"/>
 
     <ProgressBar
         android:id="@+id/saved_progress_bar"

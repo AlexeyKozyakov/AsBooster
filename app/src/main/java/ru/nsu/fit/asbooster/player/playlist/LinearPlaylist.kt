@@ -8,42 +8,60 @@ class LinearPlaylist(
     override var looping: Boolean = true
 ): PlayList {
 
-    private var currentIndex = startPos
+    var currentPos = startPos
+    private set
+
+    val empty = tracks.isEmpty()
 
     private val size = tracks.size
 
-    override suspend fun hasNext() = currentIndex < tracks.size
+    override suspend fun hasNext() = looping || currentPos in 0..(tracks.size - 2)
 
-    override suspend fun hasPrevious() = currentIndex > 0
+    override suspend fun hasPrevious() = looping || currentPos in 1 until tracks.size
 
-    override suspend fun previous(): Track? {
-        if (tracks.isEmpty()) {
+    override suspend fun peekNext(): Track? {
+        if (!hasNext()) {
             return null
         }
 
-        if (looping) {
-            return tracks[(size + (currentIndex--) - 1) % size]
-        }
-
-        return if (hasPrevious()) tracks[--currentIndex] else null
+        return tracks[calculateNextPos()]
     }
 
-    override suspend fun current(): Track = tracks[currentIndex]
-
-    override suspend fun next(): Track? {
-        if (tracks.isEmpty()) {
+    override suspend fun previous(): Track? {
+        if (!hasPrevious()) {
             return null
         }
 
-        if (looping) {
-            return tracks[((currentIndex++) + 1) % size]
+        currentPos = calculatePreviousPos()
+
+        return tracks[currentPos]
+    }
+
+    override suspend fun current(): Track? = tracks.elementAtOrNull(currentPos)
+
+    override suspend fun next(): Track? {
+        if (!hasNext()) {
+            return null
         }
 
-        return if (hasNext()) tracks[++currentIndex] else null
+        currentPos = calculateNextPos()
+
+        return tracks[currentPos]
     }
 
     override fun destroy() = Unit
 
+    private fun calculateNextPos() = if (looping) {
+        (size + currentPos + 1) % size
+    } else {
+        currentPos + 1
+    }
+
+    private fun calculatePreviousPos() = if (looping) {
+        (size + currentPos - 1) % size
+    } else {
+        currentPos - 1
+    }
 }
 
 fun emptyLinearPlaylist() = LinearPlaylist(emptyList())

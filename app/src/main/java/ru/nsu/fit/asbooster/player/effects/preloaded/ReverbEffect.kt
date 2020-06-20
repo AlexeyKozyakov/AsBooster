@@ -12,7 +12,7 @@ class ReverbEffect @Inject constructor(
 
     private var reverbForce = 0
 
-    private val reverb = PresetReverb(0, 0).apply {
+    private val reverb = PresetReverb(1, 0).apply {
         preset = PresetReverb.PRESET_LARGEHALL
         enabled = true
     }.also {

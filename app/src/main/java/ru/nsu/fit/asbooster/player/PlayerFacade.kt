@@ -5,6 +5,7 @@ import kotlinx.coroutines.launch
 import ru.nsu.fit.asbooster.player.audio.AudioPlayer
 import ru.nsu.fit.asbooster.player.effects.EffectsManager
 import ru.nsu.fit.asbooster.player.playlist.PlayList
+import ru.nsu.fit.asbooster.player.preloader.PlayerPreloader
 import ru.nsu.fit.asbooster.saved.model.Track
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -13,7 +14,8 @@ import javax.inject.Singleton
 class PlayerFacade @Inject constructor(
     private val player: AudioPlayer,
     private val effectsManager: EffectsManager,
-    private val uiScope: CoroutineScope
+    private val uiScope: CoroutineScope,
+    private val playerPreloader: PlayerPreloader
 ) {
 
     private val listeners = mutableListOf<Listener>()
@@ -56,6 +58,7 @@ class PlayerFacade @Inject constructor(
      * Start playing playlist.
      */
     fun start(playlist: PlayList) {
+        playerPreloader.clearAllPreloads()
         uiScope.launch {
             dropPlaylist()
             this@PlayerFacade.playlist = playlist
@@ -80,6 +83,7 @@ class PlayerFacade @Inject constructor(
      */
     fun previous() {
         uiScope.launch {
+            stopPreloadingNextTrack()
             val previousTrack = playlist?.previous() ?: return@launch
             startTrack(previousTrack)
         }
@@ -101,6 +105,15 @@ class PlayerFacade @Inject constructor(
         notify { onTrackStarted(track) }
         player.start(track.audioInfo)
         effectsManager.effectsSettings = track.effectsInfo
+        startPreloadingNextTrack()
+    }
+
+    private suspend fun startPreloadingNextTrack() {
+        playlist?.peekNext()?.let { playerPreloader.startPreloading(it.audioInfo) }
+    }
+
+    private suspend fun stopPreloadingNextTrack() {
+        playlist?.peekNext()?.let { playerPreloader.stopPreloading(it.audioInfo) }
     }
 
     private fun dropPlaylist() {
@@ -110,5 +123,4 @@ class PlayerFacade @Inject constructor(
         }
         playlist = null
     }
-
 }

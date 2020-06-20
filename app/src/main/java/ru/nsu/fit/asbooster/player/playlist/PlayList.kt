@@ -10,6 +10,8 @@ interface PlayList {
 
     suspend fun hasPrevious(): Boolean
 
+    suspend fun peekNext(): Track?
+
     /**
      * Return null if there is no previous track.
      */

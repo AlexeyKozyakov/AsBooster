@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import ru.nsu.fit.asbooster.R
 import ru.nsu.fit.asbooster.audios.AudiosActivity
-import ru.nsu.fit.asbooster.audios.view.AudioHolderState
+import ru.nsu.fit.asbooster.audios.view.AudioItemState
 import ru.nsu.fit.asbooster.audios.view.AudioItem
 import ru.nsu.fit.asbooster.audios.view.AudiosAdapter
 import ru.nsu.fit.asbooster.audios.view.TracksRecyclerView
@@ -81,16 +81,16 @@ class SearchFragment : Fragment(), SearchView {
     }
 
     override fun showPlaying(position: Int) {
-        audiosAdapter.setState(position, AudioHolderState.PLAYING)
+        audiosAdapter.setState(position, AudioItemState.PLAYING)
     }
 
     override fun showPaused(position: Int) {
-        audiosAdapter.setState(position, AudioHolderState.PAUSED)
+        audiosAdapter.setState(position, AudioItemState.PAUSED)
 
     }
 
     override fun hideAllInfo(position: Int) {
-        audiosAdapter.setState(position, AudioHolderState.NONE)
+        audiosAdapter.setState(position, AudioItemState.NONE)
     }
 
     private val audiosAdapter get() = viewHolder.tracksRecycler.adapter as AudiosAdapter
