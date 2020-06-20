@@ -29,16 +29,7 @@ class AudioPlayerImpl @Inject constructor(
 
     private val listeners = mutableListOf<AudioPlayer.Listener>()
 
-    private var mediaPlayer = MediaPlayer().apply {
-        setOnErrorListener { _, _, _ ->
-            hasError = true
-            true
-        }
-
-        setOnCompletionListener {
-            notify { onComplete() }
-        }
-    }
+    private var mediaPlayer = MediaPlayer().initListeners()
 
     private val onPrepareCallbacks = mutableListOf<() -> Unit>()
 
@@ -77,7 +68,7 @@ class AudioPlayerImpl @Inject constructor(
         val preloadingMediaPlayer = playerPreloader.popPreloadingPlayer(audioInfo)
         if (preloadingMediaPlayer != null) {
             mediaPlayer.release()
-            mediaPlayer = preloadingMediaPlayer.player
+            mediaPlayer = preloadingMediaPlayer.player.initListeners()
             if (preloadingMediaPlayer.prepared) {
                 onMediaPlayerPrepared()
             }
@@ -205,6 +196,17 @@ class AudioPlayerImpl @Inject constructor(
     private suspend fun waitPrepare() {
         suspendCoroutine<Unit> {
             afterPrepare { it.resume(Unit) }
+        }
+    }
+
+    private fun MediaPlayer.initListeners() = apply {
+        setOnErrorListener { _, _, _ ->
+            hasError = true
+            true
+        }
+
+        setOnCompletionListener {
+            notify { onComplete() }
         }
     }
 }
