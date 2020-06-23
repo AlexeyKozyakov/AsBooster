@@ -31,7 +31,7 @@ class PlayerActivity : DragDismissActivity(), PlayerView {
             .build()
         viewHolder = ViewHolder()
         presenter = component.getPresenter()
-        presenter.onCreate(intent)
+        presenter.onCreate()
         initPlayPauseClickListener()
         initOnSeekBarChangeListener()
         initEffectsRecycler()

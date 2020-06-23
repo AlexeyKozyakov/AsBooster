@@ -82,5 +82,4 @@ interface AudioPlayer {
     fun setAuxEffectLevel(level: Float)
 
     fun reset()
-
 }

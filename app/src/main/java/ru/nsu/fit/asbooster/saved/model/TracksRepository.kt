@@ -20,7 +20,7 @@ interface TracksRepository {
 
     var saveTrackListener: (Track) -> Unit
 
-    suspend fun isEmpty(): Boolean
+    fun isEmpty(): Boolean
 
     suspend fun getTrack(position: Int): Track
 

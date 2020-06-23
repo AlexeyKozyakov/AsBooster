@@ -18,7 +18,8 @@ class PlayerPreloader @Inject constructor(
 
     /**
      * Start track preloading.
-     * Do nothing if it is already preloading.
+     * Creates MediaPlayer instance loading specified track.
+     * Do nothing if track is already preloading.
      */
     fun startPreloading(audioInfo: AudioInfo) {
         if (audioInfo in playersCache) {
@@ -29,7 +30,7 @@ class PlayerPreloader @Inject constructor(
         }
         val mediaPlayer = MediaPlayer().apply {
             setOnErrorListener { _, _, _ ->
-                playersCache.remove(audioInfo)
+                stopPreloading(audioInfo)
                 true
             }
             setOnPreparedListener {
@@ -45,13 +46,16 @@ class PlayerPreloader @Inject constructor(
         }
     }
 
+    /**
+     * Stop track preloading and release corresponding media player.
+     */
     fun stopPreloading(audioInfo: AudioInfo) {
         playersCache.remove(audioInfo)?.player?.release()
     }
 
     fun popPreloadingPlayer(audioInfo: AudioInfo) = playersCache.remove(audioInfo)
 
-    fun clearAllPreloads() {
+    fun stopAllPreloads() {
         playersCache.forEach { it.value.player.release() }
         playersCache.clear()
     }

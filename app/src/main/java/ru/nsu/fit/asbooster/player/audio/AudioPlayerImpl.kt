@@ -33,8 +33,6 @@ class AudioPlayerImpl @Inject constructor(
 
     private val onPrepareCallbacks = mutableListOf<() -> Unit>()
 
-    private var lastSeekCallback: () -> Unit = {}
-
     override val loaded get() = prepared && !hasError
     override val loading get() = starting
 
@@ -73,7 +71,7 @@ class AudioPlayerImpl @Inject constructor(
                 onMediaPlayerPrepared()
             }
         } else {
-            val url  = getStreamUrl(audioInfo) ?: return
+            val url = getStreamUrl(audioInfo) ?: return
             if (audioInfo !== audio) {
                 return
             }
@@ -93,8 +91,6 @@ class AudioPlayerImpl @Inject constructor(
         notify { onLoadingFinish() }
         onPrepareCallbacks.forEach { it() }
         onPrepareCallbacks.clear()
-        lastSeekCallback()
-        lastSeekCallback = {}
         play()
     }
 
@@ -107,7 +103,7 @@ class AudioPlayerImpl @Inject constructor(
     private fun startProgressTracking() {
         uiScope.launch {
             while (!destroyed && mediaPlayer.isPlaying) {
-                notify{ onProgress(mediaPlayer.currentPosition) }
+                notify { onProgress(mediaPlayer.currentPosition) }
                 delay(TRACKING_DELAY)
             }
         }
@@ -176,8 +172,11 @@ class AudioPlayerImpl @Inject constructor(
             listener.onPLay()
         }
 
-        if (loading) {
-            audio?.let { listener.onLoadingStart(it) }
+        audio?.let {
+            listener.onLoadingStart(it)
+            if (!loading) {
+                listener.onLoadingFinish()
+            }
         }
 
         listener.onLoopingModeChanged(looping)

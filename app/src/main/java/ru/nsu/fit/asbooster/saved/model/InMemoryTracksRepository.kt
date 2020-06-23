@@ -11,7 +11,7 @@ private const val NOT_FOUND = -1
  */
 @Singleton
 open class InMemoryTracksRepository @Inject constructor() : TracksRepository {
-    override suspend fun isEmpty() = tracks.isEmpty()
+    override fun isEmpty() = tracks.isEmpty()
 
     override var saveTrackListener: (Track) -> Unit = {}
 

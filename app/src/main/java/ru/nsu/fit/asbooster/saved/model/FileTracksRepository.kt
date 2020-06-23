@@ -26,7 +26,6 @@ class FileTracksRepository @Inject constructor(
     private var loaded = false
 
     init {
-
         uiScope.launch {
             load()
             loaded = true
@@ -68,7 +67,7 @@ class FileTracksRepository @Inject constructor(
         }
     }
 
-    override suspend fun isEmpty() = if (!loaded) {
+    override fun isEmpty() = if (!loaded) {
         preferencesHelper.readBoolean(SharedPreferencesHelper.TRACK_DB_EMPTY_KEY)
     } else {
         super.isEmpty()

@@ -68,14 +68,10 @@ class PlayerPresenter @Inject constructor(
     }
 
 
-    fun onCreate(intent: Intent) {
+    fun onCreate() {
         audioPlayer.addListener(playerListener)
 
-        intent.getParcelableExtra<Track>(Router.TRACK_INFO_EXTRA)?.let { track ->
-            playerFacade.start(track)
-        } ?: {
-            updateCurrentTrack()
-        }()
+        updateCurrentTrack()
     }
 
     fun onDestroy() {

@@ -58,7 +58,7 @@ class PlayerFacade @Inject constructor(
      * Start playing playlist.
      */
     fun start(playlist: PlayList) {
-        playerPreloader.clearAllPreloads()
+        playerPreloader.stopAllPreloads()
         uiScope.launch {
             dropPlaylist()
             this@PlayerFacade.playlist = playlist
