@@ -6,7 +6,7 @@ import kotlinx.coroutines.launch
 import ru.nsu.fit.asbooster.repository.AudioRepository
 import ru.nsu.fit.asbooster.di.FragmentScoped
 import ru.nsu.fit.asbooster.mappers.ViewItemsMapper
-import ru.nsu.fit.asbooster.player.PlayerFacade
+import ru.nsu.fit.asbooster.player.PlaybackController
 import ru.nsu.fit.asbooster.player.audio.AudioPlayer
 import ru.nsu.fit.asbooster.player.playlist.LinearPlaylist
 import ru.nsu.fit.asbooster.player.playlist.PlayList
@@ -17,7 +17,6 @@ import javax.inject.Inject
 /**
  * Presenter for [SearchView]
  */
-
 private const val NOT_FOUND = -1
 private const val TYPE_TIMEOUT = 250L
 
@@ -27,7 +26,7 @@ class SearchPresenter @Inject constructor(
     private val audioRepository: AudioRepository,
     private val uiScope: CoroutineScope,
     private val viewItemsMapper: ViewItemsMapper,
-    private val playerFacade: PlayerFacade,
+    private val playbackController: PlaybackController,
     private val player: AudioPlayer
 ) {
 
@@ -38,7 +37,7 @@ class SearchPresenter @Inject constructor(
     private var playingPlayList: PlayList? = null
     private var playingPos: Int? = null
 
-    private val playerFacadeListener = object : PlayerFacade.Listener {
+    private val playbackListener = object : PlaybackController.Listener {
         override fun onPlayListDropped(playList: PlayList) {
             if (playList == playingPlayList) {
                 playingPlayList = null
@@ -67,7 +66,7 @@ class SearchPresenter @Inject constructor(
     }
 
     private val playerListener = object : AudioPlayer.Listener {
-        override fun onPLay() {
+        override fun onPlay() {
             playingPos?.let {
                 view.showPlaying(it)
             }
@@ -82,12 +81,12 @@ class SearchPresenter @Inject constructor(
 
     fun onCreate() {
         view.showEmptyAudiosImage()
-        playerFacade.addListener(playerFacadeListener)
+        playbackController.addListener(playbackListener)
         player.addListener(playerListener)
     }
 
     fun onDestroy() {
-        playerFacade.removeListener(playerFacadeListener)
+        playbackController.removeListener(playbackListener)
         player.removeListener(playerListener)
     }
 
@@ -109,7 +108,7 @@ class SearchPresenter @Inject constructor(
     fun onAudioClick(index: Int) {
         val playList = LinearPlaylist(tracks, index)
         playingPlayList = playList
-        playerFacade.start(playList)
+        playbackController.start(playList)
     }
 
     private fun launchQuery(query: String) {

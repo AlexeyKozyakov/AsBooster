@@ -27,3 +27,10 @@ interface PlayList {
 
     fun destroy()
 }
+
+
+interface EagerPlaylist {
+    val currentPos: Int
+
+    suspend fun tracks(): List<Track>
+}

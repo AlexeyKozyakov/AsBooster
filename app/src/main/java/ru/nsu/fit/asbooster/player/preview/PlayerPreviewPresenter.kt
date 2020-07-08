@@ -12,7 +12,7 @@ import ru.nsu.fit.asbooster.player.audio.AudioPlayer
 import ru.nsu.fit.asbooster.base.navigation.Router
 import ru.nsu.fit.asbooster.formating.NumberFormatter
 import ru.nsu.fit.asbooster.mappers.ViewItemsMapper
-import ru.nsu.fit.asbooster.player.PlayerFacade
+import ru.nsu.fit.asbooster.player.PlaybackControllerImpl
 import ru.nsu.fit.asbooster.player.effects.EffectsManager
 import ru.nsu.fit.asbooster.repository.StringsProvider
 import ru.nsu.fit.asbooster.repository.entity.AudioInfo
@@ -32,14 +32,14 @@ class PlayerPreviewPresenter @Inject constructor(
     private val messageHelper: SnackbarMessageHelper,
     private val stringsProvider: StringsProvider,
     private val effectsManager: EffectsManager,
-    private val playerFacade: PlayerFacade,
+    private val playlistController: PlaybackControllerImpl,
     activity: AppCompatActivity
 ) {
 
     private lateinit var audioInfo: AudioInfo
 
     private val playerListener = object : AudioPlayer.Listener {
-        override fun onPLay() {
+        override fun onPlay() {
             view.showPauseButton()
         }
 
@@ -47,16 +47,8 @@ class PlayerPreviewPresenter @Inject constructor(
             view.showPlayButton()
         }
 
-        override fun onLoadingStart(audioInfo: AudioInfo) {
-            this@PlayerPreviewPresenter.audioInfo = audioInfo
-            with(view) {
-                val audioItem = viewItemsMapper.trackToAudioItem(Track(
-                    audioInfo,
-                    effectsManager.effectsSettings
-                ))
-                show(audioItem)
-                showProgress()
-            }
+        override fun onLoadingStart() {
+            view.showProgress()
         }
 
         override fun onLoadingFinish() {
@@ -73,12 +65,29 @@ class PlayerPreviewPresenter @Inject constructor(
         }
 
         override fun onLoopingModeChanged(looping: Boolean) = Unit
+
+        override fun onAudioChanged() {
+            updatePlayingTrack()
+        }
+    }
+
+    private fun updatePlayingTrack() {
+        player.audio?.let {
+            audioInfo = it
+            with(view) {
+                val audioItem = viewItemsMapper.trackToAudioItem(Track(
+                    audioInfo,
+                    effectsManager.effectsSettings
+                ))
+                show(audioItem)
+            }
+        }
     }
 
     private val viewListener = object : PlayerPreviewView.Listener {
         override fun onCloseClick() {
             view.hide()
-            playerFacade.stop()
+            playlistController.stop()
         }
 
         override fun onFavoritesClick() {
@@ -119,5 +128,14 @@ class PlayerPreviewPresenter @Inject constructor(
             }
 
         })
+
+        updateInitialState()
+    }
+
+    private fun updateInitialState() {
+        if (player.playing) {
+            view.showPauseButton()
+        }
+        updatePlayingTrack()
     }
 }

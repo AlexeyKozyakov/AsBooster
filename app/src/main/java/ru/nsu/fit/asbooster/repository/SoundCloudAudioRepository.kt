@@ -27,6 +27,8 @@ class SoundCloudAudioRepository @Inject constructor(
         .build()
         .create(SoundCloudAudioService::class.java)
 
+    private val streamUrlsCache = hashMapOf<String, String>()
+
     override suspend fun searchAudios(query: String) = suspendCoroutine<List<AudioInfo>?> {
         service.searchAudios(query).enqueue(object : Callback<SoundCloudAudioCollection> {
             override fun onFailure(call: Call<SoundCloudAudioCollection>, t: Throwable) {
@@ -45,16 +47,23 @@ class SoundCloudAudioRepository @Inject constructor(
     }
 
     override suspend fun getStreamUrl(url: String) = suspendCoroutine<String?> {
+        streamUrlsCache[url]?.let { cachedUrl ->
+            it.resume(cachedUrl)
+            return@suspendCoroutine
+        }
+
         service.streamUrl(url).enqueue(object : Callback<SoundCloudUrl> {
             override fun onFailure(call: Call<SoundCloudUrl>, t: Throwable) {
                 it.resume(null)
             }
 
             override fun onResponse(call: Call<SoundCloudUrl>, response: Response<SoundCloudUrl>) {
-                it.resume(response.body()?.url)
+                val streamUrl = response.body()?.url
+                if (streamUrl != null) {
+                    streamUrlsCache[url] = streamUrl
+                }
+                it.resume(streamUrl)
             }
-
         })
     }
-
 }

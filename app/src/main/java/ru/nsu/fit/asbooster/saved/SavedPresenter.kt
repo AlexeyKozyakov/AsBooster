@@ -5,7 +5,7 @@ import kotlinx.coroutines.launch
 import ru.nsu.fit.asbooster.di.FragmentScoped
 import ru.nsu.fit.asbooster.saved.model.TracksRepository
 import ru.nsu.fit.asbooster.mappers.ViewItemsMapper
-import ru.nsu.fit.asbooster.player.PlayerFacade
+import ru.nsu.fit.asbooster.player.PlaybackController
 import ru.nsu.fit.asbooster.player.audio.AudioPlayer
 import ru.nsu.fit.asbooster.player.playlist.PlayList
 import ru.nsu.fit.asbooster.player.playlist.RepositoryPlaylist
@@ -18,14 +18,14 @@ class SavedPresenter @Inject constructor(
     private val tracksRepository: TracksRepository,
     private val viewItemsMapper: ViewItemsMapper,
     private val uiScope: CoroutineScope,
-    private val playerFacade: PlayerFacade,
+    private val playbackController: PlaybackController,
     private val player: AudioPlayer
 ) {
 
     private var currentPlayList: RepositoryPlaylist? = null
     private var currentPlayingPosition: Int? = null
 
-    private val playListListener = object : PlayerFacade.Listener {
+    private val playListListener = object : PlaybackController.Listener {
         override fun onPlayListDropped(playList: PlayList) {
             if (playList != currentPlayList) {
                 return
@@ -40,9 +40,6 @@ class SavedPresenter @Inject constructor(
             currentPlayList?.let {
                 uiScope.launch {
                     val trackPos = tracksRepository.getPosition(track) ?: return@launch
-                    currentPlayingPosition?.let {
-                        view.hideAllInfo(it)
-                    }
                     view.showPlaying(trackPos)
                     currentPlayingPosition = trackPos
                 }
@@ -59,7 +56,7 @@ class SavedPresenter @Inject constructor(
     }
 
     private val playerListener = object : AudioPlayer.Listener {
-        override fun onPLay() {
+        override fun onPlay() {
             currentPlayingPosition?.let {
                 view.showPlaying(it)
             }
@@ -73,25 +70,25 @@ class SavedPresenter @Inject constructor(
     }
 
     fun onCreate() {
-        playerFacade.addListener(playListListener)
+        playbackController.addListener(playListListener)
         player.addListener(playerListener)
 
         uiScope.launch {
             view.showProgress()
             updateTracks()
-            updatePlayingTrack(playerFacade.track)
+            updatePlayingPlaylistAndTrack()
         }
     }
 
-    private fun updatePlayingTrack(track: Track?) {
-        currentPlayingPosition?.let {
-            view.hideAllInfo(it)
-        }
-        uiScope.launch {
-            track?.let { newTrack ->
-                tracksRepository.getPosition(newTrack)?.let { trackPosition ->
-                    view.showPlaying(trackPosition)
-                    currentPlayingPosition = trackPosition
+    private fun updatePlayingPlaylistAndTrack() {
+        (playbackController.playlist as? RepositoryPlaylist)?.let {
+            currentPlayList = it
+            uiScope.launch {
+                it.current()?.let { newTrack ->
+                    tracksRepository.getPosition(newTrack)?.let { trackPosition ->
+                        view.showPlaying(trackPosition)
+                        currentPlayingPosition = trackPosition
+                    }
                 }
             }
         }
@@ -99,7 +96,7 @@ class SavedPresenter @Inject constructor(
 
     fun onDestroy() {
         tracksRepository.saveTrackListener = {}
-        playerFacade.removeListener(playListListener)
+        playbackController.removeListener(playListListener)
         player.removeListener(playerListener)
     }
 
@@ -142,7 +139,7 @@ class SavedPresenter @Inject constructor(
     fun onAudioClick(position: Int) {
         val playList = RepositoryPlaylist(tracksRepository, uiScope, position)
         view.showPlaying(position)
-        playerFacade.start(playList)
+        playbackController.start(playList)
     }
 
 }

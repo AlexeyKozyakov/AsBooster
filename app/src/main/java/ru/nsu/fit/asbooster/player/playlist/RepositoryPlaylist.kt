@@ -11,9 +11,9 @@ class RepositoryPlaylist(
     private val repository: TracksRepository,
     private val uiScope: CoroutineScope,
     private val startPos: Int
-): PlayList {
+): PlayList, EagerPlaylist {
 
-    val currentPos get() = if (linearPlayList.empty) startPos else linearPlayList.currentPos
+    override val currentPos get() = if (linearPlayList.empty) startPos else linearPlayList.currentPos
 
     private var linearPlayList: LinearPlaylist = emptyLinearPlaylist()
 
@@ -68,6 +68,11 @@ class RepositoryPlaylist(
 
     override fun destroy() {
         repository.removeListener(repositoryListener)
+    }
+
+    override suspend fun tracks(): List<Track> {
+        waitUpdate()
+        return linearPlayList.tracks()
     }
 
     private fun update() {

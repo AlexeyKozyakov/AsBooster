@@ -6,9 +6,9 @@ class LinearPlaylist(
     private val tracks: List<Track>,
     startPos: Int = 0,
     override var looping: Boolean = true
-): PlayList {
+): PlayList, EagerPlaylist {
 
-    var currentPos = startPos
+    override var currentPos = startPos
     private set
 
     val empty = tracks.isEmpty()
@@ -50,6 +50,8 @@ class LinearPlaylist(
     }
 
     override fun destroy() = Unit
+
+    override suspend fun tracks() = tracks
 
     private fun calculateNextPos() = if (looping) {
         (size + currentPos + 1) % size

@@ -8,8 +8,10 @@ import dagger.Module
 import dagger.Provides
 import ru.nsu.fit.asbooster.base.lifecicle.ApplicationLifecycle
 import ru.nsu.fit.asbooster.base.lifecicle.ApplicationLifecycleImpl
+import ru.nsu.fit.asbooster.player.PlaybackController
+import ru.nsu.fit.asbooster.player.PlaybackControllerImpl
 import ru.nsu.fit.asbooster.player.audio.AudioPlayer
-import ru.nsu.fit.asbooster.player.audio.AudioPlayerImpl
+import ru.nsu.fit.asbooster.player.audio.ExoAudioPlayer
 import ru.nsu.fit.asbooster.repository.AudioRepository
 import ru.nsu.fit.asbooster.repository.SoundCloudAudioRepository
 import ru.nsu.fit.asbooster.saved.model.FileTracksRepository
@@ -37,7 +39,8 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    fun tracksRepository(tracksRepository: FileTracksRepository) = tracksRepository as TracksRepository
+    fun tracksRepository(tracksRepository: FileTracksRepository) =
+        tracksRepository as TracksRepository
 
     @Provides
     @Singleton
@@ -45,5 +48,10 @@ class ApplicationModule {
 
     @Singleton
     @Provides
-    fun audioPLayer(audioPlayerImpl: AudioPlayerImpl) = audioPlayerImpl as AudioPlayer
+    fun audioPLayer(exoPlayer: ExoAudioPlayer) = exoPlayer as AudioPlayer
+
+    @Singleton
+    @Provides
+    fun playlistController(playlistControllerImpl: PlaybackControllerImpl) =
+        playlistControllerImpl as PlaybackController
 }

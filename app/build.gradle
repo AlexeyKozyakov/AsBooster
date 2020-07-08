@@ -13,7 +13,7 @@ android {
     compileSdkVersion 29
     defaultConfig {
         applicationId "ru.nsu.fit.asbooster"
-        minSdkVersion 23
+        minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -89,4 +89,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation 'com.klinkerapps:drag-dismiss-activity:1.7.0'
+
+    implementation 'com.google.android.exoplayer:exoplayer:2.11.6'
 }

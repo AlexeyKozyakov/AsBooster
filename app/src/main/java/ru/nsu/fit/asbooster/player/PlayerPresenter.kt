@@ -1,10 +1,8 @@
 package ru.nsu.fit.asbooster.player
 
-import android.content.Intent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.nsu.fit.asbooster.base.SnackbarMessageHelper
-import ru.nsu.fit.asbooster.base.navigation.Router
 import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.formating.NumberFormatter
 import ru.nsu.fit.asbooster.di.ActivityScoped
@@ -28,7 +26,7 @@ class PlayerPresenter @Inject constructor(
     private val stringsProvider: StringsProvider,
     private val viewItemsMapper: ViewItemsMapper,
     private val messageHelper: SnackbarMessageHelper,
-    private val playerFacade: PlayerFacade
+    private val playlistController: PlaybackControllerImpl
 ) {
 
     private var audioInfo: AudioInfo? = null
@@ -37,24 +35,27 @@ class PlayerPresenter @Inject constructor(
     private val playerListener = object : AudioPlayer.Listener {
         override fun onProgress(progress: Int) {
             val current = progress / 1000
-            view.updateProgressSeekBar(current)
+            view.updateProgress(current)
             view.setElapsedTime(formatter.formatDuration(progress))
+        }
+
+        override fun onBuffered(position: Int) {
+            view.updateBufferedPosition(position / 1000)
         }
 
         override fun onComplete() {
             view.showPlayButton()
         }
 
-        override fun onLoadingStart(audioInfo: AudioInfo) {
+        override fun onLoadingStart() {
             view.showProgress()
-            updateCurrentTrack()
         }
 
         override fun onLoadingFinish() {
             view.hideProgress()
         }
 
-        override fun onPLay() {
+        override fun onPlay() {
             view.showPauseButton()
         }
 
@@ -65,6 +66,10 @@ class PlayerPresenter @Inject constructor(
         override fun onLoopingModeChanged(looping: Boolean) {
             view.showLooping(looping)
         }
+
+        override fun onAudioChanged() {
+            updateCurrentTrack()
+        }
     }
 
 
@@ -72,6 +77,11 @@ class PlayerPresenter @Inject constructor(
         audioPlayer.addListener(playerListener)
 
         updateCurrentTrack()
+        updateLoopingState()
+    }
+
+    private fun updateLoopingState() {
+        view.showLooping(audioPlayer.looping)
     }
 
     fun onDestroy() {
@@ -88,8 +98,9 @@ class PlayerPresenter @Inject constructor(
 
     fun onSeek(progress: Int) {
         val time = progress * 1000
-        audioPlayer.seekTo(time)
-        view.setElapsedTime(formatter.formatDuration(time))
+        if (audioPlayer.trySeekTo(time)) {
+            view.setElapsedTime(formatter.formatDuration(time))
+        }
     }
 
     fun onEffectForceChanged(position: Int, force: Int) {
@@ -116,11 +127,11 @@ class PlayerPresenter @Inject constructor(
     }
 
     fun onNextClick() {
-        playerFacade.next()
+        playlistController.next()
     }
 
     fun onPreviousClick() {
-        playerFacade.previous()
+        playlistController.previous()
     }
 
     private fun updateCurrentTrack() {
@@ -139,5 +150,4 @@ class PlayerPresenter @Inject constructor(
     private fun showEffects() {
         view.showEffects(viewItemsMapper.effectsInfoToEffectItems(effectsInfo))
     }
-
 }

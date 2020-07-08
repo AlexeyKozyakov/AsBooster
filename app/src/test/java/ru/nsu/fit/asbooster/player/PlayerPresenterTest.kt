@@ -27,7 +27,7 @@ private const val URL_TO_STREAM = "url to stream"
 class PlayerPresenterTest{
 
     private val audioInfo: AudioInfo = mock {
-        on { urlToStream } doReturn URL_TO_STREAM
+        on { streamUrl } doReturn URL_TO_STREAM
     }
     private val effectInfo: EffectInfo = mock {
         on { id } doReturn EFFECT_ID
@@ -49,7 +49,7 @@ class PlayerPresenterTest{
     }
     private val uiScope: CoroutineScope = CoroutineScope(Dispatchers.Unconfined)
     private val repository: AudioRepository = mock {
-        onBlocking { getStreamUrl(eq(audioInfo.urlToStream!!)) } doReturn URL_TO_STREAM
+        onBlocking { getStreamUrl(eq(audioInfo.streamUrl!!)) } doReturn URL_TO_STREAM
     }
     private val effectsManager: EffectsManager = mock()
     private val tracksRepository: TracksRepository = mock()

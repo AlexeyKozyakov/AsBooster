@@ -2,6 +2,7 @@ package ru.nsu.fit.asbooster.player.audio
 
 import android.media.MediaPlayer
 import kotlinx.coroutines.*
+import ru.nsu.fit.asbooster.base.listenable.ListenableImpl
 import ru.nsu.fit.asbooster.player.preloader.PlayerPreloader
 import ru.nsu.fit.asbooster.repository.AudioRepository
 import ru.nsu.fit.asbooster.repository.entity.AudioInfo
@@ -10,14 +11,14 @@ import javax.inject.Singleton
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-const val TRACKING_DELAY = 1000L
+private const val TRACKING_DELAY = 1000L
 
 @Singleton
-class AudioPlayerImpl @Inject constructor(
+class MediaAudioPlayer @Inject constructor(
     private val uiScope: CoroutineScope,
     private val repository: AudioRepository,
     private val playerPreloader: PlayerPreloader
-) : AudioPlayer {
+) : AudioPlayer, ListenableImpl<AudioPlayer.Listener>() {
 
     override var audio: AudioInfo? = null
         private set
@@ -26,8 +27,6 @@ class AudioPlayerImpl @Inject constructor(
     private var prepared = false
     private var destroyed = false
     private var starting = false
-
-    private val listeners = mutableListOf<AudioPlayer.Listener>()
 
     private var mediaPlayer = MediaPlayer().initListeners()
 
@@ -57,7 +56,8 @@ class AudioPlayerImpl @Inject constructor(
             reset()
         }
         audio = audioInfo
-        notify { onLoadingStart(audioInfo) }
+        notify { onAudioChanged() }
+        notify { onLoadingStart() }
         notify { onProgress(0) }
         preparePlayer(audioInfo)
     }
@@ -96,7 +96,7 @@ class AudioPlayerImpl @Inject constructor(
 
     override fun play() {
         mediaPlayer.start()
-        notify { onPLay() }
+        notify { onPlay() }
         startProgressTracking()
     }
 
@@ -116,17 +116,15 @@ class AudioPlayerImpl @Inject constructor(
         }
     }
 
-    override fun stop() {
-        mediaPlayer.stop()
-        notify { onStop() }
-    }
-
     override fun destroy() {
         destroyed = true
         mediaPlayer.release()
     }
 
-    override fun seekTo(progress: Int) = afterPrepare { seekTo(progress) }
+    override fun trySeekTo(progress: Int): Boolean {
+        afterPrepare { seekTo(progress) }
+        return true
+    }
 
     override fun attachEffect(id: Int) = mediaPlayer.attachAuxEffect(id)
 
@@ -135,6 +133,7 @@ class AudioPlayerImpl @Inject constructor(
         prepared = false
         hasError = false
         audio = null
+        notify { onAudioChanged() }
     }
 
     override fun setAuxEffectLevel(level: Float) {
@@ -142,13 +141,8 @@ class AudioPlayerImpl @Inject constructor(
     }
 
     override fun addListener(listener: AudioPlayer.Listener) {
-        listeners.add(listener)
-
+        super.addListener(listener)
         notifyNewListener(listener)
-    }
-
-    override fun removeListener(listener: AudioPlayer.Listener) {
-        listeners.remove(listener)
     }
 
     private suspend fun getStreamUrl(audioInfo: AudioInfo): String? {
@@ -157,25 +151,20 @@ class AudioPlayerImpl @Inject constructor(
 
     }
 
-    private fun notify(event: AudioPlayer.Listener.() -> Unit) = listeners.forEach(event)
-
     private fun notifyNewListener(listener: AudioPlayer.Listener) {
         if (destroyed) {
             return
         }
 
-        if (mediaPlayer.isPlaying) {
-            listener.onProgress(mediaPlayer.currentPosition)
-        }
-
         if (playing) {
-            listener.onPLay()
+            listener.onProgress(mediaPlayer.currentPosition)
+            listener.onPlay()
         }
 
         audio?.let {
-            listener.onLoadingStart(it)
-            if (!loading) {
-                listener.onLoadingFinish()
+            listener.onAudioChanged()
+            if (loading) {
+                listener.onLoadingStart()
             }
         }
 

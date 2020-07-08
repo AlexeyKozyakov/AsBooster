@@ -26,7 +26,9 @@
         </activity>
         <activity
             android:name=".player.PlayerActivity"
+            android:parentActivityName=".audios.AudiosActivity"
             android:theme="@style/DragDismissTheme" />
+        <service android:name=".service.AudioService"/>
     </application>
 
 </manifest>

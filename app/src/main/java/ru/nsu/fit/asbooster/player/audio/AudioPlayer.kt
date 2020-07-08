@@ -1,14 +1,15 @@
 package ru.nsu.fit.asbooster.player.audio
 
+import ru.nsu.fit.asbooster.base.listenable.Listenable
 import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 
-interface AudioPlayer {
+interface AudioPlayer : Listenable<AudioPlayer.Listener> {
 
     interface Listener {
         /**
          * Called on start playing.
          */
-        fun onPLay() = Unit
+        fun onPlay() = Unit
 
         /**
          * Called on pause.
@@ -16,22 +17,22 @@ interface AudioPlayer {
         fun onPause() = Unit
 
         /**
-         * Called when player is stopped.
-         */
-        fun onStop() = Unit
-
-        /**
          * Called when playing progress is changed.
          */
         fun onProgress(progress: Int) = Unit
 
         /**
-         * Called when track loading is started.
+         * Called when buffered position is changed.
          */
-        fun onLoadingStart(audioInfo: AudioInfo) = Unit
+        fun onBuffered(position: Int) = Unit
 
         /**
-         * Called when track loading is finished.
+         * Called when audio loading is started.
+         */
+        fun onLoadingStart() = Unit
+
+        /**
+         * Called when audio loading is finished.
          */
         fun onLoadingFinish() = Unit
 
@@ -44,6 +45,11 @@ interface AudioPlayer {
          * Called on looping mode changed
          */
         fun onLoopingModeChanged(looping: Boolean) = Unit
+
+        /**
+         * Called when current audio is changed
+         */
+        fun onAudioChanged() = Unit
     }
 
     /**
@@ -59,11 +65,10 @@ interface AudioPlayer {
 
     val sessionId: Int
 
+    /**
+     * True if player is looping one track
+     */
     var looping: Boolean
-
-    fun addListener(listener: Listener)
-
-    fun removeListener(listener: Listener)
 
     suspend fun start(audioInfo: AudioInfo)
 
@@ -71,11 +76,9 @@ interface AudioPlayer {
 
     fun pause()
 
-    fun stop()
-
     fun destroy()
 
-    fun seekTo(progress : Int)
+    fun trySeekTo(progress : Int): Boolean
 
     fun attachEffect(id: Int)
 

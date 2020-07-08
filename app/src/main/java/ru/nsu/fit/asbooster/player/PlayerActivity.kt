@@ -1,5 +1,7 @@
 package ru.nsu.fit.asbooster.player
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +15,21 @@ import ru.nsu.fit.asbooster.R
 import ru.nsu.fit.asbooster.base.lifecicle.ApplicationLifecycleImpl
 import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
 import ru.nsu.fit.asbooster.player.effects.ui.EffectsAdapter
+import xyz.klinker.android.drag_dismiss.DragDismissIntentBuilder
 import xyz.klinker.android.drag_dismiss.activity.DragDismissActivity
 
 private const val LOOPING_ALPHA = 1f
 private const val DEFAULT_ALPHA = 0.2f
 
 class PlayerActivity : DragDismissActivity(), PlayerView {
+
+    companion object {
+        fun intentToLaunch(context: Context): Intent = DragDismissIntentBuilder(context)
+            .setDragElasticity(DragDismissIntentBuilder.DragElasticity.XXLARGE)
+            .setTheme(DragDismissIntentBuilder.Theme.LIGHT)
+            .setShowToolbar(false)
+            .build(Intent(context, PlayerActivity::class.java))
+    }
 
     private lateinit var presenter: PlayerPresenter
     private lateinit var viewHolder: ViewHolder
@@ -87,8 +98,12 @@ class PlayerActivity : DragDismissActivity(), PlayerView {
         }
     }
 
-    override fun updateProgressSeekBar(progress: Int) {
+    override fun updateProgress(progress: Int) {
         viewHolder.seekBarPlayer.progress = progress
+    }
+
+    override fun updateBufferedPosition(position: Int) {
+        viewHolder.seekBarPlayer.secondaryProgress = position
     }
 
     override fun showProgress() {
@@ -116,14 +131,15 @@ class PlayerActivity : DragDismissActivity(), PlayerView {
         }
     }
 
-    private fun initOnSeekBarChangeListener(){
-        viewHolder.seekBarPlayer.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+    private fun initOnSeekBarChangeListener() {
+        viewHolder.seekBarPlayer.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
             override fun onStartTrackingTouch(p0: SeekBar?) = Unit
 
             override fun onStopTrackingTouch(p0: SeekBar?) = Unit
 
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                if(fromUser)
+                if (fromUser)
                     presenter.onSeek(progress)
             }
         })
@@ -163,5 +179,4 @@ class PlayerActivity : DragDismissActivity(), PlayerView {
         val saveButton: ImageButton = findViewById(R.id.save_track_button)
         val progressBar: ProgressBar = findViewById(R.id.player_progress_bar)
     }
-
 }

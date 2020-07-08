@@ -2,6 +2,7 @@ package ru.nsu.fit.asbooster.player
 
 import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
 import ru.nsu.fit.asbooster.repository.RequestedImage
+import java.text.FieldPosition
 
 interface PlayerView {
 
@@ -13,7 +14,9 @@ interface PlayerView {
 
     fun showEffects(effects: List<EffectItem>)
 
-    fun updateProgressSeekBar(progress:Int)
+    fun updateProgress(progress: Int)
+
+    fun updateBufferedPosition(position: Int)
 
     fun setElapsedTime(time:String)
 
