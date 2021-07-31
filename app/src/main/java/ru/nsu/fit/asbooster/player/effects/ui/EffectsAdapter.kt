@@ -12,7 +12,7 @@ import ru.nsu.fit.asbooster.repository.RequestedImage
 
 class EffectsAdapter(
     private val effects: List<EffectItem>,
-    private val onForceChanged: (adapterPosition: Int, force: Int) -> Unit
+    private val onForceChanged: (item: EffectItem, force: Int) -> Unit
 ) : RecyclerView.Adapter<EffectsAdapter.ViewHolder>() {
 
     class ViewHolder(root: View) : RecyclerView.ViewHolder(root) {
@@ -28,7 +28,7 @@ class EffectsAdapter(
         viewHolder.effectForceSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
-                    onForceChanged(viewHolder.adapterPosition, progress)
+                    onForceChanged(effects[viewHolder.adapterPosition], progress)
                 }
             }
 

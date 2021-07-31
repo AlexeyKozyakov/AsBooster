@@ -15,9 +15,9 @@ import ru.nsu.fit.asbooster.mappers.ViewItemsMapper
 import ru.nsu.fit.asbooster.player.PlaybackControllerImpl
 import ru.nsu.fit.asbooster.player.effects.EffectsManager
 import ru.nsu.fit.asbooster.repository.StringsProvider
-import ru.nsu.fit.asbooster.repository.entity.AudioInfo
 import ru.nsu.fit.asbooster.saved.model.Track
 import ru.nsu.fit.asbooster.saved.model.TracksRepository
+import java.lang.IllegalStateException
 import javax.inject.Inject
 
 @ActivityScoped
@@ -35,8 +35,6 @@ class PlayerPreviewPresenter @Inject constructor(
     private val playlistController: PlaybackControllerImpl,
     activity: AppCompatActivity
 ) {
-
-    private lateinit var audioInfo: AudioInfo
 
     private val playerListener = object : AudioPlayer.Listener {
         override fun onPlay() {
@@ -73,10 +71,9 @@ class PlayerPreviewPresenter @Inject constructor(
 
     private fun updatePlayingTrack() {
         player.audio?.let {
-            audioInfo = it
             with(view) {
                 val audioItem = viewItemsMapper.trackToAudioItem(Track(
-                    audioInfo,
+                    it,
                     effectsManager.effectsSettings
                 ))
                 show(audioItem)
@@ -94,7 +91,7 @@ class PlayerPreviewPresenter @Inject constructor(
             uiScope.launch {
                 messageHelper.showMessage(stringsProvider.savedMessage)
                 repository.saveTrack(Track(
-                    audioInfo,
+                    player.audio ?: throw IllegalStateException("Audio should be present"),
                     effectsManager.effectsSettings
                 ))
             }

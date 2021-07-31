@@ -93,8 +93,8 @@ class PlayerActivity : DragDismissActivity(), PlayerView {
     }
 
     override fun showEffects(effects: List<EffectItem>) {
-        viewHolder.effectsRecycler.adapter = EffectsAdapter(effects) { position, force ->
-            presenter.onEffectForceChanged(position, force)
+        viewHolder.effectsRecycler.adapter = EffectsAdapter(effects) { item, force ->
+            presenter.onEffectForceChanged(item, force)
         }
     }
 

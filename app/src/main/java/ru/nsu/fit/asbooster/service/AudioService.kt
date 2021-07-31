@@ -15,20 +15,35 @@ class AudioService : Service() {
 
     private val player get() = (application as App).component.value.player()
 
-    private val notificationManager = lazy {
+    private val notificationManager by lazy {
         getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
     private val playerListener = object : AudioPlayer.Listener {
-        override fun onAudioChanged() {
-            val notification = createCurrentTrackNotification()
-            notificationManager.value.notify(NOTIFICATION_ID, notification)
+        override fun onPause() {
+            notifyCurrentTrack()
+        }
+
+        override fun onPlay() {
+            notifyCurrentTrack()
+        }
+    }
+
+    private fun notifyCurrentTrack() {
+        if (player.audio != null) {
+            notificationManager.notify(NOTIFICATION_ID, createCurrentTrackNotification())
         }
     }
 
     private fun createCurrentTrackNotification() =
         Notification.Builder(this, NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.icon_play)
+            .setSmallIcon(
+                if (player.playing) {
+                    R.drawable.icon_play
+                } else {
+                    R.drawable.icon_button_pause
+                }
+            )
             .setContentTitle(player.audio?.author ?: "")
             .setContentText(player.audio?.name)
             .setStyle(Notification.MediaStyle())
@@ -49,6 +64,7 @@ class AudioService : Service() {
 
     override fun onDestroy() {
         player.removeListener(playerListener)
+        notificationManager.cancel(NOTIFICATION_ID)
     }
 
     override fun onBind(intent: Intent?) = null
@@ -61,6 +77,6 @@ class AudioService : Service() {
             NOTIFICATION_CHANNEL_ID,
             NotificationManager.IMPORTANCE_LOW
         )
-        notificationManager.value.createNotificationChannel(channel)
+        notificationManager.createNotificationChannel(channel)
     }
 }

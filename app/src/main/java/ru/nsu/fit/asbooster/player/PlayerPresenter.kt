@@ -3,16 +3,15 @@ package ru.nsu.fit.asbooster.player
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import ru.nsu.fit.asbooster.base.SnackbarMessageHelper
-import ru.nsu.fit.asbooster.repository.entity.AudioInfo
-import ru.nsu.fit.asbooster.formating.NumberFormatter
 import ru.nsu.fit.asbooster.di.ActivityScoped
+import ru.nsu.fit.asbooster.formating.NumberFormatter
+import ru.nsu.fit.asbooster.mappers.ViewItemsMapper
 import ru.nsu.fit.asbooster.player.audio.AudioPlayer
 import ru.nsu.fit.asbooster.player.effects.EffectsManager
+import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
 import ru.nsu.fit.asbooster.repository.StringsProvider
 import ru.nsu.fit.asbooster.saved.model.Track
 import ru.nsu.fit.asbooster.saved.model.TracksRepository
-import ru.nsu.fit.asbooster.saved.model.entity.EffectInfo
-import ru.nsu.fit.asbooster.mappers.ViewItemsMapper
 import javax.inject.Inject
 
 @ActivityScoped
@@ -28,9 +27,6 @@ class PlayerPresenter @Inject constructor(
     private val messageHelper: SnackbarMessageHelper,
     private val playlistController: PlaybackControllerImpl
 ) {
-
-    private var audioInfo: AudioInfo? = null
-    private lateinit var effectsInfo: List<EffectInfo>
 
     private val playerListener = object : AudioPlayer.Listener {
         override fun onProgress(progress: Int) {
@@ -103,13 +99,12 @@ class PlayerPresenter @Inject constructor(
         }
     }
 
-    fun onEffectForceChanged(position: Int, force: Int) {
-        val effectInfo = effectsInfo[position]
-        effectsManager.setForce(effectInfo.id, force)
+    fun onEffectForceChanged(item: EffectItem, force: Int) {
+        effectsManager.setForce(item.id, force)
     }
 
     fun onSave() {
-        audioInfo?.let { audioInfo ->
+        audioPlayer.audio?.let { audioInfo ->
             messageHelper.showMessage(stringsProvider.savedMessage)
             uiScope.launch {
                 tracksRepository.saveTrack(
@@ -135,19 +130,9 @@ class PlayerPresenter @Inject constructor(
     }
 
     private fun updateCurrentTrack() {
-        audioInfo = audioPlayer.audio
-        effectsInfo = effectsManager.effectsSettings
-        showAudio()
-        showEffects()
-    }
-
-    private fun showAudio() {
-        audioInfo?.let {
+        audioPlayer.audio?.let {
             view.setTrack(viewItemsMapper.audioInfoToTrackViewItem(it))
+            view.showEffects(viewItemsMapper.effectsInfoToEffectItems(effectsManager.effectsSettings))
         }
-    }
-
-    private fun showEffects() {
-        view.showEffects(viewItemsMapper.effectsInfoToEffectItems(effectsInfo))
     }
 }

@@ -1,8 +1,6 @@
 package ru.nsu.fit.asbooster.player.effects
 
 import ru.nsu.fit.asbooster.player.effects.preloaded.BassBoostEffect
-import ru.nsu.fit.asbooster.player.effects.preloaded.LoudnessEffect
-import ru.nsu.fit.asbooster.player.effects.preloaded.ReverbEffect
 import ru.nsu.fit.asbooster.saved.model.entity.EffectInfo
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -13,18 +11,14 @@ import javax.inject.Singleton
  */
 @Singleton
 class EffectsManager @Inject constructor(
-    bassBoostEffect: BassBoostEffect,
-    loudnessEffect: LoudnessEffect,
-    reverbEffect: ReverbEffect
+    bassBoostEffect: BassBoostEffect
 ) {
 
     /**
      * List of all supported effects.
      */
     val effects = listOf(
-        bassBoostEffect,
-        loudnessEffect,
-        reverbEffect
+        bassBoostEffect
     )
 
     /**

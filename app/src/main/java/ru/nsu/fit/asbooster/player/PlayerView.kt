@@ -2,7 +2,6 @@ package ru.nsu.fit.asbooster.player
 
 import ru.nsu.fit.asbooster.player.effects.ui.EffectItem
 import ru.nsu.fit.asbooster.repository.RequestedImage
-import java.text.FieldPosition
 
 interface PlayerView {
 

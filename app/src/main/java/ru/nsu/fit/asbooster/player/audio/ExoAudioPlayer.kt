@@ -74,7 +74,7 @@ class ExoAudioPlayer @Inject constructor(
         get() = exoPlayer.isLoading
 
     override val playing: Boolean
-        get() = exoPlayer.isPlaying
+        get() = exoPlayer.playWhenReady
 
     override val sessionId: Int
         get() = exoPlayer.audioSessionId
