@@ -112,8 +112,9 @@ class PlaybackControllerImpl @Inject constructor(
     }
 
     private suspend fun startTrack(track: Track) {
+        val previous = this.track
         this.track = track
-        notify { onTrackStarted(track) }
+        notify { onTrackChanged(track, previous) }
         if (!playerControlsPlayback) {
             player.start(track.audioInfo)
         }

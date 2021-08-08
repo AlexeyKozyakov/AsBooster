@@ -10,7 +10,7 @@ import ru.nsu.fit.asbooster.saved.model.Track
 interface PlaybackController : Listenable<PlaybackController.Listener> {
 
     interface Listener {
-        fun onTrackStarted(track: Track) = Unit
+        fun onTrackChanged(track: Track, previous: Track?) = Unit
 
         fun onPlayListStarted(playList: PlayList) = Unit
 

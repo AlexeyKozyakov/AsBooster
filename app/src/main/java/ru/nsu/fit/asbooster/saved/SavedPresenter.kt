@@ -36,9 +36,13 @@ class SavedPresenter @Inject constructor(
             currentPlayList = null
         }
 
-        override fun onTrackStarted(track: Track) {
+        override fun onTrackChanged(track: Track, previous: Track?) {
             currentPlayList?.let {
                 uiScope.launch {
+                    val previousTrackPos = previous?.let { tracksRepository.getPosition(it) }
+                    if (previousTrackPos != null) {
+                        view.hideAllInfo(previousTrackPos)
+                    }
                     val trackPos = tracksRepository.getPosition(track) ?: return@launch
                     view.showPlaying(trackPos)
                     currentPlayingPosition = trackPos

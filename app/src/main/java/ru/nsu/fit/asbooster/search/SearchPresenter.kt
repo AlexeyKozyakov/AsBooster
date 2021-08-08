@@ -48,18 +48,16 @@ class SearchPresenter @Inject constructor(
             }
         }
 
-        override fun onTrackStarted(track: Track) {
+        override fun onTrackChanged(track: Track, previous: Track?) {
             playingPos?.let {
                 view.hideAllInfo(it)
             }
 
             playingPlayList?.let {
                 val trackPos = tracks.indexOf(track)
-
                 if (trackPos != NOT_FOUND) {
                     view.showPlaying(trackPos)
                 }
-
                 playingPos = trackPos
             }
         }

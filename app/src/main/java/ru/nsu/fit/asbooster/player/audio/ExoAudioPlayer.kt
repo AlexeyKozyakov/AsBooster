@@ -2,19 +2,15 @@ package ru.nsu.fit.asbooster.player.audio
 
 import android.app.Application
 import android.net.Uri
-import com.google.android.exoplayer2.DefaultLoadControl
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.audio.AuxEffectInfo
-import com.google.android.exoplayer2.database.ExoDatabaseProvider
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DataSpec
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.google.android.exoplayer2.upstream.ResolvingDataSource
-import com.google.android.exoplayer2.upstream.cache.*
+import com.google.android.exoplayer2.util.EventLogger
 import com.google.android.exoplayer2.util.Util
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -29,8 +25,6 @@ import javax.inject.Singleton
 
 
 private const val TRACKING_DELAY = 1000L
-private const val CACHE_DIR = "exo-cache"
-private const val MAX_CACHE_SIZE = 256 * 1024 * 1024
 private const val MAX_BUFFER_MS = 360000
 
 @Singleton
@@ -53,12 +47,6 @@ class ExoAudioPlayer @Inject constructor(
         )
         .build()
         .init()
-
-    private val exoCache = SimpleCache(
-        application.cacheDir.resolve(CACHE_DIR),
-        LeastRecentlyUsedCacheEvictor(MAX_CACHE_SIZE.toLong()),
-        ExoDatabaseProvider(application)
-    )
 
     private var effectId: Int? = null
 
@@ -175,15 +163,15 @@ class ExoAudioPlayer @Inject constructor(
                 DataSpec(Uri.parse(streamUrl))
             })
 
-        val cacheDataSourceFactory = CacheDataSourceFactory(exoCache, resolvingDataSourceFactory)
-
-        return ProgressiveMediaSource.Factory(cacheDataSourceFactory)
+        return ProgressiveMediaSource.Factory(resolvingDataSourceFactory)
             .setTag(audioInfo)
             .createMediaSource(Uri.parse(audioInfo.urlToStream))
     }
 
     private fun SimpleExoPlayer.init() = this.apply {
         repeatMode = ExoPlayer.REPEAT_MODE_ALL
+
+        addAnalyticsListener(EventLogger(null))
 
         addListener(object : Player.EventListener {
             override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {

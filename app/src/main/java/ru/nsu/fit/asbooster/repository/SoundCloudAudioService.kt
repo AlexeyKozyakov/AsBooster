@@ -7,7 +7,7 @@ import retrofit2.http.Url
 import ru.nsu.fit.asbooster.repository.entity.SoundCloudAudioCollection
 import ru.nsu.fit.asbooster.repository.entity.SoundCloudUrl
 
-const val SOUND_CLOUD_CLIENT_ID = "v0C9kDEyULvWF0Ggb1vMnimjMDxtYX4B"
+const val SOUND_CLOUD_CLIENT_ID = "atcX6KFaz2y3iq7fJayIK779Hr4oGArb"
 const val TRACKS_LIMIT = 100
 
 interface SoundCloudAudioService {
